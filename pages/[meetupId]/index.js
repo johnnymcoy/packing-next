@@ -28,7 +28,6 @@ export async function getStaticPaths(){
     ///Find -> Filter by what items (blank is all), second is what field
     const meetups = await meetupsCollection.find({}, {_id: 1}).toArray();
     client.close();
-
     //dynamicaly generate paths 
     //this is temp 
     return{

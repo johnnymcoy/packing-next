@@ -4,14 +4,19 @@ function MainNavigation() {
 
   return (
     <header className={classes.header}>
-      <div className={classes.logo}>React Meetups CURTY B</div>
+        <Link href='/'>
+            <div className={classes.logo}>
+                <img src="\static\images\PARCELPRO-Logo.png" />
+            </div>
+        </Link>
+      {/* <div className={classes.logo}>Parcel Pro</div> */}
       <nav>
         <ul>
+          {/* <li>
+            <Link href='/'>Parcel Pro</Link>
+          </li> */}
           <li>
-            <Link href='/'>All Meetups</Link>
-          </li>
-          <li>
-            <Link href='/new-meetup'>Add New Meetup</Link>
+            <Link href='/'>Parcel Pro</Link>
           </li>
         </ul>
       </nav>

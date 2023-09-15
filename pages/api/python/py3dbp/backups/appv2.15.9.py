@@ -82,9 +82,6 @@ def pack_orders(orders, bins):
     
     return packer.bins
 
-def check_leftovers(extras):
-    
-    print()
 
 def pack_items(data):
     # Get data from input
@@ -92,39 +89,19 @@ def pack_items(data):
         
     repack_attempts = 0
     
-    all_results = []
-
     packed_bins = pack_orders(items, bins)
-    for bin in packed_bins:
-        single_result = []
-        results, leftovers = generate_result(bin)
-        print()
-        print("BINS")
-        print(leftovers)
-        single_result.append(results)
-        if leftovers:
-            repacked_bins = pack_orders(leftovers, bins)
-            for b in repacked_bins:
-                repack_results, more_leftovers = generate_result(b)
-                single_result.append(repack_results)
-                if more_leftovers: 
-                    print("heck")
-            
-        
-        all_results.append(single_result)
-        print()
-        
-    # results, leftovers = generate_results(packed_bins)
-    # all_results.append(results)
+    all_results = []
+    results, leftovers = generate_results(packed_bins)
+    all_results.append(results)
     # print("leftovers", leftovers)
     
-    # if leftovers:
-    #     repack_attempts = repack_attempts + 1
-    #     # print("leftovers")
-    #     repacked_bins = pack_orders(leftovers, bins)
-    #     new_results, more_leftovers = generate_results(repacked_bins)
-    #     # print("more leftovers", new_results)
-    #     all_results.append(new_results)
+    if leftovers:
+        repack_attempts = repack_attempts + 1
+        print("leftovers")
+        repacked_bins = pack_orders(leftovers, bins)
+        new_results, more_leftovers = generate_results(repacked_bins)
+        print("more leftovers", new_results)
+        all_results.append(new_results)
     # # Re-add packages? and packer
     # for bin in packed_bins: 
     # # # Check if the bin has items in it
@@ -185,42 +162,19 @@ def pack_items(data):
     #         if repack_attempts < 2:
     #             print("Keep Packin")
     #             pack_orders(secondPacker, unfit_orders)
-    
-def generate_result(bin):
-    items = [{
-        "name": i.name,
-        "position": i.position,
-        "width": i.width,
-        "height": i.height,
-        "depth": i.depth,
-        "weight": i.weight,
-        "volume": i.height * i.depth * i.width,
-        "rotation": RotationType.rotation_type_to_euler(i.get_rotation()) 
-    } for i in bin.items]
-    total_items_volume = sum(item["volume"] for item in items)
-    total_items_weight = sum(item["weight"] for item in items)
-    
-    leftItems = bin.unfitted_items
-    # leftovers.append(b.unfitted_items)
-    
-    results = ({
-        "bin": {
-            "name": bin.name,
-            "width": bin.width,
-            "height": bin.height,
-            "depth": bin.depth,
-            "weight": bin.max_weight,
-            "totalWeight":  total_items_weight,
-            "volume" : bin.width * bin.height * bin.depth,
-            "itemsVolume": total_items_volume,
-            "emptyVolume" : (bin.width * bin.height * bin.depth) - total_items_volume,
-            "bIsEmpty" : (total_items_volume) == 0,
-            "bFitEverything": len(bin.unfitted_items) == 0,
-            "itemsLeft": len(bin.unfitted_items),
-            # "leftoverItems": leftItems               
-    },
-        "items": items
-    })
+
+
+    # packer.pack(False, method == "multi")
+
+    # packer.pack(False, True)
+    # unfitted_items = [item for bin in packer.bins for item in bin.unfitted_items]
+    # if(unfitted_items):
+        
+    #     # pack_items(unfitted_items)
+    #     print("unfit")
+
+    leftovers = []    
+    results, leftItems = generate_results(packer.bins, leftovers)
     
     return results, leftItems
 
@@ -228,6 +182,7 @@ def generate_result(bin):
 def generate_results(bins):
     results = []
     bins_used = 0
+    
     for b in bins:
         # print(b)
         # Check if the bin has items in it
@@ -247,7 +202,6 @@ def generate_results(bins):
         } for i in b.items]
         total_items_volume = sum(item["volume"] for item in items)
         total_items_weight = sum(item["weight"] for item in items)
-        # ! is only getting the left items for 1 thing, needs to be array
         leftItems = b.unfitted_items
         # leftovers.append(b.unfitted_items)
         

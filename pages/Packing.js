@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Card from '../components/UI/Card';
 import CSS from "../styles/Packing.module.css";
+import Result from 'components/results/Result';
 
 function PackingComponent(props) {
 
@@ -70,9 +71,8 @@ function PackingComponent(props) {
     
     let totalWeight = 0;
     let totalVolumeEmpty = 0;
-    if(multiResult && packingResults.length !== 0)
+    if(packingResults.length !== 0)
     {
-
         for(let i = 0; i < packingResults.length; i++)
         {
             totalWeight += Number(packingResults[i][0].bin.totalWeight);
@@ -84,8 +84,15 @@ function PackingComponent(props) {
 
     return (
 <Card>
-    {multiResult && /*showPackingResults && */ packingResults.map((item) =>
-        item.map((innerItem) =>
+    {packingResults && packingResults.map((item) =>
+        <Result result={item} />
+    )}
+
+
+
+    {/* {packingResults &&  packingResults.map((item) =>
+    <div className={CSS.option}>
+        {item.map((innerItem) =>
         (!innerItem.bin.bIsEmpty && 
         <div key={innerItem.bin.name} 
             className={CSS.fit}>
@@ -95,10 +102,8 @@ function PackingComponent(props) {
                 {innerItem.items.map((order, index) =>
                 (
                     <li key={index}>{order.name}</li>
-                ))}
-                {/* {innerItem.bin.bFitEverything ? 
-                    <div className={CSS.fit}>Everything Fit</div> :
-                    <div className={CSS.notFit}> "Not all Fit"</div>}  <br/> */}
+                    ))}
+                <p>Total Items:{innerItem.items.length}</p>
 
                 Total weight: {Math.abs(innerItem.bin.totalWeight)} <br />
                 Volume (m3): {Math.abs(innerItem.bin.volume) / 1000000} <br />
@@ -108,22 +113,18 @@ function PackingComponent(props) {
                 Volume empty (m3): {Math.abs(innerItem.bin.emptyVolume) / 1000000}
                 <p>Items Left:{innerItem.bin.itemsLeft}</p>
             </ul>
-        </div>
-    )))}           
+        </div>))}
 
-{multiResult &&
-    <div>
         <h2>Totals</h2>
         Total Weight: {totalWeight} <br />
         Total Empty Volume: {(totalVolumeEmpty).toFixed(2)} <br />
-
-    </div>}
-
-
+    </div>
+    )}            */}
 
 
 
-    {!multiResult && /*showPackingResults && */ packingResults.map((item) => 
+
+    {/* {!multiResult && packingResults.map((item) => 
         (!item.bin.bIsEmpty && 
         <div key={item.bin.name} className={item.bin.bFitEverything ? `${CSS.fit}` : `${CSS.notFit}`}>
             {item.bin.name}
@@ -145,7 +146,7 @@ function PackingComponent(props) {
                 <p>Items Left:{item.bin.itemsLeft}</p>
             </ul>
         </div>
-    ))}
+    ))} */}
     <button id="single" onClick={SendPackingData}>Pack Boxes (Single Box)</button> 
     <button id="multi" onClick={SendPackingData}>Pack Boxes (Multiple Box)</button> 
     <button id="multioutput" onClick={changeMultiOutput}>{multiResult ? "MultiOutput" : "SingleOutput"}</button> 

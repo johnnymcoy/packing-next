@@ -38,12 +38,14 @@ export default async (req, res) => {
                 }
                 resolve();
             }
-            //TODO moving to multioutput data
-            if (fs.existsSync(outputPath)) {
-                const outputData = JSON.parse(fs.readFileSync(outputPath, 'utf-8'));
-                res.status(200).json(outputData);
-            } else {
-                res.status(500).json({ error: 'Error reading output data' });
+            else{
+                //TODO moving to multioutput data
+                if (fs.existsSync(outputPath)) {
+                    const outputData = JSON.parse(fs.readFileSync(outputPath, 'utf-8'));
+                    res.status(200).json(outputData);
+                } else {
+                    res.status(500).json({ error: 'Error reading output data' });
+                }
             }
             // if (fs.existsSync(multioutputPath)) {
             //     const multioutputData = JSON.parse(fs.readFileSync(multioutputPath, 'utf-8'));

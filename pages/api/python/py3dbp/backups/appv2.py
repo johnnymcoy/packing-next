@@ -4,7 +4,7 @@ from py3dbp.constants import RotationType
 from decimal import Decimal
 from itertools import combinations
 from math import comb
-import copy
+
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -12,14 +12,18 @@ class DecimalEncoder(json.JSONEncoder):
             return str(obj)
         return super(DecimalEncoder, self).default(obj)
 
-def convert_data(data):
-    # Get data from input
+
+
+def pack_items(data):
+    repack_attempts = 0
+    packer = Packer()
+    packer.bins = []
+    packer.items = []
+
     method = data.get('method', "single")
     orders = data.get('orders', [])
     packages = data.get('packages', [])    
     
-    bins = []
-    items = []
     
     #  Sort some of the packages, remove any that have volume smaller than orders
     order_volumes = []
@@ -33,12 +37,11 @@ def convert_data(data):
         weight = float(order.get('weight', 0))
         amount = int(order.get('amount', 1))
         for _ in range(amount):
-            # packer.add_item(Item(name, width, height, depth, weight))
-            # items.append(Item(name, width, height, depth, weight))
-            items.append(Item(name, width, height, depth, weight))
-
+            packer.add_item(Item(name, width, height, depth, weight))
         volume = (width * height * depth)
         order_volumes.append(volume)
+        # print(name, volume)
+           
      
     # Turn packages (post options) into "Bins"
     for package in packages:
@@ -58,95 +61,60 @@ def convert_data(data):
             # Don't add the package, it's smaller than every order
             print("don't add the package, it's smaller than every order")
         else:
-            bins.append(Bin(name, width, height, depth, weight))
-            # packer.add_bin(Bin(name, width, height, depth, weight))
-    return bins, items
-
-
-def pack_orders(orders, bins):
-    packer = Packer()
-    # Clear previous items
-    packer.bins = []
-    packer.items = []
-    
-    for bin in bins:
-        packer.add_bin(copy.deepcopy(bin))
-
-    for order in orders:
-        packer.add_item(copy.deepcopy(order))
-    print("Packer Items:",packer.items)
+            packer.add_bin(Bin(name, width, height, depth, weight))
         
-    packer.pack(False, False)
-    for bin in packer.bins:
-        print("Items: ",bin.items)
+        # Manual way to get Multiple packages 
+        # name = (package.get('name', 'default-bin') + "second")
+        # width = float(package.get('width', 0))
+        # height = float(package.get('height', 0))
+        # depth = float(package.get('depth', 0))
+        # weight = float(package.get('weight', 0))
+        # packer.add_bin(Bin(name, width, height, depth, weight))
     
-    return packer.bins
 
-def check_leftovers(extras):
     
-    print()
-
-def pack_items(data):
-    # Get data from input
-    bins, items = convert_data(data)
+    # Packing => into repacking if the orders don't fit
+    def pack_orders(packer, orders, repack_attempts=0):    
         
-    repack_attempts = 0
+        packer = Packer()
+
+        # nonlocal repack_attempts
+        # Clear previous items
+        packer.items = []
+        # Add new items to the packer
+        for order in orders: 
+            name = order.get('name', 'default-name')
+            width = float(order.get('width', 0))
+            height = float(order.get('height', 0))
+            depth = float(order.get('depth', 0))
+            weight = float(order.get('weight', 0))
+            amount = int(order.get('amount', 1))
+            for _ in range(amount):
+                packer.add_item(Item(name, width, height, depth, weight))
+        
+        packer.pack(False, method == "multi")
+        
+        return packer.bins
+        
     
+    
+    used_bins = []
+    pack_orders(packer, orders, repack_attempts)
+    
+    used_bins.append(packer.bins)
+    # Re-add packages? and packer
+    
+    for b in packer.bins: 
+    # Check if the bin has items in it
+        # if b.items: 
+        #     # bins_used += 1  # Increment the counter
+        if b.unfitted_items:
+            unfit_orders = [{"name": i.name, "width": i.width, "height": i.height, "depth": i.depth, "weight": i.weight, "amount": 1} for i in b.unfitted_items]
+            pack_orders(packer, unfit_orders, repack_attempts)
+            print("repack")
+    
+    # Newer Version   
     all_results = []
-
-    packed_bins = pack_orders(items, bins)
-    for bin in packed_bins:
-        single_result = []
-        results, leftovers = generate_result(bin)
-        print()
-        print("BINS")
-        print(leftovers)
-        single_result.append(results)
-        if leftovers:
-            repacked_bins = pack_orders(leftovers, bins)
-            for b in repacked_bins:
-                repack_results, more_leftovers = generate_result(b)
-                single_result.append(repack_results)
-                if more_leftovers: 
-                    print("heck")
-            
-        
-        all_results.append(single_result)
-        print()
-        
-    # results, leftovers = generate_results(packed_bins)
-    # all_results.append(results)
-    # print("leftovers", leftovers)
-    
-    # if leftovers:
-    #     repack_attempts = repack_attempts + 1
-    #     # print("leftovers")
-    #     repacked_bins = pack_orders(leftovers, bins)
-    #     new_results, more_leftovers = generate_results(repacked_bins)
-    #     # print("more leftovers", new_results)
-    #     all_results.append(new_results)
-    # # Re-add packages? and packer
-    # for bin in packed_bins: 
-    # # # Check if the bin has items in it
-    # #     # if b.items: 
-    # #     #     # bins_used += 1  # Increment the counter
-    #     if bin.unfitted_items:
-    #         # print()
-    #         # for i in bin.unfitted_items:
-    #         #     item = {"name": i.name, "width": i.width, "height": i.height, "depth": i.depth, "weight": i.weight, "amount": 1}
-    #             # print(i)\
-    #         # print("Pack items", items)
-    #         # print(bin.unfitted_items)
-    #         # print()
-    #         unfit_orders = [{"name": i.name, "width": i.width, "height": i.height, "depth": i.depth, "weight": i.weight, "amount": 1} for i in bin.unfitted_items]
-    #         # repacked_bins = pack_orders(unfit_orders, bins)
-    #         # single_result = generate_results(repacked_bins)
-    #         # print(single_result)
-    #         # all_results.append(single_result)
-    #         # used_bins.append(repacked_bins)
-    #         # print("repack Items")
-
-    return all_results
     
     # for result in all_results:
     #     results, leftItems = generate_results(result.bin, leftovers)
@@ -185,54 +153,35 @@ def pack_items(data):
     #         if repack_attempts < 2:
     #             print("Keep Packin")
     #             pack_orders(secondPacker, unfit_orders)
-    
-def generate_result(bin):
-    items = [{
-        "name": i.name,
-        "position": i.position,
-        "width": i.width,
-        "height": i.height,
-        "depth": i.depth,
-        "weight": i.weight,
-        "volume": i.height * i.depth * i.width,
-        "rotation": RotationType.rotation_type_to_euler(i.get_rotation()) 
-    } for i in bin.items]
-    total_items_volume = sum(item["volume"] for item in items)
-    total_items_weight = sum(item["weight"] for item in items)
-    
-    leftItems = bin.unfitted_items
-    # leftovers.append(b.unfitted_items)
-    
-    results = ({
-        "bin": {
-            "name": bin.name,
-            "width": bin.width,
-            "height": bin.height,
-            "depth": bin.depth,
-            "weight": bin.max_weight,
-            "totalWeight":  total_items_weight,
-            "volume" : bin.width * bin.height * bin.depth,
-            "itemsVolume": total_items_volume,
-            "emptyVolume" : (bin.width * bin.height * bin.depth) - total_items_volume,
-            "bIsEmpty" : (total_items_volume) == 0,
-            "bFitEverything": len(bin.unfitted_items) == 0,
-            "itemsLeft": len(bin.unfitted_items),
-            # "leftoverItems": leftItems               
-    },
-        "items": items
-    })
+
+
+    # packer.pack(False, method == "multi")
+
+    # packer.pack(False, True)
+    # unfitted_items = [item for bin in packer.bins for item in bin.unfitted_items]
+    # if(unfitted_items):
+        
+    #     # pack_items(unfitted_items)
+    #     print("unfit")
+
+    leftovers = []    
+    results, leftItems = generate_results(packer.bins, leftovers)
     
     return results, leftItems
 
 
-def generate_results(bins):
+def generate_results(bins, leftovers):
     results = []
     bins_used = 0
+    
     for b in bins:
         # print(b)
         # Check if the bin has items in it
+        
         # Shows a visual from python -- Rotation is messed up 
         # b.plotBoxAndItems()
+        
+        
         if b.items: 
             bins_used += 1  # Increment the counter
         items = [{
@@ -247,9 +196,8 @@ def generate_results(bins):
         } for i in b.items]
         total_items_volume = sum(item["volume"] for item in items)
         total_items_weight = sum(item["weight"] for item in items)
-        # ! is only getting the left items for 1 thing, needs to be array
-        leftItems = b.unfitted_items
-        # leftovers.append(b.unfitted_items)
+        # leftItems = b.unfitted_items
+        leftovers.append(b.unfitted_items)
         
         results.append({
             "bin": {
@@ -270,7 +218,7 @@ def generate_results(bins):
             "items": items
         })
     
-    return results, leftItems
+    return results, leftovers
 
 
 
@@ -302,14 +250,15 @@ if __name__ == '__main__':
         packages = json.load(f)
     with open('pages/api/python/orders.json', 'r') as f:
         orders = json.load(f)
-    #! Expanded orders
+   
     # # Add all amounts seperaly for the orders 
     # expanded_orders = []
     # for order in orders:
     #     expanded_orders.extend([order] * order["amount"])
+        
     # print(expanded_orders)
     # allCombos = []
-    #! All combinations of orders
+
     # Get all combinations of the orders
     # print(data)
     # needs to take into account amount aswell 
@@ -333,30 +282,26 @@ if __name__ == '__main__':
     # n = len(expanded_orders)
     # total_combs = sum(comb(n,r) for r in range(1, n+1))
     # print(total_combs)
+    
+    
     # print("All Results", allCombos)
     # with open('pages/api/python/allCombos.json', 'w') as f:
     #     json.dump(allCombos, f, cls=DecimalEncoder, indent=4)
     # for combo in allCombos:
         # print(combo)
-    
-    
         
     repack_attempts = 0
     all_results = []
     
     # leftovers = []
-    # ALLORDERS = Orders
-    # Remove orders that were packed
-    # While len(Orders) !== continue
+    
     # Pack the items (first try)
-    results = pack_items(data)
-    # print(results)
-    # results, leftItems = pack_items(data)
+    results, leftItems = pack_items(data)
     
     # This should be moved into the function and the function rewritten
     # right now it only gets the leftitems of the last box that failed
-    # print(leftItems)
-    # all_results.append(results)
+    print(leftItems)
+    all_results.append(results)
     # #  Second Try
     # if len(leftItems) != 0:
     #     repack_attempts = repack_attempts + 1

@@ -9,6 +9,7 @@ function PackingComponent(props) {
     const [packingResults, setPackingResults] = useState([]);
     // const [showPackingResults, setShowPackingResults] = useState(true); //used for a button before
     const [multiResult, setMultiResult] = useState(false);
+    const [maxResults, setMaxResults] = useState(10);
 
     // Called once Packing is complete
     function PackingComplete(data){
@@ -68,26 +69,34 @@ function PackingComponent(props) {
         });
     };
 
-    
-    let totalWeight = 0;
-    let totalVolumeEmpty = 0;
-    if(packingResults.length !== 0)
-    {
-        for(let i = 0; i < packingResults.length; i++)
+    // let maxResults = 0;
+    function maxResultsHandler(e){
+        if(e.target.value)
         {
-            totalWeight += Number(packingResults[i][0].bin.totalWeight);
-            totalVolumeEmpty += Number(packingResults[i][0].bin.emptyVolume);
-            console.log(packingResults[i][0].bin.totalWeight);
+            // maxResults= e.target.value
+            setMaxResults(e.target.value);
         }
     }
 
+    
+    // let totalWeight = 0;
+    // let totalVolumeEmpty = 0;
+    // if(packingResults.length !== 0)
+    // {
+    //     for(let i = 0; i < packingResults.length; i++)
+    //     {
+    //         totalWeight += Number(packingResults[i][0].bin.totalWeight);
+    //         totalVolumeEmpty += Number(packingResults[i][0].bin.emptyVolume);
+    //         // console.log(packingResults[i][0].bin.totalWeight);
+    //     }
+    // }
+
 
     return (
-<Card>
-    {packingResults && packingResults.map((item) =>
-        <Result result={item} />
+<div>
+    {packingResults && packingResults.slice(0, maxResults).map((item, index) => 
+        <Result key={index} result={item} />
     )}
-
 
 
     {/* {packingResults &&  packingResults.map((item) =>
@@ -147,12 +156,16 @@ function PackingComponent(props) {
             </ul>
         </div>
     ))} */}
-    <button id="single" onClick={SendPackingData}>Pack Boxes (Single Box)</button> 
-    <button id="multi" onClick={SendPackingData}>Pack Boxes (Multiple Box)</button> 
-    <button id="multioutput" onClick={changeMultiOutput}>{multiResult ? "MultiOutput" : "SingleOutput"}</button> 
+    <Card>
+        <button id="single" onClick={SendPackingData}>Pack Boxes (Single Box)</button> 
+        {/* <button id="multi" onClick={SendPackingData}>Pack Boxes (Multiple Box)</button> 
+        <button id="multioutput" onClick={changeMultiOutput}>{multiResult ? "MultiOutput" : "SingleOutput"}</button>  */}
+        <label>Max results</label>
+        <input onChange={maxResultsHandler} value={maxResults} type='number'/>
+    </Card>
 
 
-</Card>
+</div>
 );}
 
 export default PackingComponent;

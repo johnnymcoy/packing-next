@@ -5,7 +5,7 @@ import CSS from "./ResultBin.module.css"
 
 export default function ResultBin(props){
     const {data} = props
-
+    // console.log(data)
     if(data.bin.bIsEmpty)
     {
         return
@@ -20,8 +20,8 @@ export default function ResultBin(props){
         (
             <li key={index}>{order.name}</li>
             ))}
-        <p>Total Items:{data.items.length}</p>
-
+        <p>Items: {data.items.length}</p>
+        Dimentions Depth/Width/Height(m): {(data.bin.depth) / 100} x {(data.bin.width) /100} x {(data.bin.height) /100} <br />
         Total weight: {Math.abs(data.bin.totalWeight)} <br />
         Volume (m3): {Math.abs(data.bin.volume) / 1000000} <br />
         Box Cubic Vol Weight (m): {(Math.abs(data.bin.volume) / 1000000) * 250} <br />

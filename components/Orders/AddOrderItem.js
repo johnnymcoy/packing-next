@@ -142,24 +142,17 @@ const AddOrderItem = (props) => {
         }
         else
         {
-            const doormatLarge = {name: "Doormat Large", width: 47, depth: 122, height: 3, amount: 1, weight: 0};
-            const doormatMedium = {name: "Doormat Medium", width: 62, depth: 92, height: 3, amount: 1, weight: 0};
-            const doormatSmall = {name: "Doormat Small", width: 47, depth: 77, height: 2, amount: 1, weight: 0};
-            const placemats = {name: "Placemats", width: 36, depth: 36, height: 8, amount: 1, weight: 0};
-            const small = {name: "Small", width: 32, depth: 42, height: 16, amount: 1, weight: 0};
-            const medium = {name: "Medium", width: 41, depth: 44, height: 25, amount: 1, weight: 0};
-            const n = {name: "N?", width: 41, depth: 44, height: 50, amount: 1, weight: 0};
-            const large = {name: "Large", width: 50, depth: 50, height: 25, amount: 1, weight: 0};
-            const extraLarge = {name: "Extra Large", width: 56, depth: 57, height: 46, amount: 1, weight: 0};
-            props.addOrder(doormatLarge);
-            props.addOrder(doormatMedium);
-            props.addOrder(doormatSmall);
-            props.addOrder(placemats);
-            props.addOrder(small);
-            props.addOrder(medium);
-            props.addOrder(n);
-            props.addOrder(large);
-            props.addOrder(extraLarge);
+            // const RectangularPlatter = {name: "Rectangular Platter", width: 46, depth: 36, height: 31, amount: 1, weight: 0};
+            // props.addOrder(RectangularPlatter);
+            // props.addOrder(doormatLarge);
+            // props.addOrder(doormatMedium);
+            // props.addOrder(doormatSmall);
+            // props.addOrder(placemats);
+            // props.addOrder(small);
+            // props.addOrder(medium);
+            // props.addOrder(n);
+            // props.addOrder(large);
+            // props.addOrder(extraLarge);
         }
     }
 
@@ -203,7 +196,7 @@ const AddOrderItem = (props) => {
     <InputBox label={"Depth"} type={"number"} InputChanged={UpdatePackingSize} value={PackageDepth}/>
     <InputBox label={"Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
     <button onClick={addBoxClicked}>Add</button>
-    <button onClick={addExampleData}>Add Example Data</button>
+    {/* {!props.bPacking && <button onClick={addExampleData}>Add Example Data</button>} */}
     {/* <button onClick={addExampleData}>Add Random Data</button> */}
 </Card>
 );

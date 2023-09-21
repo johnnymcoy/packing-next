@@ -5,6 +5,7 @@ import { Canvas, useFrame  } from '@react-three/fiber';
 import { OrbitControls } from "@react-three/drei";
 import { BlendFunction, Resizer, KernelSize} from 'postprocessing'
 import OrderItemBox from './OrderItemBox';
+import VisualControls from './VisualControls';
 
 function PackageContainer(props)
 {
@@ -78,7 +79,7 @@ function CustomBox(props){
                 <lineBasicMaterial attach="material" color="white" linewidth={1} pointerEvents="none" />
         </lineSegments>)}
         </mesh>
-        <axesHelper scale={2}  />
+        {/* <axesHelper scale={2}  /> */}
 
     </group>
 </group>
@@ -89,31 +90,31 @@ function CustomBox(props){
 function Visualization(props){
     const { packingResults } = props;
     // console.log("vis Packing", packingResults)
-
+    const firstResult = packingResults[0]
     //- New times  //
     const [Items, setItems] = useState([]);
     const [PackingBoxes, setPackingBoxes] = useState([]);
     useEffect(() => {
         let newItems = [];
         let newPackingBoxes = [];
-        if(packingResults.length !== 0)
+        if(firstResult.length !== 0)
         {
-            for(let i = 0; i < packingResults.length; i++)
+            for(let i = 0; i < firstResult.length; i++)
             {
-                if(!packingResults[i].bin.bIsEmpty)
+                if(!firstResult[i].bin.bIsEmpty)
                 {
-                    for(let j = 0; j < packingResults[i].items.length; j++)
+                    for(let j = 0; j < firstResult[i].items.length; j++)
                     {
-                        const itemData = packingResults[i].items[j];
+                        const itemData = firstResult[i].items[j];
                         newItems.push(itemData);
                     }
-                    newPackingBoxes.push(packingResults[i].bin);
+                    newPackingBoxes.push(firstResult[i].bin);
                 }
             }
         }
         setItems(newItems);
         setPackingBoxes(newPackingBoxes);
-    }, [packingResults]);
+    }, [firstResult]);
 
     if(Items.length === 0 || Items[0].position === undefined)
     {
@@ -123,41 +124,45 @@ function Visualization(props){
     }
 
     return(
-<Canvas 
-    camera={{ position: [10, 5, 10], fov: 60 } }
-    >
-        {Items && Items.map((item, index) => {
-            let width = Math.abs(Number(item.width));
-            let normalizedValue = Math.max(0.1, Math.min(width, 2)) / 4; // Normalize to range 0 to 1
-            let colorValue = Math.round(normalizedValue * 255); // Scale to range 0 to 255
-            let color = new THREE.Color(`rgb(${colorValue * 2}, ${colorValue}, ${colorValue / 2})`);
-            return(
-            <CustomBox key={index} 
-                size={[Number(item.width),Number(item.depth),Number(item.height)]} 
-                position={[Number(item.position[0]), Number(item.position[2]), Number(item.position[1])]} 
-                name={item.name}
-                outline
-                // bWireframe
-                color={color}
-                // position={[item.position]} 
-                // rotation={[0,0,0]} 
-                rotation={[item.rotation[1], item.rotation[2], item.rotation[0]]} 
+<div className='canvas'>
+    {/* <VisualControls /> */}
+    <Canvas 
+        camera={{ position: [10, 5, 10], fov: 60 } }
+        >
 
-                />
-            )})}
+            {Items && Items.map((item, index) => {
+                let width = Math.abs(Number(item.width));
+                let normalizedValue = Math.max(0.1, Math.min(width, 2)) / 4; // Normalize to range 0 to 1
+                let colorValue = Math.round(normalizedValue * 255); // Scale to range 0 to 255
+                let color = new THREE.Color(`rgb(${colorValue * 2}, ${colorValue}, ${colorValue / 2})`);
+                return(
+                    <CustomBox key={index} 
+                    size={[Number(item.width),Number(item.depth),Number(item.height)]} 
+                    position={[Number(item.position[0]), Number(item.position[2]), Number(item.position[1])]} 
+                    name={item.name}
+                    outline
+                    // bWireframe
+                    color={color}
+                    // position={[item.position]} 
+                    // rotation={[0,0,0]} 
+                    rotation={[item.rotation[1], item.rotation[2], item.rotation[0]]} 
+                    
+                    />
+                )})}
 
-    {PackingBoxes && PackingBoxes.map((item, index) => (
-        <CustomBox key={index} rotation={[0,0,0]}
+        {PackingBoxes && PackingBoxes.map((item, index) => (
+            <CustomBox key={index} rotation={[0,0,0]}
             size={[item.width, item.depth, item.height ]} 
             position={[0,0,0]}  
             color="red"
             bWireframe
             />
-        ))}
+            ))}
 
-        <Lights />
-        <EffectsVisuals />
-</Canvas>
+            <Lights />
+            <EffectsVisuals />
+    </Canvas>
+</div>
 )};
 
 

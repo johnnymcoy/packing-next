@@ -1,7 +1,7 @@
-import OrderItem from '../components/Orders/OrderItem';
-import AddOrderItem from '../components/Orders/AddOrderItem';
-import Visualization from '../components/3D/Visualization';
-import PackingComponent from './Packing';
+// import OrderItem from '../components/Orders/OrderItem';
+// import AddOrderItem from '../components/Orders/AddOrderItem';
+// import Visualization from '../components/3D/Visualization';
+// import PackingComponent from './Packing';
 
 import { useState } from "react";
 
@@ -123,7 +123,7 @@ function HomePage(props){
     
    return(
     <>
-        <div className='main'>
+        {/* <div className='main'>
 
         <button onClick={addPackageButtonClicked}>{addPackage ? "Cancel" : "Add Post Package Option"}</button>
         {addPackage &&
@@ -177,7 +177,7 @@ function HomePage(props){
             }
         </div>
         <PackingComponent orders={orders} packages={packages} onPackingComplete={onPackingComplete} />
-    </div>
+    </div> */}
     {/* <Visualization orders={orders} packingResults={packingResults} /> */}
     </>
 );}

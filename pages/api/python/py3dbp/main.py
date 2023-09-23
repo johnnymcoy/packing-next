@@ -168,9 +168,9 @@ class Bin:
         if best_fit is not None:
             item.rotation_type = best_fit
             item.adjust_position_after_rotation()  # Adjust position after rotation
-            # item_copy = copy.deepcopy(item)
-            # self.items.append(item_copy)
-            self.items.append(item)
+            item_copy = copy.deepcopy(item)
+            self.items.append(item_copy)
+            # self.items.append(item)
             return True
         else:
             item.position = valid_item_position
@@ -270,9 +270,9 @@ class Packer:
 
         if not fitted:
             # print(item)
-            bin.unfitted_items.append(item)
-            # item_copy = copy.deepcopy(item)
-            # bin.unfitted_items.append(item_copy)
+            # bin.unfitted_items.append(item)
+            item_copy = copy.deepcopy(item)
+            bin.unfitted_items.append(item_copy)
     def pack(
         self, bigger_first=False, distribute_items=True, #distribute_items=False,
         number_of_decimals=DEFAULT_NUMBER_OF_DECIMALS

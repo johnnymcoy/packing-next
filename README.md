@@ -12,3 +12,20 @@ https://github.com/wknechtel/3d-bin-pack/
 https://github.com/davidmchapman/3DContainerPacking/blob/master/src/CromulentBisgetti.ContainerPacking/PackingService.cs
 
 https://github.com/skjolber/3d-bin-container-packing
+
+
+
+
+# TODO 
+
+
+
+
+## Postage
+- Add more Preset postage options
+
+## Results
+- Sort results by empty volume
+- Have options for number of boxes(only one box, two boxes etc.)
+## Visuals
+- Show details of results in the Visual page

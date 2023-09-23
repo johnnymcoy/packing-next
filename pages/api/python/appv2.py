@@ -59,7 +59,6 @@ def convert_data(data):
             print("don't add the package, it's smaller than every order")
         else:
             bins.append(Bin(name, width, height, depth, weight))
-            # packer.add_bin(Bin(name, width, height, depth, weight))
     return bins, items
 
 
@@ -77,86 +76,197 @@ def pack_orders(orders, bins):
     # print("Packer Items:",packer.items)
         
     packer.pack(True, False)
-    for bin in packer.bins:
-        print()
+    # for bin in packer.bins:
+    #     print()
         # print("Items: ",bin.items)
-    
+        
+    # copy.deepcopy(packer.bins)
     return packer.bins
 
 
 
-def check_leftovers(extras):
+def check_leftovers(extras, bins):
+    #! Now try pack the leftover orders
+    repacked_bins = pack_orders(extras, bins)
     
-    print()
+    single_result = []
+    single_result_leftovers = []
+    smallestEmptyVol = 1000000000000
+    leftovers = []
+    #! Go through each bin
+    for bin in repacked_bins:
+        repack_results, more_leftovers = generate_result(bin)
+        
+        repack_result_bin = repack_results.get('bin', [])
+        #! Get the emptyVolume in the bin
+        emptyVolume = repack_result_bin.get('emptyVolume', [])
+        #! Get if the bin is empty
+        rebin_empty = repack_result_bin.get('bIsEmpty', [])
+        #! Get the Bin name 
+        binName = repack_result_bin.get('name', [])
+
+        #! Remove all Empty bins
+        if rebin_empty:
+            repack_results = []
+            leftovers = []
+        else:
+            #! if there's no more leftovers
+            if not more_leftovers:
+                #! get the bin with the smallest empty volume
+                if emptyVolume < smallestEmptyVol:
+                    smallestEmptyVol = emptyVolume
+                    print(binName, smallestEmptyVol)
+                    single_result = repack_results
+            else:
+                print(binName, "still has leftovers, continue Packing")
+                single_result_leftovers = more_leftovers
+                single_result = repack_results
+                
+        # ! works for getting the 2nd box the smallest, but not if there's still more
+        # ! need to figure out when it does another box        
+        
+    return single_result, single_result_leftovers
 
 def pack_items(data):
     # Get data from input
     bins, items = convert_data(data)
     
-    # repack_attempts = 0
-    max_attempts = 1
+    #! The maximum number of times we try to repack into smaller boxes
+    max_attempts = 20
     all_results = []
+        
+    #! First attempt to get all items in 1 bin
+    packed_bins = pack_orders(items, bins)
+    #! Go through each result of bins
+    for bin in packed_bins:
+        #! Generate results of that bin
+        results, leftovers = generate_result(bin)
+        #! Get the bin from the results
+        result_bin = results.get('bin', [])
+        #! Get If the bin is empty
+        bin_empty = result_bin.get('bIsEmpty', [])
+        #! Get the Bins Empty Volume
+        bin_emptyVolume = result_bin.get('emptyVolume', [])
+        #! Get the Bin name 
+        binName = result_bin.get('name', [])
+        
+        #! Start a New Single Result, each bin will start a new one
+        single_result = []
+        
+
+        #! only continue if the bin isn't empty 
+        if not bin_empty:
+            # print(binName, bin_empty)
+            
+            #! Add the bin to a Single Result
+            single_result.append(results)  
+            if not leftovers:
+                all_results.append(copy.deepcopy(single_result))
+                continue
+
+            # min_empty_volume = float('inf')
+            # smallest_empty_volume_bin = None
+                      
+            attempt = 0
+            # ! if there's leftovers
+            while len(leftovers) != 0 and attempt < max_attempts:
+                attempt += 1
+                print(binName, " has Leftovers", "Repacks:", attempt, "Leftovers:", len(leftovers))
+                repack_results, leftovers = check_leftovers(leftovers, bins)
+                if repack_results:
+                    single_result.append(repack_results);
+
+            # while leftovers and attempt < max_attempts:
+            #     repacked_bins = pack_orders(leftovers, bins)
+            #     for b in repacked_bins:
+            #         repack_results, more_leftovers = generate_result(b)
+                    
+            #         # totalVolume = bin_emptyVolume + emptyVolume
+            #         if rebin_empty: 
+            #             print()
+            #         else:
+            #             if emptyVolume < min_empty_volume:
+            #                 min_empty_volume = emptyVolume
+            #                 smallest_empty_volume_bin = repack_results
+            #         # ! works for getting the 2nd box the smallest, but not if there's still more
+            #         # ! need to figure out when it does another box
+            #         if more_leftovers:
+            #             print("continue Packing")
+            #             leftovers = more_leftovers
+            #         else:
+            #             leftovers = []
+            #         # single_result.append(repack_results)
+                        
+                # attempt += 1
+            # if smallest_empty_volume_bin:
+            #     single_result.append(smallest_empty_volume_bin)
+            # single_result.append(repack_results)
+        all_results.append(copy.deepcopy(single_result))
+
     
     # itemsLeft = len(items)
     # print("Items Left", itemsLeft)
-    # ! First pack box
-    # ! need to fix the attepmts.. (it will always do it 5 times)
-    for attempt in range(max_attempts):
-        packed_bins = pack_orders(items, bins)
-        for bin in packed_bins:
-            single_result = []
+    # # ! First pack box
+    # # ! need to fix the attepmts.. (it will always do it 5 times)
+    # for attempt in range(max_attempts):
+    #     packed_bins = pack_orders(items, bins)
+    #     for bin in packed_bins:
+    #         single_result = []
 
-            results, leftovers = generate_result(bin)
-            result_bin = results.get('bin', [])
-            bin_empty = result_bin.get('bIsEmpty', [])
-            bin_emptyVolume = result_bin.get('emptyVolume', [])
-            binName = result_bin.get('name', [])
-            # print(binName, bin_empty)
+    #         results, leftovers = generate_result(bin)
+    #         result_bin = results.get('bin', [])
+    #         bin_empty = result_bin.get('bIsEmpty', [])
+    #         bin_emptyVolume = result_bin.get('emptyVolume', [])
+    #         binName = result_bin.get('name', [])
         
 
-            if not bin_empty:
-                print(binName, bin_empty)
-                single_result.append(results)            
-                min_empty_volume = float('inf')
-                smallest_empty_volume_bin = None
+    #         if not bin_empty:
+    #             print(binName, bin_empty)
+    #             single_result.append(copy.deepcopy(results))            
+    #             min_empty_volume = float('inf')
+    #             smallest_empty_volume_bin = None
                 
-                # ! if there's leftovers
-                while leftovers and attempt < max_attempts:
-                    repacked_bins = pack_orders(leftovers, bins)
-                    for b in repacked_bins:
-                        repack_results, more_leftovers = generate_result(b)
+    #             # ! if there's leftovers
+    #             # while leftovers and attempt < max_attempts:
+    #             #     repacked_bins = pack_orders(leftovers, bins)
+    #             #     for b in repacked_bins:
+    #             #         repack_results, more_leftovers = generate_result(b)
                         
-                        repack_result_bin = repack_results.get('bin', [])
-                        emptyVolume = repack_result_bin.get('emptyVolume', [])
-                        rebin_empty = repack_result_bin.get('bIsEmpty', [])
+    #             #         repack_result_bin = repack_results.get('bin', [])
+    #             #         emptyVolume = repack_result_bin.get('emptyVolume', [])
+    #             #         rebin_empty = repack_result_bin.get('bIsEmpty', [])
 
-                        # totalVolume = bin_emptyVolume + emptyVolume
-                        if rebin_empty: 
-                            print()
-                        else:
-                            if emptyVolume < min_empty_volume:
-                                min_empty_volume = emptyVolume
-                                smallest_empty_volume_bin = repack_results
-                        # ! works for getting the 2nd box the smallest, but not if there's still more
-                        # ! need to figure out when it does another box
-                        if more_leftovers:
-                            print("continue Packing")
-                            leftovers = more_leftovers
-                        else:
-                            leftovers = []
-                        # single_result.append(repack_results)
+    #             #         # totalVolume = bin_emptyVolume + emptyVolume
+    #             #         if rebin_empty: 
+    #             #             print()
+    #             #         else:
+    #             #             if emptyVolume < min_empty_volume:
+    #             #                 min_empty_volume = emptyVolume
+    #             #                 smallest_empty_volume_bin = repack_results
+    #             #         # ! works for getting the 2nd box the smallest, but not if there's still more
+    #             #         # ! need to figure out when it does another box
+    #             #         if more_leftovers:
+    #             #             print("continue Packing")
+    #             #             leftovers = more_leftovers
+    #             #         else:
+    #             #             leftovers = []
+    #             #         # single_result.append(repack_results)
                             
-                    attempt += 1
-                if smallest_empty_volume_bin:
-                    single_result.append(smallest_empty_volume_bin)
-                # single_result.append(repack_results)
+    #             #     attempt += 1
+    #             attempt += 1
+    #             # if smallest_empty_volume_bin:
+    #             #     single_result.append(smallest_empty_volume_bin)
+    #             # single_result.append(repack_results)
+    #         all_results.append(single_result)
 
-                all_results.append(single_result)
-
-        #! leftovers fails when null 
-        if not leftovers:
-            break
+    #     #! leftovers fails when null 
+    #     if not leftovers:
+    #         continue
     # print(all_results)
+    
+    
+    
+    
 
     
         # for attempt in range(max_attempts):
@@ -216,7 +326,7 @@ def pack_items(data):
 
     return all_results
     
-    
+#! For only a single Bin
 def generate_result(bin):
     items = [{
         "name": i.name,
@@ -232,7 +342,6 @@ def generate_result(bin):
     total_items_weight = sum(item["weight"] for item in items)
     
     leftItems = bin.unfitted_items
-    # leftovers.append(b.unfitted_items)
     
     results = ({
         "bin": {
@@ -248,20 +357,17 @@ def generate_result(bin):
             "bIsEmpty" : (total_items_volume) == 0,
             "bFitEverything": len(bin.unfitted_items) == 0,
             "itemsLeft": len(bin.unfitted_items),
-            # "leftoverItems": leftItems               
     },
         "items": items
     })
     
     return results, leftItems
 
-
+#! old method for multiple bins
 def generate_results(bins):
     results = []
     bins_used = 0
     for b in bins:
-        # print(b)
-        # Check if the bin has items in it
         # Shows a visual from python -- Rotation is messed up 
         # b.plotBoxAndItems()
         if b.items: 
@@ -280,7 +386,6 @@ def generate_results(bins):
         total_items_weight = sum(item["weight"] for item in items)
         # ! is only getting the left items for 1 thing, needs to be array
         leftItems = b.unfitted_items
-        # leftovers.append(b.unfitted_items)
         
         results.append({
             "bin": {
@@ -296,7 +401,6 @@ def generate_results(bins):
                 "bIsEmpty" : (total_items_volume) == 0,
                 "bFitEverything": len(b.unfitted_items) == 0,
                 "itemsLeft": len(b.unfitted_items),
-                # "leftoverItems": leftItems               
         },
             "items": items
         })
@@ -333,46 +437,7 @@ if __name__ == '__main__':
         packages = json.load(f)
     with open('pages/api/python/orders.json', 'r') as f:
         orders = json.load(f)
-    #! Expanded orders
-    # # Add all amounts seperaly for the orders 
-    # expanded_orders = []
-    # for order in orders:
-    #     expanded_orders.extend([order] * order["amount"])
-    # print(expanded_orders)
-    # allCombos = []
-    #! All combinations of orders
-    # Get all combinations of the orders
-    # print(data)
-    # needs to take into account amount aswell 
-    # index = 0
-    # for r in range(2, len(expanded_orders) + 1):
-    #     for subset in combinations(expanded_orders, r):
-    #         combo= {
-    #             "orders": subset,
-    #             "packages": packages,
-    #             "method" : "single"
-    #         }
-    #         index = index + 1
-            
-    #         # print(combo)
-    #         # currentResult = pack_items(combo)
-    #         # allCombos.append(currentResult)
-    #         # print(currentResult)
-    # print(index)
-    
-    # Total amount of combinations of all the orders
-    # n = len(expanded_orders)
-    # total_combs = sum(comb(n,r) for r in range(1, n+1))
-    # print(total_combs)
-    # print("All Results", allCombos)
-    # with open('pages/api/python/allCombos.json', 'w') as f:
-    #     json.dump(allCombos, f, cls=DecimalEncoder, indent=4)
-    # for combo in allCombos:
-        # print(combo)
-    
-    
         
-    repack_attempts = 0
     all_results = []
     
     # leftovers = []
@@ -404,13 +469,6 @@ if __name__ == '__main__':
     #         all_results.append(new_results)
             
     # print(repack_attempts)
-        
-    # if(results.bin)
-    # print(leftItems)
-    # print(results)
-    # for r in results:
-    #     if not r["bin"]["bFitEverything"]:
-    #         print("nn")
     
     with open('pages/api/python/output.json', 'w') as f:
         json.dump(results, f, cls=DecimalEncoder, indent=4)

@@ -60,6 +60,12 @@ function PackingComponent(props) {
                 }
             }
             console.log('Packing results:', data);
+            data.sort((a, b) => {
+                // console.log(a)
+                const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
+                const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
+                return minEmptyVolumeA - minEmptyVolumeB;
+            })
             setPackingResults(data);
             PackingComplete(data);
         })

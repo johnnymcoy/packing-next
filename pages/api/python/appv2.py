@@ -431,46 +431,29 @@ def generate_results(bins):
 
 if __name__ == '__main__':
     # Read input data from a JSON file
-    with open('pages/api/python/input.json', 'r') as f:
+    input_path = '/tmp/input.json'
+    packages_path = '/tmp/packages.json'
+    orders_path = '/tmp/orders.json'
+    output_path = '/tmp/output.json'
+    
+    # Read input data from JSON files
+    with open(input_path, 'r') as f:
         data = json.load(f)
-    with open('pages/api/python/packages.json', 'r') as f:
+    with open(packages_path, 'r') as f:
         packages = json.load(f)
-    with open('pages/api/python/orders.json', 'r') as f:
+    with open(orders_path, 'r') as f:
         orders = json.load(f)
+    #! old way would write to file
+    # with open('pages/api/python/input.json', 'r') as f:
+    #     data = json.load(f)
+    # with open('pages/api/python/packages.json', 'r') as f:
+    #     packages = json.load(f)
+    # with open('pages/api/python/orders.json', 'r') as f:
+    #     orders = json.load(f)
         
-    all_results = []
-    
-    # leftovers = []
-    # ALLORDERS = Orders
-    # Remove orders that were packed
-    # While len(Orders) !== continue
-    # Pack the items (first try)
     results = pack_items(data)
-    # print(results)
-    # results, leftItems = pack_items(data)
     
-    # This should be moved into the function and the function rewritten
-    # right now it only gets the leftitems of the last box that failed
-    # print(leftItems)
-    # all_results.append(results)
-    # #  Second Try
-    # if len(leftItems) != 0:
-    #     repack_attempts = repack_attempts + 1
-    #     unfit_orders = [{"name": i.name, "width": i.width, "height": i.height, "depth": i.depth, "weight": i.weight, "amount": 1} for i in leftItems]
-    #     format_data = {
-    #         "orders": unfit_orders,
-    #         "packages": packages,
-    #         "method" : "single"
-    #     }
-
-    #     if repack_attempts < 2:
-    #         print("Keep Packin")
-    #         new_results, more_left = pack_items(format_data)
-    #         all_results.append(new_results)
-            
-    # print(repack_attempts)
-    
-    with open('pages/api/python/output.json', 'w') as f:
+    with open(output_path, 'w') as f:
         json.dump(results, f, cls=DecimalEncoder, indent=4)
-    with open('pages/api/python/multioutput.json', 'w') as f:
-        json.dump(all_results, f, cls=DecimalEncoder, indent=4)
+    # with open('pages/api/python/output.json', 'w') as f:
+    #     json.dump(results, f, cls=DecimalEncoder, indent=4)

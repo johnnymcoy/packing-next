@@ -3,12 +3,20 @@ import fs from 'fs';
 import path from 'path';
 
 const scriptPath = path.resolve('pages', "api", "python", "appv2.py");
-const outputPath = path.resolve('pages', "api", "python", "output.json");
-const multioutputPath = path.resolve('pages', "api", "python", "multioutput.json");
+// const outputPath = path.resolve('pages', "api", "python", "output.json");
+// const multioutputPath = path.resolve('pages', "api", "python", "multioutput.json");
 
-const inputPath = path.resolve('pages', "api", "python", "input.json");
-const packagesPath = path.resolve('pages', "api", "python", "packages.json");
-const ordersPath = path.resolve('pages', "api", "python", "orders.json");
+// const inputPath = path.resolve('pages', "api", "python", "input.json");
+// const packagesPath = path.resolve('pages', "api", "python", "packages.json");
+// const ordersPath = path.resolve('pages', "api", "python", "orders.json");
+
+//! Update paths to use the /tmp directory
+const outputPath = '/tmp/output.json';
+const multioutputPath = '/tmp/multioutput.json';
+
+const inputPath = '/tmp/input.json';
+const packagesPath = '/tmp/packages.json';
+const ordersPath = '/tmp/orders.json';
 
 export default async (req, res) => {
     return new Promise((resolve, reject) => {
@@ -47,12 +55,6 @@ export default async (req, res) => {
                     res.status(500).json({ error: 'Error reading output data' });
                 }
             }
-            // if (fs.existsSync(multioutputPath)) {
-            //     const multioutputData = JSON.parse(fs.readFileSync(multioutputPath, 'utf-8'));
-            //     res.status(200).json(multioutputData);
-            // } else {
-            //     res.status(500).json({ error: 'Error reading output data' });
-            // }
 
             resolve();
         } catch (error) {

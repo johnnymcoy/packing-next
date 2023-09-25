@@ -99,7 +99,7 @@ export default function AddPostageOptionPage(){
     return(
 <div>
     <button onClick={addAusPostOptionsHandler}>Add Aus Post Options</button>
-    <button onClick={addStarTrekOptionsHandler} disabled>Add Star Trek Options</button>
-    <button onClick={addMLOptionsHandler}>Add ML Options</button>
+    {/* <button onClick={addStarTrekOptionsHandler} disabled>Add Star Trek Options</button>
+    <button onClick={addMLOptionsHandler}>Add ML Options</button> */}
 </div>
 );}

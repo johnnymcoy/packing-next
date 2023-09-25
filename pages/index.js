@@ -1,8 +1,3 @@
-import OrderItem from '../components/Orders/OrderItem';
-import AddOrderItem from '../components/Orders/AddOrderItem';
-import Visualization from '../components/3D/Visualization';
-import PackingComponent from './Packing';
-
 import { useState } from "react";
 
 function HomePage(props){
@@ -122,64 +117,31 @@ function HomePage(props){
     }
     
    return(
-    <>
-        <div className='main'>
+<>
+    <h1>Welcome</h1>
+    <h3>How do use this application</h3>
+    <h4>Orders</h4>
+    <p>The application comes with some default orders already in the orders tab as well as a postage option.</p>
+    <p>The orders are in the ShowOrders tab, when adding a new order, it needs to be named something different than the other orders.</p>
+    <h4>Postage</h4>
+    <p>The Postage options show all the available boxes that can be packed into.</p>
+    <p>Add postage options has a couple of preset boxes that I have already put in and will add them all to the postage options.</p>
+    <p>Add custom postage options is where you can add the dimentions of your own box.</p>
+    <h4>Results</h4>
+    <p>Once you have your correct orders and the correct postage options, you can click on calculate results to get a list of all available options.</p>
+    <p>You can also select the amount of results you'd like displayed, as the more postage options available, 
+        the more results you will get.(this is only visual, as all results are calcualted at once)</p>
 
-        <button onClick={addPackageButtonClicked}>{addPackage ? "Cancel" : "Add Post Package Option"}</button>
-        {addPackage &&
-            <div>
-                <h2 style={h1Style}>Add Postage Option</h2>
-                <AddOrderItem addOrder={addPackItem} bPacking/>
-            </div>
-        }
-        <div>
-            <button onClick={showPackagesButtonClicked}>{showPackages ? "Hide Post Options" : "Show Post Options"}</button>
-            {showPackages &&
-                <div>
-                    <h2 style={h1Style}>List of Postage Options</h2>
-                    {packages.map((item) =>
-                        <OrderItem bIsPackage={true} 
-                            key={item.name}
-                            name={item.name}
-                            width={item.width}
-                            height={item.height}
-                            depth={item.depth}
-                            weight={item.weight}
-                            deleteItem={deleteItem}                    
-                        />
-                    )}
-                </div>
-            }
-        </div>
-        <button onClick={AddBoxButtonClicked}>{addOrder ? "Cancel" : "Add Order"}</button>
-        {addOrder &&
-            <div>
-                <h2 style={h1Style}>Add Order</h2>
-                <AddOrderItem addOrder={addOrderItem} />
-            </div>
-        }
+    <h4>Visualisation</h4>
+    <p>Once the results are calcualted you can see how they would be placed inside the postage options.</p>
+    <p>Note: There is still some bugs with the visual as some of the rotational directions haven't been accounted for.</p>
 
-        <div>
-            <button onClick={showOrderButtonClicked}>{showOrders ? "Hide Orders" : "Show Orders"}</button>
-            {showOrders &&
-                <div>
-                    <h2 style={h1Style}>List of Orders</h2>
-                {orders.map((item) => (
-                    <OrderItem key={item.name} 
-                        name={item.name} width={item.width} height={item.height} depth={item.depth} weight={item.weight} 
-                        amount={item.amount} 
-                        increaseItem={increaseItem}
-                        decreaseItem={decreaseItem}
-                        deleteItem={deleteItem}
-                    />
-                ))}
-                </div>
-            }
-        </div>
-        <PackingComponent orders={orders} packages={packages} onPackingComplete={onPackingComplete} />
-    </div>
-    {/* <Visualization orders={orders} packingResults={packingResults} /> */}
-    </>
+    <h4>Todo</h4>
+    <ul>            
+        <li>Add in Excel support</li>
+        <li>Bug: Wireframes on visual don't properly change when viewing different options</li>
+    </ul>
+</>
 );}
 
 export default HomePage;

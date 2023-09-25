@@ -1,0 +1,7 @@
+{
+    "functions": {
+      "api/**/*.js": {
+        "runtime": "johnnymcoy/vercel-node-python@latest"
+      }
+    }
+}

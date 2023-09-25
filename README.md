@@ -29,3 +29,4 @@ https://github.com/skjolber/3d-bin-container-packing
 - Have options for number of boxes(only one box, two boxes etc.)
 ## Visuals
 - Show details of results in the Visual page
+- Color code the different orders, and postage options

@@ -92,9 +92,7 @@ function CustomBox(props){
             ref={meshRef}
             position={[size[0]/2, size[1]/2, size[2]/2]} 
             // rotation={props.rotation}
-
             // position={[0, 0, 0]} 
-            
         >
             <boxGeometry args={size} />
             <meshBasicMaterial 

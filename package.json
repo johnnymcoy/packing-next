@@ -12,11 +12,15 @@
     "@react-three/fiber": "^8.14.1",
     "@react-three/postprocessing": "^2.15.1",
     "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.5.1",
     "mongodb": "^4.7.0",
+    "multer": "^1.4.5-lts.1",
     "next": "12.1.4",
+    "next-connect": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.2",
-    "three": "^0.155.0"
+    "three": "^0.155.0",
+    "xlsx": "^0.18.5"
   }
 }

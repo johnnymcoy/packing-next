@@ -18,8 +18,11 @@ function InputBox(props){
 
 
 const AddOrderItem = (props) => {
-    const initalName = props.bPacking ? "Packing ID" : "Order ID"
+    const initalName = props.bPacking ? "Package Name" : "Item Name"
+    const initalID = props.bPacking ? "Packing ID" : "Order ID"
+
     // Variables   
+    const [ PackageID, SetPackageID] = useState(initalID);
     const [ PackageName, SetPackageName] = useState(initalName);
     const [ PackageWidth, SetPackageWidth] = useState(5);
     const [ PackageHeight, SetPackageHeight] = useState(2);
@@ -180,6 +183,7 @@ const AddOrderItem = (props) => {
     }
 
     function ResetValues(){
+        SetPackageID(initalID);
         SetPackageDepth(0);
         SetPackageHeight(0);
         SetPackageName(initalName);
@@ -189,6 +193,7 @@ const AddOrderItem = (props) => {
 
     return (
 <Card>
+    <InputBox label={"ID"} type={"text"} InputChanged={UpdatePackingSize} value={PackageID}/>
     <InputBox label={"Name"} type={"text"} InputChanged={UpdatePackingSize} value={PackageName}/>
     <InputBox label={"Width"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWidth}/>
     <InputBox label={"Height"} type={"number"} InputChanged={UpdatePackingSize} value={PackageHeight}/>

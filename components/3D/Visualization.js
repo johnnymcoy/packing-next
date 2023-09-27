@@ -32,11 +32,11 @@ function CustomBox(props){
             // groupRef.current.rotation.y += 0.001;
         }
         // meshRef.current.rotation.y += 0.01;
-        if(!showOutline) 
-        {
+        // if(!showOutline) 
+        // {
             setShowOutline(true);
             // boundingBox.current.setFromObject(meshRef.current);
-        }
+        // }
     }});
     let positionWidthMove = 0;
     let positionHeightMove = 0;
@@ -45,7 +45,7 @@ function CustomBox(props){
     if(props.rotation[1] < 0)
     {
         // console.log(props.rotation[1])
-        positionWidthMove = size[0]/2
+        positionWidthMove = size[0]/2 -0.1
     }
     if(props.rotation[1] > 0)
     {
@@ -76,7 +76,6 @@ function CustomBox(props){
         // positionHeightMove = size[0] /2
         // console.log(props.rotation[0])
         // positionWidthMove = size[0]
-
         // positionWidthMove = size[1]
     }
 
@@ -100,11 +99,11 @@ function CustomBox(props){
                 // wireframe
                 wireframe={props.bWireframe} 
             />
-        {showOutline  && (
+        {showOutline  && 
         <lineSegments pointerEvents="none">
                 <edgesGeometry attach="geometry" args={[meshRef.current.geometry]} pointerEvents="none" />
                 <lineBasicMaterial attach="material" color="white" linewidth={1} pointerEvents="none" />
-        </lineSegments>)}
+        </lineSegments>}
         </mesh>
         {/* <axesHelper scale={2}  /> */}
 

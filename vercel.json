@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/**/*.js": {
-        "runtime": "johnnymcoy/packing-next"
+        "runtime": "johnnymcoy/packing-next@latest"
       }
     }
 }

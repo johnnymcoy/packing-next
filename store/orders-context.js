@@ -165,6 +165,7 @@ const initialStateNew = {
         //     weight: 0.1
         // }
         {
+            id: "ord1240sx",
             name: "Item-01", 
             width: 0.6, 
             depth: 2, 
@@ -180,6 +181,7 @@ const initialStateNew = {
         //      
         },
         {
+            id: "23598dx",
             name: "Item-02", 
             width: 8, 
             depth: 1, 
@@ -188,6 +190,7 @@ const initialStateNew = {
             weight: 1
         },
         {
+            id: "23598dx",
             name: "Item-03", 
             width: 1.45, 
             depth: 2.65, 
@@ -211,6 +214,7 @@ const orderSlice = createSlice({
             if(!existingItem)
             {
                 state.orders.push({
+                    id: item.id,
                     name: item.name,
                     width: item.width,
                     depth: item.depth,
@@ -230,6 +234,7 @@ const orderSlice = createSlice({
             if(!existingItem)
             {
                 state.orders.push({
+                    id: item.id,
                     name: name.name,
                     width: name.width,
                     depth: name.depth,

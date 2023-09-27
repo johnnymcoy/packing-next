@@ -22,8 +22,8 @@ export default function SideButton(props){
         <i className={arrowClasses}></i>                        
     </div>
     <ul className={linksClasses}>
-        {props.buttons && props.buttons.map(item => 
-            <SubSideButton key={item.title} link={item.link} title={item.title} id={item.id}/>
+        {props.buttons && props.buttons.map((item, index) => 
+            <SubSideButton key={index} link={item.link} title={item.title} id={index}/>
         )}
     </ul>
 </li>

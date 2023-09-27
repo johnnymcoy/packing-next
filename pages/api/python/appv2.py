@@ -2,8 +2,8 @@ import json
 from py3dbp import Packer, Bin, Item
 from py3dbp.constants import RotationType
 from decimal import Decimal
-from itertools import combinations
-from math import comb
+# from itertools import combinations
+# from math import comb
 import copy
 
 class DecimalEncoder(json.JSONEncoder):
@@ -429,31 +429,35 @@ def generate_results(bins):
 
 # Need a for loop for checking each order item with every combination of order items
 
+bServerLocation = False
+
 if __name__ == '__main__':
-    # Read input data from a JSON file
-    input_path = '/tmp/input.json'
-    packages_path = '/tmp/packages.json'
-    orders_path = '/tmp/orders.json'
-    output_path = '/tmp/output.json'
     
-    # Read input data from JSON files
-    with open(input_path, 'r') as f:
-        data = json.load(f)
-    with open(packages_path, 'r') as f:
-        packages = json.load(f)
-    with open(orders_path, 'r') as f:
-        orders = json.load(f)
+    if bServerLocation: 
+        # # Read input data from a JSON file
+        input_path = '/tmp/input.json'
+        packages_path = '/tmp/packages.json'
+        orders_path = '/tmp/orders.json'
+        output_path = '/tmp/output.json'
+        with open(input_path, 'r') as f:
+            data = json.load(f)
+        with open(packages_path, 'r') as f:
+            packages = json.load(f)
+        with open(orders_path, 'r') as f:
+            orders = json.load(f)
+    else:
     #! old way would write to file
-    # with open('pages/api/python/input.json', 'r') as f:
-    #     data = json.load(f)
-    # with open('pages/api/python/packages.json', 'r') as f:
-    #     packages = json.load(f)
-    # with open('pages/api/python/orders.json', 'r') as f:
-    #     orders = json.load(f)
-        
+        with open('pages/api/python/input.json', 'r') as f:
+            data = json.load(f)
+        with open('pages/api/python/packages.json', 'r') as f:
+            packages = json.load(f)
+        with open('pages/api/python/orders.json', 'r') as f:
+            orders = json.load(f)
+            
     results = pack_items(data)
-    
-    with open(output_path, 'w') as f:
-        json.dump(results, f, cls=DecimalEncoder, indent=4)
-    # with open('pages/api/python/output.json', 'w') as f:
-    #     json.dump(results, f, cls=DecimalEncoder, indent=4)
+    if bServerLocation: 
+        with open(output_path, 'w') as f:
+            json.dump(results, f, cls=DecimalEncoder, indent=4)
+    else:
+        with open('pages/api/python/output.json', 'w') as f:
+            json.dump(results, f, cls=DecimalEncoder, indent=4)

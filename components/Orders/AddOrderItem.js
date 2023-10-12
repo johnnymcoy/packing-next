@@ -18,8 +18,10 @@ function InputBox(props){
 
 
 const AddOrderItem = (props) => {
-    const initalName = props.bPacking ? "Package Name" : "Item Name"
-    const initalID = props.bPacking ? "Packing ID" : "Order ID"
+    const { bPacking, prefillData, bDontReset } = props;
+
+    const initalName = prefillData ? prefillData.name :  (bPacking ? "Package Name" : "Item Name");
+    const initalID = prefillData ? prefillData.id : (bPacking ? "Packing ID" : "Order ID");
 
     // Variables   
     const [ PackageID, SetPackageID] = useState(initalID);
@@ -28,6 +30,7 @@ const AddOrderItem = (props) => {
     const [ PackageHeight, SetPackageHeight] = useState(2);
     const [ PackageDepth, SetPackageDepth] = useState(5);
     const [ PackageWeight, SetPackageWeight] = useState(2.5);
+    const [ PackageAmount, SetPackageAmount] = useState(1);
 
     function UpdatePackingSize(value, label){
         if(label === "Width")
@@ -51,29 +54,21 @@ const AddOrderItem = (props) => {
         {
             SetPackageName(value);
         }
+        if(label === "Id")
+        {
+            SetPackageID(value);
+        }
+        if(label === "Amount")
+        {
+            SetPackageAmount(value);
+        }
     }
 
     function addExampleData()
     {
         if(props.bPacking)
         {
-            // 61656 Cubic centimeters = 0.061656 Cubic meters
 
-            // const smallEnvelope = {name: "small-envelope", width: 115, depth: 61.25, height: 2.5, weight: 10, amount: 1}
-            // const largeEnvelope = {name: "large-envelope", width: 150, depth: 120, height: 7.5, weight: 15, amount: 1}
-            // const smallBox = {name: "small-box", width: 86.25, depth: 53.75, height: 16.25, weight: 70.0, amount: 1}
-            // const mediumBox = {name: "medium-box", width: 110, depth: 85, height: 55, weight: 70.0, amount: 1}
-            // const medium2Box = {name: "medium-2-box", width: 136.25, depth: 118.75, height: 33.75, weight: 70.0, amount: 1}
-            // const largeBox = {name: "large-box", width: 120, depth: 120.0, height: 55, weight: 70.0, amount: 1}
-            // const large2Box = {name: "large-2-box", width: 236.875, depth: 117.5, height: 30, weight: 70.0, amount: 1}
-            // Add the package to the list of packages
-            // props.addOrder(smallEnvelope);
-            // props.addOrder(largeEnvelope);
-            // props.addOrder(smallBox);
-            // props.addOrder(mediumBox);
-            // props.addOrder(medium2Box);
-            // props.addOrder(largeBox);
-            // props.addOrder(large2Box);
 
             // ML Sizes
             const placemats = {name: "P-Placemats", width: 36, depth: 36, height: 8, amount: 1, weight: 100};
@@ -144,17 +139,6 @@ const AddOrderItem = (props) => {
         }
         else
         {
-            // const RectangularPlatter = {name: "Rectangular Platter", width: 46, depth: 36, height: 31, amount: 1, weight: 0};
-            // props.addOrder(RectangularPlatter);
-            // props.addOrder(doormatLarge);
-            // props.addOrder(doormatMedium);
-            // props.addOrder(doormatSmall);
-            // props.addOrder(placemats);
-            // props.addOrder(small);
-            // props.addOrder(medium);
-            // props.addOrder(n);
-            // props.addOrder(large);
-            // props.addOrder(extraLarge);
         }
     }
 
@@ -170,6 +154,7 @@ const AddOrderItem = (props) => {
         }
         // Add all values into 1 variable
         const newPackage = {
+            id: PackageID,
             name: PackageName,
             width: PackageWidth, 
             depth: PackageDepth, 
@@ -178,8 +163,25 @@ const AddOrderItem = (props) => {
             amount: 1 
         }
         // Add the package to the list of packages
-        props.addOrder(newPackage);
-        ResetValues();
+        if(PackageAmount > 1)
+        {
+            for(let i = 0; i < PackageAmount; i++)
+            {
+                props.addOrder(newPackage);
+            }
+        }
+        else
+        {
+            props.addOrder(newPackage);
+        }
+        if(bDontReset)
+        {
+            
+        }
+        else
+        {
+            ResetValues();
+        }
     }
 
     function ResetValues(){
@@ -189,19 +191,22 @@ const AddOrderItem = (props) => {
         SetPackageName(initalName);
         SetPackageWeight(0);
         SetPackageWidth(0);
+        SetPackageAmount(1);
     }
 
     return (
 <Card>
-    <InputBox label={"ID"} type={"text"} InputChanged={UpdatePackingSize} value={PackageID}/>
+    <InputBox label={"Id"} type={"text"} InputChanged={UpdatePackingSize} value={PackageID}/>
     <InputBox label={"Name"} type={"text"} InputChanged={UpdatePackingSize} value={PackageName}/>
     <InputBox label={"Width"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWidth}/>
     <InputBox label={"Height"} type={"number"} InputChanged={UpdatePackingSize} value={PackageHeight}/>
     <InputBox label={"Depth"} type={"number"} InputChanged={UpdatePackingSize} value={PackageDepth}/>
     <InputBox label={"Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
+    <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+
     <button onClick={addBoxClicked}>Add</button>
-    {/* {!props.bPacking && <button onClick={addExampleData}>Add Example Data</button>} */}
-    {/* <button onClick={addExampleData}>Add Random Data</button> */}
+    {/* {!props. && <button onClick={addExampleData}>Add Example Data</button>} */}
+    {/* <button onClick=bPacking{addExampleData}>Add Random Data</button> */}
 </Card>
 );
   };

@@ -18,7 +18,11 @@ https://github.com/skjolber/3d-bin-container-packing
 
 # TODO 
 
-
+email results
+Dashboard
+Get Additions from:
+https://github.com/jerry800416/3D-bin-packing
+3D-bin-packing-master(ImprovedPyCode)
 
 
 ## Postage
@@ -27,6 +31,9 @@ https://github.com/skjolber/3d-bin-container-packing
 ## Results
 - Sort results by empty volume
 - Have options for number of boxes(only one box, two boxes etc.)
+
+- Have limit for number of orders + results - need to limit if too many requests
+
 ## Visuals
 - Show details of results in the Visual page
 - Color code the different orders, and postage options

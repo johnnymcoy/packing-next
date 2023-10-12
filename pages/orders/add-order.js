@@ -24,7 +24,7 @@ export default function AddOrderPage(){
     return(
 <div>
     <AddOrderItem bIsPackage={false} addOrder={AddOrderHandler} />
-    <UploadExcel />
+    <UploadExcel addOrder={AddOrderHandler}/>
     {/* <button onClick={addMLOptionsHandler}>Add ML Items</button> */}
 </div>
 );}

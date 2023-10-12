@@ -2,7 +2,7 @@ import Card from '../UI/Card';
 import classes from './OrderItem.module.css';
 
 const OrderItem = (props) => {
-    const { name, width, height, depth, weight, amount, bIsPackage } = props;
+    const { name, width, height, depth, weight, amount, bIsPackage, id } = props;
 
     function addItem(){
         props.increaseItem(name);
@@ -21,6 +21,7 @@ const OrderItem = (props) => {
     <Card>
         <header>
             <h3>{name}</h3>
+            <p>{id}</p>
             {!bIsPackage && <div className={classes.price}>Quantity: {amount}</div>}
         </header>
         <p>

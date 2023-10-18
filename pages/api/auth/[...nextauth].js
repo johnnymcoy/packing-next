@@ -1,19 +1,11 @@
 import NextAuth from "next-auth"
-// import EmailProvider from 'next-auth/providers/email'
-import GoogleProvider from "next-auth/providers/google"
-import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 const handler = NextAuth();
-
 export { handler as GET, handler as POST}
 
 export const authOptions = {
     providers: [
-        // GithubProvider({
-        //     clientId: process.env.GITHUB_ID,
-        //     clientSecret: process.env.GITHUB_SECRET
-        // }),
         CredentialsProvider({
             name: "Credentials",
             credentials: {
@@ -44,21 +36,8 @@ export const authOptions = {
                     }
                 }
                 return null;
-                // const user = { id: "42", name: "Curtis", password: process.env.LOGIN_PASS}
-                // if(credentials.username === user.name && credentials.password === user.password)
-                // {
-                //     return user;
-                // }
-                // else
-                // {
-                //     return null;
-                // }
             }
         }),
-        // EmailProvider({
-        //     server: process.env.MAIL_SERVER,
-        //     from: 'NextAuth.js <no-reply@example.com>'
-        //   }),
     ],
     pages: {
         // signIn: 'pages/auth/signin',

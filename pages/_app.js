@@ -13,8 +13,8 @@ import { NextUIProvider } from '@nextui-org/react';
 function MyApp({ Component, pageProps }) {
     
   return (
-<NextUIProvider>
 <SessionProvider session={pageProps.session}>
+<NextUIProvider>
 <Provider store={store}>
 
     <Layout>
@@ -31,8 +31,8 @@ function MyApp({ Component, pageProps }) {
     </Layout>
 
 </Provider>
-</SessionProvider>
 </NextUIProvider>
+</SessionProvider>
 )}
 
 export default MyApp;

@@ -12,7 +12,7 @@
 - Added in Authentication/Login
 
 
-
+## Older
 - Added Feedback, Dashboard, Help pages
 
 - Created different Mesurement Modes, Grams, KGs, Oz, Meters, Feet etc.
@@ -20,6 +20,8 @@
 - Created API in AWS Lambada 
 
 
+- Limited the requests send
+- Sort results by empty volume
 
 
 

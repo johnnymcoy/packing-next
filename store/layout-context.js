@@ -3,6 +3,32 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 const MenuOptions = [
     {
+        title: "Dashboard",
+        buttons: [
+            {
+                title: "Home",
+                link: "/"
+            },
+            {
+                title: "Dashboard",
+                link: "/dashboard"
+            }
+        ]
+    },
+    {
+        title: "Items",
+        buttons: [
+            {
+                title: "Add Stock Item",
+                link: "/items/add-item"
+            },
+            {
+                title: "Show Items",
+                link: "/items/show-items"
+            }
+        ]
+    },
+    {
         title: "Orders",
         buttons: [
             {
@@ -19,18 +45,18 @@ const MenuOptions = [
         title: "Postage",
         buttons: [
             {
-                title: "Postage Options",
-                link: "/postage/options"
+                
+                title: "Add Custom Package",
+                link: "/postage/add-custom-option"
             },
             {
-                title: "Add Postage Options",
+                title: "Add Preset Options",
                 link: "/postage/add-option"
             },
             {
-           
-                title: "Custom Postage Options",
-                link: "/postage/add-custom-option"
-            }
+                title: "Show Postage Options",
+                link: "/postage/options"
+            },
         ]
     },
     {
@@ -39,18 +65,40 @@ const MenuOptions = [
             {
                 title: "Calculate Results",
                 link: "/results"
-            }
-        ]
-    },
-    {
-        title: "Visualisation",
-        buttons: [
+            },
             {
                 title: "Show 3D Visual",
                 link: "/visualisation"
             }
         ]
+    },
+    {
+        title: "Feedback",
+        buttons: [
+            {
+                title: "Report Bug",
+                link: "/feedback"
+            }
+        ]
+    },
+    {
+        title: "Help",
+        buttons: [
+            {
+                title: "Help",
+                link: "/help"
+            },
+            {
+                title: "Version",
+                link: "/help/version"
+            },
+            {
+                title: "Tutorials",
+                link: "/help/tutorials"
+            }
+        ]
     }
+
 ]
 
 const layoutSlice = createSlice({

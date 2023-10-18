@@ -1,125 +1,27 @@
-import { useState } from "react";
+import { Button, Link } from "@nextui-org/react";
 
-function HomePage(props){
-    const h1Style = {
-        textAlign: "center", 
-    }
+const HomePage = () => {
 
-    // Variables    //
-    const [addOrder, setAddOrder] =  useState(false);
-    const [showOrders, setShowOrders] =  useState(false);
-    const [showVisualization, setShowVisualization] =  useState(false);
-    const [addPackage, setAddPackage] =  useState(false);
-    const [showPackages, setShowPackages] =  useState(false);
-    const [ orders, setOrders] = useState([]);
-    const [ packages, setPackages] = useState([]);
-    const [ packingResults, setPackingResults] = useState([]);
 
-    // open Menu buttons 
-    function AddBoxButtonClicked()
-    {
-        setAddOrder((prevState) => !prevState);
-    }
-    function showOrderButtonClicked()
-    {
-        setShowOrders((prevState) => !prevState);
-    }
-    function addPackageButtonClicked()
-    {
-        setAddPackage((prevState) => !prevState);
-    }
-    function showPackagesButtonClicked()
-    {
-        setShowPackages((prevState) => !prevState);
-    }
-    
-    function addPackItem(newPackage){
-        for(let i = 0; i < packages.length; i++)
-        {
-            if(packages[i].name === newPackage.name)
-            {
-                //TODO Add error message for same order ID, but different dimentions
-                return;
-            }
-        }
-        setPackages(prevState => [...prevState, newPackage]);        
-    }
-
-    function addOrderItem(newPackage){
-        // Check if the order name is the same as any we've already added
-        for(let i = 0; i < orders.length; i++)
-        {
-            if(orders[i].name === newPackage.name)
-            {
-                increaseItem(orders[i].name);
-                //TODO Add error message for same order ID, but different dimentions
-                return;
-            }
-        }
-        // Add the package to the list of packages
-        setOrders(prevState => [...prevState, newPackage]);        
-    }
-
-    function onPackingComplete(data){
-        setPackingResults(data);
-        // console.log(data);
-    }
-
-    // Add one amount to the selected item
-    function increaseItem(name){
-        setOrders(prevPackages => 
-            prevPackages.map(pkg => 
-                pkg.name === name ? { ...pkg, amount: pkg.amount + 1 } : pkg // Add 1
-            )
-        ); 
-    }
-    function decreaseItem(name){
-        setOrders(prevPackages => 
-            prevPackages.map(pkg => {
-                if (pkg.name === name) {
-                    if(pkg.amount > 0){
-                        return { ...pkg, amount: pkg.amount - 1 }; // Decrease 1
-                    }
-                    return pkg;
-                    // Old way would delete the Package if there was 0, but would be better to keep that to the delete button
-                    // if (pkg.amount === 1) { 
-                    //     deleteItem(name);
-                    //     return pkg;  // Return the unchanged package, as deleteItem will handle its removal
-                    // }
-                }
-                return pkg;
-            })        
-        );
-    }
-    // Remove all of the selected item
-    function deleteItem(name, bIsPackage){
-        if(bIsPackage)
-        {
-            for(let i = 0; i < packages.length; i++)
-            {
-                if(packages[i].name === name)
-                {
-                    setPackages(prevPackages => prevPackages.filter(pkg => pkg.name !== name));
-                    return;
-                }
-            }    
-        }
-        else
-        {
-            for(let i = 0; i < orders.length; i++)
-            {
-                if(orders[i].name === name)
-                {
-                    setOrders(prevPackages => prevPackages.filter(pkg => pkg.name !== name));
-                }
-            }
-        }
-    }
     
    return(
 <>
     <h1>Welcome</h1>
-    <h3>How do use this application</h3>
+
+    <h3>Latest</h3>
+    <ul>
+        <li>Currently migrating from sending a single order at a time to bulk orders, so there is Items, Orders, and Packages, which means adding items + orders, isn't fully implemented properly</li>
+        <li>AWS api is connected and working with the example data</li>
+        <li>Current Version is hosted at: </li><Button auto><Link href={"https://packing-johnnymcoy.vercel.app/"}>Vercel</Link></Button>
+    </ul>
+    <h3>Current Issues</h3>
+    <ul>
+        <li>Authentication isn't fully setup (Login/Logout)</li>
+        <li>Orders are currently broken as moving to bulk orders</li>
+        <li>Items are not used, as they were just called "Orders" before, so adding an item doesn't add it to an order</li>
+    </ul>
+
+    <h2>Old Version</h2>
     <h4>Orders</h4>
     <p>The application comes with some default orders already in the orders tab as well as a postage option.</p>
     <p>The orders are in the ShowOrders tab, when adding a new order, it needs to be named something different than the other orders.</p>
@@ -136,11 +38,63 @@ function HomePage(props){
     <p>Once the results are calcualted you can see how they would be placed inside the postage options.</p>
     <p>Note: There is still some bugs with the visual as some of the rotational directions haven't been accounted for.</p>
 
-    <h4>Todo</h4>
+    <h2>Todo</h2>
+    <h4>Feedback</h4>
     <ul>            
-        <li>Add in Excel support</li>
-        <li>Bug: Wireframes on visual don't properly change when viewing different options</li>
+        <li>Connect Contact form</li>
     </ul>
+    <h4>Orders</h4>
+    <ul>            
+        <li>Moving the orders to now being able to choose which items by ID, and send multiple orders to be packed at once</li>
+    </ul>
+    <h4>Excel</h4>
+    <ul>            
+        <li>Add in Template file for people to download</li>
+        <li>Export results to a excel sheet</li>
+    </ul>
+    <h4>Pages</h4>
+    <ul>            
+        <li>Fill out Help pages</li>
+    </ul>
+    <h4>Authentication</h4>
+    <ul>            
+        <li>Finish setting up Logins, and a database for storing user data</li>
+    </ul>
+    <h4>Dashboard</h4>
+    <ul>            
+        <li>Get results into a dashboard</li>
+    </ul>
+    <h4>Email</h4>
+    <ul>            
+        <li>Connect email server to contact form</li>
+        <li>Option to send through results to an email</li>
+    </ul>
+    <h4>Packing Code</h4>
+    <ul>            
+        <li>Go through this github and merge some features with current code, (Floating Items fix, Load bearing limits, priority items)</li>
+        <li>[https://github.com/jerry800416/3D-bin-packing] 3D-bin-packing-master(ImprovedPyCode)</li>
+    </ul>
+    <h4>Postage</h4>
+    <ul>            
+        <li>Add more Preset postage options</li>
+    </ul>
+    <h4>Results</h4>
+    <ul>            
+        <li>Have options for number of boxes(only one box, two boxes etc.)</li>
+        <li>Have limit for number of orders + results - need to limit if too many requests</li>
+    </ul>
+    <h4>Visuals</h4>
+    <ul>            
+        <li>Show details of results in the Visual page</li>
+        <li>Color code the different orders, and postage options</li>
+    </ul>
+    <h2>Bugs</h2>
+    <h4>Visuals</h4>
+    <ul>            
+        <li>Bug when displaying different options, outline isn't re-rendered</li>
+        <li>When Items are rotated they aren't properly rotated around an axis, causing rotated object to apear outside the box</li>
+    </ul>
+
 </>
 );}
 

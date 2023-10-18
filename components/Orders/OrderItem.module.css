@@ -1,0 +1,9 @@
+.actions{
+    display: flex;
+    /* padding: 0px 10px; */
+}
+
+.button{
+    display: flex;
+    margin: 0.25rem;
+}

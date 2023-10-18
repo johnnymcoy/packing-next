@@ -32,15 +32,15 @@ function CustomBox(props){
             // groupRef.current.rotation.y += 0.001;
         }
         // meshRef.current.rotation.y += 0.01;
-        if(!showOutline) 
-        {
+        // if(!showOutline) 
+        // {
             setShowOutline(true);
             // boundingBox.current.setFromObject(meshRef.current);
-        }
+        // }
     }});
     let positionWidthMove = 0;
     let positionHeightMove = 0;
-
+    let positionDepthMove = 0;
     // Rotation Moves
     if(props.rotation[1] < 0)
     {
@@ -50,6 +50,7 @@ function CustomBox(props){
     if(props.rotation[1] > 0)
     {
         console.log("Rotation Larger around 1")
+        // positionWidthMove = size[0]/2
 
     }
     
@@ -63,20 +64,23 @@ function CustomBox(props){
     if(props.rotation[2] < 0)
     {
         console.log("Rotation Smaller around 2")
+        // positionWidthMove = size[0]/2
 
     }
     if(props.rotation[0] > 0)
     {
         console.log("Rotation Around 0")
-        positionWidthMove = size[1]
+        positionHeightMove = size[2]
+        // positionWidthMove = size[1]
     }
     if(props.rotation[0] < 0)
     {
         console.log("Rotation Smaller Around 0")
+        positionDepthMove = size[1]
+
         // positionHeightMove = size[0] /2
         // console.log(props.rotation[0])
         // positionWidthMove = size[0]
-
         // positionWidthMove = size[1]
     }
 
@@ -84,7 +88,7 @@ function CustomBox(props){
     return(    
 <group>
     <group 
-        position={[props.position[0]+ positionWidthMove, props.position[1] + positionHeightMove, props.position[2]]} 
+        position={[props.position[0]+ positionWidthMove, props.position[1] + positionHeightMove, props.position[2] + positionDepthMove]} 
         rotation={props.rotation}
         ref={groupRef}
     >
@@ -100,11 +104,11 @@ function CustomBox(props){
                 // wireframe
                 wireframe={props.bWireframe} 
             />
-        {showOutline  && (
+        {showOutline  && 
         <lineSegments pointerEvents="none">
                 <edgesGeometry attach="geometry" args={[meshRef.current.geometry]} pointerEvents="none" />
                 <lineBasicMaterial attach="material" color="white" linewidth={1} pointerEvents="none" />
-        </lineSegments>)}
+        </lineSegments>}
         </mesh>
         {/* <axesHelper scale={2}  /> */}
 

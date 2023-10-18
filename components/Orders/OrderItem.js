@@ -1,8 +1,14 @@
+import { Button } from '@nextui-org/react';
 import Card from '../UI/Card';
 import classes from './OrderItem.module.css';
 
 const OrderItem = (props) => {
-    const { name, width, height, depth, weight, amount, bIsPackage } = props;
+    const { name, width, height, depth, weight, amount, 
+        // bIsPackage, 
+        id, type } = props;
+    const bIsItem = type === "item";
+    const bIsOrder = type === "order";
+    const bIsPackage = type === "package";
 
     function addItem(){
         props.increaseItem(name);
@@ -21,7 +27,8 @@ const OrderItem = (props) => {
     <Card>
         <header>
             <h3>{name}</h3>
-            {!bIsPackage && <div className={classes.price}>Quantity: {amount}</div>}
+            <p>{id}</p>
+            {bIsOrder && <div className={classes.price}>Quantity: {amount}</div>}
         </header>
         <p>
             Width: {width},  <br />
@@ -30,16 +37,22 @@ const OrderItem = (props) => {
             {bIsPackage ? "Max Weight" : "Weight"}: {weight} <br />
             volume: {volume}
         </p>
-        {!bIsPackage &&  
+        {bIsOrder &&  
         <div className={classes.actions}>
-            <button onClick={removeItem}>-</button>
-            <button onClick={addItem}>+</button>
-            <button onClick={deleteItem}>Delete</button>
+            <Button auto className={classes.button} size={"sm"} onClick={removeItem}>-</Button>
+            <Button auto className={classes.button} size={"sm"} onClick={addItem}>+</Button>
+            <Button auto className={classes.button} size={"sm"} onClick={deleteItem}>Delete</Button>
         </div>}
         {bIsPackage &&  
         <div className={classes.actions}>
-            <button onClick={deleteItem}>Delete</button>
-        </div>}    
+            <Button auto className={classes.button} size={"sm"} onClick={() => {}}>Edit</Button>
+            <Button auto className={classes.button} size={"sm"} onClick={deleteItem}>Delete</Button>
+        </div>}
+        {bIsItem &&  
+        <div className={classes.actions}>
+            <Button auto className={classes.button} size={"sm"} onClick={() => {}}>Edit</Button>
+            <Button auto className={classes.button} size={"sm"} onClick={deleteItem}>Delete</Button>
+        </div>}
     
     </Card>
 </li>

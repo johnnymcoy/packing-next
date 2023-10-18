@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import Card from '../UI/Card';
-
+import { Button, Input, Spacer, useInput } from '@nextui-org/react';
+import { Flex } from '@components/styles/flex';
+import CSS from "./AddOrderItem.module.css"
 function InputBox(props){
+
+    const {} = useInput();
 
     function InputChanged(input)
     {
@@ -9,22 +13,34 @@ function InputBox(props){
     }
 
     return(
-        <div>
-            <label>{props.label}</label>
-          <input type={props.type} onChange={InputChanged} value={props.value}></input>  
-        </div>
-    );
-}
+<div>
+    {/* <label>{props.label}</label> */}
+    <Input label={props.label} type={props.type} onChange={InputChanged} bordered clearable={props.type !== "number"} value={props.value} initialValue={props.initialValue} placeholder={props.label}></Input>  
+</div>
+);}
 
 
 const AddOrderItem = (props) => {
-    const initalName = props.bPacking ? "Packing ID" : "Order ID"
+    const { 
+        // bPacking, 
+        prefillData, bDontReset, type } = props;
+    const bIsItem = type === "item";
+    const bIsOrder = type === "order";
+    const bIsPackage = type === "package";
+
+    let initialName = prefillData ? prefillData.name : (type + " name");
+    
+
+    let initialID = prefillData ? prefillData.id : (type + " ID");
+
     // Variables   
-    const [ PackageName, SetPackageName] = useState(initalName);
+    const [ PackageID, SetPackageID] = useState("");
+    const [ PackageName, SetPackageName] = useState("");
     const [ PackageWidth, SetPackageWidth] = useState(5);
     const [ PackageHeight, SetPackageHeight] = useState(2);
     const [ PackageDepth, SetPackageDepth] = useState(5);
     const [ PackageWeight, SetPackageWeight] = useState(2.5);
+    const [ PackageAmount, SetPackageAmount] = useState(1);
 
     function UpdatePackingSize(value, label){
         if(label === "Width")
@@ -48,29 +64,21 @@ const AddOrderItem = (props) => {
         {
             SetPackageName(value);
         }
+        if(label === "Id")
+        {
+            SetPackageID(value);
+        }
+        if(label === "Amount")
+        {
+            SetPackageAmount(value);
+        }
     }
 
     function addExampleData()
     {
         if(props.bPacking)
         {
-            // 61656 Cubic centimeters = 0.061656 Cubic meters
 
-            // const smallEnvelope = {name: "small-envelope", width: 115, depth: 61.25, height: 2.5, weight: 10, amount: 1}
-            // const largeEnvelope = {name: "large-envelope", width: 150, depth: 120, height: 7.5, weight: 15, amount: 1}
-            // const smallBox = {name: "small-box", width: 86.25, depth: 53.75, height: 16.25, weight: 70.0, amount: 1}
-            // const mediumBox = {name: "medium-box", width: 110, depth: 85, height: 55, weight: 70.0, amount: 1}
-            // const medium2Box = {name: "medium-2-box", width: 136.25, depth: 118.75, height: 33.75, weight: 70.0, amount: 1}
-            // const largeBox = {name: "large-box", width: 120, depth: 120.0, height: 55, weight: 70.0, amount: 1}
-            // const large2Box = {name: "large-2-box", width: 236.875, depth: 117.5, height: 30, weight: 70.0, amount: 1}
-            // Add the package to the list of packages
-            // props.addOrder(smallEnvelope);
-            // props.addOrder(largeEnvelope);
-            // props.addOrder(smallBox);
-            // props.addOrder(mediumBox);
-            // props.addOrder(medium2Box);
-            // props.addOrder(largeBox);
-            // props.addOrder(large2Box);
 
             // ML Sizes
             const placemats = {name: "P-Placemats", width: 36, depth: 36, height: 8, amount: 1, weight: 100};
@@ -141,17 +149,6 @@ const AddOrderItem = (props) => {
         }
         else
         {
-            // const RectangularPlatter = {name: "Rectangular Platter", width: 46, depth: 36, height: 31, amount: 1, weight: 0};
-            // props.addOrder(RectangularPlatter);
-            // props.addOrder(doormatLarge);
-            // props.addOrder(doormatMedium);
-            // props.addOrder(doormatSmall);
-            // props.addOrder(placemats);
-            // props.addOrder(small);
-            // props.addOrder(medium);
-            // props.addOrder(n);
-            // props.addOrder(large);
-            // props.addOrder(extraLarge);
         }
     }
 
@@ -167,6 +164,7 @@ const AddOrderItem = (props) => {
         }
         // Add all values into 1 variable
         const newPackage = {
+            id: PackageID,
             name: PackageName,
             width: PackageWidth, 
             depth: PackageDepth, 
@@ -175,28 +173,64 @@ const AddOrderItem = (props) => {
             amount: 1 
         }
         // Add the package to the list of packages
-        props.addOrder(newPackage);
-        ResetValues();
+        if(PackageAmount > 1)
+        {
+            for(let i = 0; i < PackageAmount; i++)
+            {
+                props.addOrder(newPackage);
+            }
+        }
+        else
+        {
+            props.addOrder(newPackage);
+        }
+        if(bDontReset)
+        {
+            
+        }
+        else
+        {
+            ResetValues();
+        }
     }
 
     function ResetValues(){
+        SetPackageID("");
         SetPackageDepth(0);
         SetPackageHeight(0);
-        SetPackageName(initalName);
+        SetPackageName("");
         SetPackageWeight(0);
         SetPackageWidth(0);
+        SetPackageAmount(1);
     }
 
     return (
-<Card>
-    <InputBox label={"Name"} type={"text"} InputChanged={UpdatePackingSize} value={PackageName}/>
+<Card className={CSS.card}> 
+    <InputBox label={"Id"} type={"text"}  InputChanged={UpdatePackingSize} value={PackageID}/>
+    <InputBox label={"Name"} type={"text"}  InputChanged={UpdatePackingSize} value={PackageName}/>
     <InputBox label={"Width"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWidth}/>
     <InputBox label={"Height"} type={"number"} InputChanged={UpdatePackingSize} value={PackageHeight}/>
     <InputBox label={"Depth"} type={"number"} InputChanged={UpdatePackingSize} value={PackageDepth}/>
-    <InputBox label={"Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
-    <button onClick={addBoxClicked}>Add</button>
-    {/* {!props.bPacking && <button onClick={addExampleData}>Add Example Data</button>} */}
-    {/* <button onClick={addExampleData}>Add Random Data</button> */}
+    <input type={"color"} />
+
+    {bIsItem &&
+        <InputBox label={"Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
+    }
+
+    {bIsPackage &&
+        <InputBox label={"Max Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
+    }
+    {bIsPackage &&
+        <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    }
+    {bIsOrder &&
+        <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    }
+    <Spacer />
+    <Button auto size={"sm"} onClick={addBoxClicked}>Add</Button>
+
+    {/* {!props. && <button onClick={addExampleData}>Add Example Data</button>} */}
+    {/* <button onClick=bPacking{addExampleData}>Add Random Data</button> */}
 </Card>
 );
   };

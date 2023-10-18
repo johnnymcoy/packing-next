@@ -1,9 +1,9 @@
 import AddOrderItem from "../../components/Orders/AddOrderItem";
 import { useDispatch } from "react-redux";
-// import { layoutActions } from "@store/layout-context";
 import {orderActions} from "../../store/orders-context";
+import UploadExcel from "components/Orders/UploadExcel";
+import OrderForm from "@components/Orders/OrderForm";
 
-// const RectangularPlatter = {name: "Rectangular Platter", width: 46, depth: 36, height: 31, amount: 1, weight: 0.1};
 
 
 export default function AddOrderPage(){
@@ -22,7 +22,9 @@ export default function AddOrderPage(){
 
     return(
 <div>
-    <AddOrderItem bIsPackage={false} addOrder={AddOrderHandler} />
+    {/* <AddOrderItem bIsPackage={false} type="order" addOrder={AddOrderHandler} /> */}
+    <OrderForm />
+    <UploadExcel addOrder={AddOrderHandler}/>
     {/* <button onClick={addMLOptionsHandler}>Add ML Items</button> */}
 </div>
 );}

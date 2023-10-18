@@ -32,7 +32,9 @@ export default function ShowOrderPage(){
     {
         orders && orders.map(item =>
             <OrderItem 
+                type={"order"}
                 key={item.name} 
+                id={item.id}
                 name={item.name}
                 width={item.width}
                 height={item.height}

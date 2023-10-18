@@ -1,0 +1,33 @@
+{
+    'version': '2.0', 
+    'routeKey': '$default', 
+    'rawPath': '/', 
+    'rawQueryString': '', 
+    'headers': {'content-length': '1003', 
+    'x-amzn-tls-cipher-suite': 'ECDHE-RSA-AES128-GCM-SHA256', 
+    'x-amzn-tls-version': 'TLSv1.2', 
+    'x-amzn-trace-id': 'Root=1-652f55d1-09f15ddd6e37f5dd18288e8e', 
+    'x-forwarded-proto': 'https', 
+    'host': 'h3u7ewczug3jfui7kfc73lkvky0inhtx.lambda-url.ap-southeast-2.on.aws', 
+    'x-forwarded-port': '443', 'content-type': 'application/json', 
+    'x-forwarded-for': '185.218.127.154', 
+    'accept-encoding': 'gzip, 
+    deflate, br', 
+    'accept': 
+    '*/*', 'user-agent': 'Thunder Client (https://www.thunderclient.com)'}, 
+    'requestContext': {
+        'accountId': 'anonymous', 
+        'apiId': 'h3u7ewczug3jfui7kfc73lkvky0inhtx', 
+        'domainName': 'h3u7ewczug3jfui7kfc73lkvky0inhtx.lambda-url.ap-southeast-2.on.aws', 
+        'domainPrefix': 'h3u7ewczug3jfui7kfc73lkvky0inhtx', 
+        'http': {
+            'method': 'GET', 
+            'path': '/', 
+            'protocol': 'HTTP/1.1', 
+            'sourceIp': '185.218.127.154', 
+            'userAgent': 'Thunder Client (https://www.thunderclient.com)'}, 
+            'requestId': '01ed5af7-5c96-4fb4-92f4-862505e1b4e6', 
+            'routeKey': '$default', 'stage': '$default', 
+            'time': '18/Oct/2023:03:49:37 +0000', 
+            'timeEpoch': 1697600977993}, 
+            'body': '{\r\n        "orders": [\r\n          {\r\n            "id": "ord1240sx",\r\n            "name": "Item-01",\r\n            "width": 0.6,\r\n            "depth": 2,\r\n            "height": 0.4,\r\n            "amount": 1,\r\n            "weight": 1\r\n          },\r\n          {\r\n            "id": "23598dx",\r\n            "name": "Item-02",\r\n            "width": 8,\r\n            "depth": 1,\r\n            "height": 1,\r\n            "amount": 6,\r\n            "weight": 1\r\n          },\r\n          {\r\n            "id": "23598dx",\r\n            "name": "Item-03",\r\n            "width": 1.45,\r\n            "depth": 2.65,\r\n            "height": 0.55,\r\n            "amount": 6,\r\n            "weight": 1\r\n          }\r\n        ],\r\n        "packages": [\r\n          {\r\n            "name": "Example Postage Box",\r\n            "width": 8,\r\n            "depth": 5,\r\n            "height": 2,\r\n            "maxWeight": 100\r\n          }\r\n        ],\r\n        "method": "single",\r\n        "output": "",\r\n        "bDevelopmentMode": false\r\n      }', 'isBase64Encoded': False}

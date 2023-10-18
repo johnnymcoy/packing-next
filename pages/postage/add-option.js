@@ -1,6 +1,7 @@
 import AddOrderItem from "../../components/Orders/AddOrderItem";
 import { useDispatch } from "react-redux";
 import {packageActions} from "../../store/packages-context";
+import { Button } from "@nextui-org/react";
 
 const MLOptions = [
     {
@@ -98,7 +99,7 @@ export default function AddPostageOptionPage(){
 
     return(
 <div>
-    <button onClick={addAusPostOptionsHandler}>Add Aus Post Options</button>
+    <Button onClick={addAusPostOptionsHandler}>Add Aus Post Options</Button>
     {/* <button onClick={addStarTrekOptionsHandler} disabled>Add Star Trek Options</button>
     <button onClick={addMLOptionsHandler}>Add ML Options</button> */}
 </div>

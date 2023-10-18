@@ -14,6 +14,6 @@ export default function AddCustomPostageOptionPage(){
 
     return(
 <div>
-    <AddOrderItem bPacking addOrder={addPackageHandler} />
+    <AddOrderItem type="package" bPacking addOrder={addPackageHandler} />
 </div>
 );}

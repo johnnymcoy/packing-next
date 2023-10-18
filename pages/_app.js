@@ -4,11 +4,19 @@ import Sidebar from "../components/layout/Sidebar";
 import Head from "next/head"
 import {Provider} from "react-redux";
 import store from "../store/store";
+import { SessionProvider } from "next-auth/react"
+import Modal from '@components/UI/Modal';
+import { NextUIProvider } from '@nextui-org/react';
+
+
 
 function MyApp({ Component, pageProps }) {
     
   return (
+<SessionProvider session={pageProps.session}>
+<NextUIProvider>
 <Provider store={store}>
+
     <Layout>
         <Head>
             <title>Parcel Pro</title>
@@ -16,14 +24,15 @@ function MyApp({ Component, pageProps }) {
             <meta name="description" content="Packing Production"/>
             <link rel="icon" href="static/favicon.ico"></link>
         </Head>
-
         <Sidebar />
         <div className="content">
             <Component {...pageProps} />
-
         </div>
     </Layout>
+
 </Provider>
+</NextUIProvider>
+</SessionProvider>
 )}
 
 export default MyApp;

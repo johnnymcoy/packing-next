@@ -1,9 +1,18 @@
 .main {
   /* margin: 3rem auto; */
-  padding: 2rem 0rem 0rem 14rem;
+  padding: 5rem 0rem 0rem 14rem;
 
-  width: 90%;
-  width: 100%;
+  /* width: 10%; */
+  /* width: 800px; */
     height: 100%;
   /* max-width: 40rem; */
+}
+
+
+.layout{
+    display: flex;
+    height: 100%;
+    /* width: 100%;
+    height: 100%; */
+
 }

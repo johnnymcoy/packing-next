@@ -1,10 +1,13 @@
 import json
-from py3dbp import Packer, Bin, Item
+from py3dbp import Packer, Bin, Item, Painter
 from py3dbp.constants import RotationType
 from decimal import Decimal
-from itertools import combinations
-from math import comb
+# from itertools import combinations
+# from math import comb
 import copy
+
+import time
+
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -13,8 +16,8 @@ class DecimalEncoder(json.JSONEncoder):
         return super(DecimalEncoder, self).default(obj)
 
 def convert_data(data):
-    # Get data from input
-    method = data.get('method', "single")
+    # Get data from input  
+    # method = data.get('method', "single")
     orders = data.get('orders', [])
     packages = data.get('packages', [])    
     
@@ -35,7 +38,7 @@ def convert_data(data):
         for _ in range(amount):
             # packer.add_item(Item(name, width, height, depth, weight))
             # items.append(Item(name, width, height, depth, weight))
-            items.append(Item(name, width, height, depth, weight))
+            items.append(Item(name, width, height, depth, weight, name))
 
         volume = (width * height * depth)
         order_volumes.append(volume)
@@ -76,6 +79,7 @@ def pack_orders(orders, bins):
     # print("Packer Items:",packer.items)
         
     packer.pack(True, False)
+    # packer.pack(bigger_first=True, distribute_items=True, fix_point=False, check_stable=False,support_surface_ratio=0,number_of_decimals=2)
     # for bin in packer.bins:
     #     print()
         # print("Items: ",bin.items)
@@ -97,6 +101,15 @@ def check_leftovers(extras, bins):
     for bin in repacked_bins:
         repack_results, more_leftovers = generate_result(bin)
         
+        # painter = Painter(bin)
+        # fig = painter.plot_box_and_items(
+        #     title=bin.partno,
+        #     alpha=0.2,
+        #     write_num=False,
+        #     fontsize=5
+        # )
+        # fig.show()
+
         repack_result_bin = repack_results.get('bin', [])
         #! Get the emptyVolume in the bin
         emptyVolume = repack_result_bin.get('emptyVolume', [])
@@ -139,8 +152,10 @@ def pack_items(data):
     packed_bins = pack_orders(items, bins)
     #! Go through each result of bins
     for bin in packed_bins:
+
         #! Generate results of that bin
-        results, leftovers = generate_result(bin)
+        results, leftovers = generate_result(bin)    
+        # print("results:", results)
         #! Get the bin from the results
         result_bin = results.get('bin', [])
         #! Get If the bin is empty
@@ -160,6 +175,8 @@ def pack_items(data):
             
             #! Add the bin to a Single Result
             single_result.append(results)  
+            # print("single_result:", single_result)
+
             if not leftovers:
                 all_results.append(copy.deepcopy(single_result))
                 continue
@@ -171,7 +188,7 @@ def pack_items(data):
             # ! if there's leftovers
             while len(leftovers) != 0 and attempt < max_attempts:
                 attempt += 1
-                print(binName, " has Leftovers", "Repacks:", attempt, "Leftovers:", len(leftovers))
+                # print(binName, " has Leftovers", "Repacks:", attempt, "Leftovers:", len(leftovers))
                 repack_results, leftovers = check_leftovers(leftovers, bins)
                 if repack_results:
                     single_result.append(repack_results);
@@ -203,127 +220,7 @@ def pack_items(data):
             # single_result.append(repack_results)
         all_results.append(copy.deepcopy(single_result))
 
-    
-    # itemsLeft = len(items)
-    # print("Items Left", itemsLeft)
-    # # ! First pack box
-    # # ! need to fix the attepmts.. (it will always do it 5 times)
-    # for attempt in range(max_attempts):
-    #     packed_bins = pack_orders(items, bins)
-    #     for bin in packed_bins:
-    #         single_result = []
-
-    #         results, leftovers = generate_result(bin)
-    #         result_bin = results.get('bin', [])
-    #         bin_empty = result_bin.get('bIsEmpty', [])
-    #         bin_emptyVolume = result_bin.get('emptyVolume', [])
-    #         binName = result_bin.get('name', [])
-        
-
-    #         if not bin_empty:
-    #             print(binName, bin_empty)
-    #             single_result.append(copy.deepcopy(results))            
-    #             min_empty_volume = float('inf')
-    #             smallest_empty_volume_bin = None
-                
-    #             # ! if there's leftovers
-    #             # while leftovers and attempt < max_attempts:
-    #             #     repacked_bins = pack_orders(leftovers, bins)
-    #             #     for b in repacked_bins:
-    #             #         repack_results, more_leftovers = generate_result(b)
-                        
-    #             #         repack_result_bin = repack_results.get('bin', [])
-    #             #         emptyVolume = repack_result_bin.get('emptyVolume', [])
-    #             #         rebin_empty = repack_result_bin.get('bIsEmpty', [])
-
-    #             #         # totalVolume = bin_emptyVolume + emptyVolume
-    #             #         if rebin_empty: 
-    #             #             print()
-    #             #         else:
-    #             #             if emptyVolume < min_empty_volume:
-    #             #                 min_empty_volume = emptyVolume
-    #             #                 smallest_empty_volume_bin = repack_results
-    #             #         # ! works for getting the 2nd box the smallest, but not if there's still more
-    #             #         # ! need to figure out when it does another box
-    #             #         if more_leftovers:
-    #             #             print("continue Packing")
-    #             #             leftovers = more_leftovers
-    #             #         else:
-    #             #             leftovers = []
-    #             #         # single_result.append(repack_results)
-                            
-    #             #     attempt += 1
-    #             attempt += 1
-    #             # if smallest_empty_volume_bin:
-    #             #     single_result.append(smallest_empty_volume_bin)
-    #             # single_result.append(repack_results)
-    #         all_results.append(single_result)
-
-    #     #! leftovers fails when null 
-    #     if not leftovers:
-    #         continue
-    # print(all_results)
-    
-    
-    
-    
-
-    
-        # for attempt in range(max_attempts):
-        # packed_bins = pack_orders(items, bins)
-        # for bin in packed_bins:
-        #     single_result = []
-        #     results, leftovers = generate_result(bin)
-        #     single_result.append(results)
-            
-        #     while leftovers and attempt < max_attempts:
-                
-        #     if leftovers:
-        #         repacked_bins = pack_orders(leftovers, bins)
-        #         for b in repacked_bins:
-        #             repack_results, more_leftovers = generate_result(b)
-        #             single_result.append(repack_results)
-        #             if more_leftovers:
-        #                 # Continue  
-        #                 print("continue Packing")
-                
-        #     all_results.append(single_result)
-        #     print()
-
-        
-        
-    # results, leftovers = generate_results(packed_bins)
-    # all_results.append(results)
-    # print("leftovers", leftovers)
-    
-    # if leftovers:
-    #     repack_attempts = repack_attempts + 1
-    #     # print("leftovers")
-    #     repacked_bins = pack_orders(leftovers, bins)
-    #     new_results, more_leftovers = generate_results(repacked_bins)
-    #     # print("more leftovers", new_results)
-    #     all_results.append(new_results)
-    # # Re-add packages? and packer
-    # for bin in packed_bins: 
-    # # # Check if the bin has items in it
-    # #     # if b.items: 
-    # #     #     # bins_used += 1  # Increment the counter
-    #     if bin.unfitted_items:
-    #         # print()
-    #         # for i in bin.unfitted_items:
-    #         #     item = {"name": i.name, "width": i.width, "height": i.height, "depth": i.depth, "weight": i.weight, "amount": 1}
-    #             # print(i)\
-    #         # print("Pack items", items)
-    #         # print(bin.unfitted_items)
-    #         # print()
-    #         unfit_orders = [{"name": i.name, "width": i.width, "height": i.height, "depth": i.depth, "weight": i.weight, "amount": 1} for i in bin.unfitted_items]
-    #         # repacked_bins = pack_orders(unfit_orders, bins)
-    #         # single_result = generate_results(repacked_bins)
-    #         # print(single_result)
-    #         # all_results.append(single_result)
-    #         # used_bins.append(repacked_bins)
-    #         # print("repack Items")
-
+    # print("All Results:", all_results)
     return all_results
     
 #! For only a single Bin
@@ -340,7 +237,6 @@ def generate_result(bin):
     } for i in bin.items]
     total_items_volume = sum(item["volume"] for item in items)
     total_items_weight = sum(item["weight"] for item in items)
-    
     leftItems = bin.unfitted_items
     
     results = ({
@@ -408,52 +304,69 @@ def generate_results(bins):
     return results, leftItems
 
 
-
-# Pack Items - 
-# Results
-# if - Results.bFitEverything
-# Take 1 item with the smallest Volume
-# Pack the remainder  
+class Request:
+    """""" 
+    def __init__(self, package):
+        self.package = package
     
-
-# for each item in order
-#   for each package in packages
-#       Check if orderItem volume Greater than Package
-#       
-
-
-# get results 
-#   then do the same calc but now with one item less
-# get results
-#  so on.. 
-
-# Need a for loop for checking each order item with every combination of order items
+    def pack(self):
+        start = time.time()
+        data = (self.package)
+        results = pack_items(data)
+        # print("results:", results)
+        stop = time.time()
+        print('Calculation time : ',stop - start)
+        return results
+        
+    
 
 if __name__ == '__main__':
-    # Read input data from a JSON file
-    input_path = '/tmp/input.json'
-    packages_path = '/tmp/packages.json'
-    orders_path = '/tmp/orders.json'
-    output_path = '/tmp/output.json'
+    start = time.time()
     
-    # Read input data from JSON files
-    with open(input_path, 'r') as f:
-        data = json.load(f)
-    with open(packages_path, 'r') as f:
-        packages = json.load(f)
-    with open(orders_path, 'r') as f:
-        orders = json.load(f)
+    bServerLocation = False
+    print("HELLO, From Python")
+    
+    if bServerLocation: 
+        # # Read input data from a JSON file
+        input_path = '/tmp/input.json'
+        packages_path = '/tmp/packages.json'
+        orders_path = '/tmp/orders.json'
+        output_path = '/tmp/output.json'
+        with open(input_path, 'r') as f:
+            data = json.load(f)
+        with open(packages_path, 'r') as f:
+            packages = json.load(f)
+        with open(orders_path, 'r') as f:
+            orders = json.load(f)
+    else:
     #! old way would write to file
-    # with open('pages/api/python/input.json', 'r') as f:
-    #     data = json.load(f)
-    # with open('pages/api/python/packages.json', 'r') as f:
-    #     packages = json.load(f)
-    # with open('pages/api/python/orders.json', 'r') as f:
-    #     orders = json.load(f)
-        
+        with open('pages/api/python/input.json', 'r') as f:
+            data = json.load(f)
+        with open('pages/api/python/packages.json', 'r') as f:
+            packages = json.load(f)
+        with open('pages/api/python/orders.json', 'r') as f:
+            orders = json.load(f)
+            
     results = pack_items(data)
     
-    with open(output_path, 'w') as f:
-        json.dump(results, f, cls=DecimalEncoder, indent=4)
-    # with open('pages/api/python/output.json', 'w') as f:
-    #     json.dump(results, f, cls=DecimalEncoder, indent=4)
+    
+    # painter = Painter(bin)
+    # fig = painter.plot_box_and_items(
+    #     title=bin.partno,
+    #     alpha=0.2,
+    #     write_num=False,
+    #     fontsize=5
+    # )
+    # fig.show()
+
+
+    stop = time.time()
+    print('Calculation time : ',stop - start)
+    # results.append({"CalculationTime" : stop-start})
+    if bServerLocation: 
+        with open(output_path, 'w') as f:
+            json.dump(results, f, cls=DecimalEncoder, indent=4)
+    else:
+        with open('pages/api/python/output.json', 'w') as f:
+            json.dump(results, f, cls=DecimalEncoder, indent=4)
+

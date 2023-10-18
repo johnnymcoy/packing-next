@@ -3,6 +3,7 @@ import * as xlsx from 'xlsx';
 import Card from "components/UI/Card";
 import Modal from "components/UI/Modal";
 import AddOrderItem from "./AddOrderItem";
+import { Button, Input, Spacer } from "@nextui-org/react";
 
 function UploadExcel(props){
     const {addOrder} = props
@@ -85,7 +86,8 @@ function UploadExcel(props){
         <h3>Upload Excel Sheet</h3>
         <form onSubmit={uploadFile}>
             <input type="file" accept="application/vnd.ms-excel,.xlsx,.xls, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={onFileChange} />
-            <button type="submit">Upload</button>
+            <Spacer />
+            <Button auto type="submit">Upload</Button>
         </form>
     </div>
 </Card>

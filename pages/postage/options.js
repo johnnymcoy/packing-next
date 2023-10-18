@@ -17,8 +17,9 @@ export default function PostageOptionsPage(){
 <div>
     {
         packages && packages.map(item =>
-            <OrderItem 
-                bIsPackage={true}
+            <OrderItem
+                type="package"
+                // bIsPackage={true}
                 key={item.name} 
                 name={item.name}
                 width={item.width}

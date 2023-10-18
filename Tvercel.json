@@ -1,0 +1,12 @@
+{
+    "builds": [
+        {
+            "src": "api/*.go",
+            "use": "@now/go"
+        },
+        {
+            "src": "package.json",
+            "use": "@now/next"
+        }
+    ]
+}

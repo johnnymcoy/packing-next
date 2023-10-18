@@ -33,7 +33,7 @@ export default function Result(props){
         )}
     </div>
     <div>
-        <h2>Totals</h2>
+        <h4>Totals</h4>
         Total Weight: {totalWeight} <br />
         Total Item Volume: {totalItemsVolume} <br />
         Total Packing Volume: {totalBinVolume} <br />

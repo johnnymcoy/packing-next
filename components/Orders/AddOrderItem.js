@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import Card from '../UI/Card';
-
+import { Button, Input, Spacer, useInput } from '@nextui-org/react';
+import { Flex } from '@components/styles/flex';
+import CSS from "./AddOrderItem.module.css"
 function InputBox(props){
+
+    const {} = useInput();
 
     function InputChanged(input)
     {
@@ -9,23 +13,29 @@ function InputBox(props){
     }
 
     return(
-        <div>
-            <label>{props.label}</label>
-          <input type={props.type} onChange={InputChanged} value={props.value}></input>  
-        </div>
-    );
-}
+<div>
+    {/* <label>{props.label}</label> */}
+    <Input label={props.label} type={props.type} onChange={InputChanged} bordered clearable={props.type !== "number"} value={props.value} initialValue={props.initialValue} placeholder={props.label}></Input>  
+</div>
+);}
 
 
 const AddOrderItem = (props) => {
-    const { bPacking, prefillData, bDontReset } = props;
+    const { 
+        // bPacking, 
+        prefillData, bDontReset, type } = props;
+    const bIsItem = type === "item";
+    const bIsOrder = type === "order";
+    const bIsPackage = type === "package";
 
-    const initalName = prefillData ? prefillData.name :  (bPacking ? "Package Name" : "Item Name");
-    const initalID = prefillData ? prefillData.id : (bPacking ? "Packing ID" : "Order ID");
+    let initialName = prefillData ? prefillData.name : (type + " name");
+    
+
+    let initialID = prefillData ? prefillData.id : (type + " ID");
 
     // Variables   
-    const [ PackageID, SetPackageID] = useState(initalID);
-    const [ PackageName, SetPackageName] = useState(initalName);
+    const [ PackageID, SetPackageID] = useState("");
+    const [ PackageName, SetPackageName] = useState("");
     const [ PackageWidth, SetPackageWidth] = useState(5);
     const [ PackageHeight, SetPackageHeight] = useState(2);
     const [ PackageDepth, SetPackageDepth] = useState(5);
@@ -185,26 +195,40 @@ const AddOrderItem = (props) => {
     }
 
     function ResetValues(){
-        SetPackageID(initalID);
+        SetPackageID("");
         SetPackageDepth(0);
         SetPackageHeight(0);
-        SetPackageName(initalName);
+        SetPackageName("");
         SetPackageWeight(0);
         SetPackageWidth(0);
         SetPackageAmount(1);
     }
 
     return (
-<Card>
-    <InputBox label={"Id"} type={"text"} InputChanged={UpdatePackingSize} value={PackageID}/>
-    <InputBox label={"Name"} type={"text"} InputChanged={UpdatePackingSize} value={PackageName}/>
+<Card className={CSS.card}> 
+    <InputBox label={"Id"} type={"text"}  InputChanged={UpdatePackingSize} value={PackageID}/>
+    <InputBox label={"Name"} type={"text"}  InputChanged={UpdatePackingSize} value={PackageName}/>
     <InputBox label={"Width"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWidth}/>
     <InputBox label={"Height"} type={"number"} InputChanged={UpdatePackingSize} value={PackageHeight}/>
     <InputBox label={"Depth"} type={"number"} InputChanged={UpdatePackingSize} value={PackageDepth}/>
-    <InputBox label={"Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
-    <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    <input type={"color"} />
 
-    <button onClick={addBoxClicked}>Add</button>
+    {bIsItem &&
+        <InputBox label={"Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
+    }
+
+    {bIsPackage &&
+        <InputBox label={"Max Weight"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWeight}/>
+    }
+    {bIsPackage &&
+        <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    }
+    {bIsOrder &&
+        <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    }
+    <Spacer />
+    <Button auto size={"sm"} onClick={addBoxClicked}>Add</Button>
+
     {/* {!props. && <button onClick={addExampleData}>Add Example Data</button>} */}
     {/* <button onClick=bPacking{addExampleData}>Add Random Data</button> */}
 </Card>

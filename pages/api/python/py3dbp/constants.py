@@ -9,6 +9,8 @@ class RotationType:
     RT_WDH = 5
 
     ALL = [RT_WHD, RT_HWD, RT_HDW, RT_DHW, RT_DWH, RT_WDH]
+    # un upright or un updown
+    Notupdown = [RT_WHD,RT_HWD]
 
     def rotation_type_to_euler(rotation_type):
         # Assuming the default (RT_WHD) requires no rotation

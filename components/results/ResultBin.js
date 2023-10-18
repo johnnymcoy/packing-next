@@ -13,12 +13,12 @@ export default function ResultBin(props){
     return(
 <div key={data.bin.name} 
     className={CSS.fit}>
-    {data.bin.name}
-    <ul>
+    <h1 className={CSS.title}>{data.bin.name}</h1>
+    <ul className={CSS.bin}>
         <h4>Items:</h4>
         {data.items.map((order, index) =>
         (
-            <li key={index}>{order.name}</li>
+            <li className={CSS.item} key={index}>{order.name}</li>
             ))}
         <p>Items: {data.items.length}</p>
         Dimentions Depth/Width/Height(m): {(data.bin.depth) / 100} x {(data.bin.width) /100} x {(data.bin.height) /100} <br />

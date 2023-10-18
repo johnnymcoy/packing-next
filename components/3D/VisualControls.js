@@ -3,6 +3,7 @@ import CSS from "./VisualControls.module.css"
 import { useSelector } from "react-redux";
 import Visualization from "./Visualization";
 import { useState } from "react";
+import { Button } from "@nextui-org/react";
 
 export default function VisualControls(props){
     const orders = useSelector(state => state.orders.orders);
@@ -38,12 +39,12 @@ export default function VisualControls(props){
     return(
 <div className={CSS.main}>
         {results && Array.isArray(results) && results.map((item, index) =>
-                    <button onClick={selectResultHandler} key={index} datakey={index}>Option {index + 1}</button>
+                    <Button auto onClick={selectResultHandler} key={index} datakey={index}>Option {index + 1}</Button>
                 )}
 
         <div>Current Box: </div>
         {Array.isArray(results[selectedResult]) && results[selectedResult].map((item, index) =>
-            <button key={index} onClick={selectBinHandler} datakey={index} >Package {index + 1} {item.bin.name}</button>
+            <Button  key={index} onClick={selectBinHandler} datakey={index} >Package {index + 1} {item.bin.name}</Button>
         )}
 
         <Visualization orders={orders} packingResults={results[selectedResult][selectedBin]}/>

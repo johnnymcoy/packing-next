@@ -19,7 +19,9 @@ def convert_data(data):
     # Get data from input  
     # method = data.get('method', "single")
     orders = data.get('orders', [])
+    # print("convert data: orders: ", orders)
     packages = data.get('packages', [])    
+    # print("convert data: packages: ", packages)
     
     bins = []
     items = []
@@ -142,8 +144,8 @@ def check_leftovers(extras, bins):
 
 def pack_items(data):
     # Get data from input
+    print(data)
     bins, items = convert_data(data)
-    
     #! The maximum number of times we try to repack into smaller boxes
     max_attempts = 20
     all_results = []
@@ -324,7 +326,6 @@ if __name__ == '__main__':
     start = time.time()
     
     bServerLocation = False
-    print("HELLO, From Python")
     
     if bServerLocation: 
         # # Read input data from a JSON file
@@ -334,20 +335,41 @@ if __name__ == '__main__':
         output_path = '/tmp/output.json'
         with open(input_path, 'r') as f:
             data = json.load(f)
-        with open(packages_path, 'r') as f:
-            packages = json.load(f)
-        with open(orders_path, 'r') as f:
-            orders = json.load(f)
+        # with open(packages_path, 'r') as f:
+        #     packages = json.load(f)
+        # with open(orders_path, 'r') as f:
+        #     orders = json.load(f)
     else:
     #! old way would write to file
         with open('pages/api/python/input.json', 'r') as f:
             data = json.load(f)
-        with open('pages/api/python/packages.json', 'r') as f:
-            packages = json.load(f)
-        with open('pages/api/python/orders.json', 'r') as f:
-            orders = json.load(f)
-            
-    results = pack_items(data)
+        # with open('pages/api/python/packages.json', 'r') as f:
+        #     packages = json.load(f)
+        # with open('pages/api/python/orders.json', 'r') as f:
+        #     orders = json.load(f)
+    
+    #! old way would simply pack the single order
+    # results = pack_items(data)
+    
+    #! new way
+    all_orders = data.get('orders', [])
+    packages = data.get('packages', [])
+
+    #! Go through each order and pack seperately
+    results = []
+    for order in all_orders:
+        print(order)
+        orders_packages = {
+            "orders" :   order.get('items', []),
+            "packages" : packages
+        }
+
+        result = pack_items(orders_packages)
+        result.append(
+            {"order_name" : order.get('id', [])}
+        )
+        print("Result", result)
+        results.append(result)
     
     
     # painter = Painter(bin)
@@ -358,6 +380,8 @@ if __name__ == '__main__':
     #     fontsize=5
     # )
     # fig.show()
+    
+    
 
 
     stop = time.time()

@@ -27,7 +27,7 @@ const initialStateNew = {
             weight: 1
         },
         {
-            id: "23598dx",
+            id: "235981x",
             name: "Item-03", 
             width: 1.45, 
             depth: 2.65, 
@@ -44,7 +44,7 @@ const itemSlice = createSlice({
     reducers: {
         addItem(state, action){
             const item = action.payload;
-            const existingItem = state.items.find(itemIndex => itemIndex.name === item.name);
+            const existingItem = state.items.find(itemIndex => itemIndex.id === item.id);
             if(!existingItem)
             {
                 state.items.push({
@@ -61,8 +61,11 @@ const itemSlice = createSlice({
             }
         },
         deleteItem(state, action){
-            const name = action.payload;
-            state.items = state.items.filter(item => item.name !== name)
+            const id = action.payload;
+            state.items = state.items.filter(item => item.id !== id);
+        },
+        clearItems(state, action){
+            state.items = [];
         }
     }
 });

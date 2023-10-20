@@ -56,7 +56,7 @@ function PackingComponent(props) {
             output: multiResult ? "multi" : "", //TODO have different button 
             bDevelopmentMode:  process.env.NODE_ENV === "development"
         }
-        // console.log(sendData);
+        console.log(sendData);
 
         if(event.target.id === "aws")
         {
@@ -114,12 +114,13 @@ function PackingComponent(props) {
             console.log('Packing results:', data);
             if(Array.isArray(data))
             {
-                data.sort((a, b) => {
-                    // console.log(a)
-                    const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
-                    const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
-                    return minEmptyVolumeA - minEmptyVolumeB;
-                })
+                //sort by empty volume
+                // data.sort((a, b) => {
+                //     console.log(a)
+                //     const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
+                //     const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
+                //     return minEmptyVolumeA - minEmptyVolumeB;
+                // })
                 setPackingResults(data);
                 PackingComplete(data);
             }
@@ -205,7 +206,31 @@ function PackingComponent(props) {
         {/* <Input label={"Max Results"} onChange={maxResultsHandler} aria-label='Max Results' value={maxResults} type='number'/> */}
     </Card>
         {packingResults && packingResults.slice(0, maxResults).map((item, index) => 
-        <Result key={index} result={item} />
+        <div key={index}>
+            <h1>{item[item.length - 1].order_name}</h1>
+            {item.map((innerResult, innerIndex) =>
+                {
+                    // console.log("Pre Inner Result", innerResult)
+                if(Array.isArray(innerResult))
+                {
+                    innerResult.sort((a, b) => {
+                        // console.log(a)
+                        const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
+                        const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
+                        return minEmptyVolumeA - minEmptyVolumeB;
+                    })
+                    // console.log("Inner Result", innerResult)
+                    return(
+                    <Result key={innerIndex} result={innerResult} />
+                )}
+                
+                return(
+                    <div key={innerIndex}>{innerResult.bin}</div>
+                    // )}
+                    // <div>{innerResult.bin}</div>
+                )})}
+            {/* <Result key={index} result={item[0]} /> */}
+        </div>
     )}
 
 

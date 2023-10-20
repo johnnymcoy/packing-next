@@ -5,11 +5,15 @@ import { useState } from 'react';
 
 
 
-function SubSideButton(props){
+function SubSideButton({link, title}){
     const router = useRouter();
     // const [ selected, setSelected] = useState(false);
 
-    const bIsHighlighter = router.asPath === props.link;
+    if(!link)
+    {
+        return(<div></div>)
+    }
+    const bIsHighlighter = router.asPath === link;
 
     const linksClasses = bIsHighlighter ? `${CSS.link} ${CSS.linkSelected}` : `${CSS.link}`;
     const containerClasses = bIsHighlighter ? `${CSS.container} ${CSS.containerSelected}` : `${CSS.container}`;
@@ -31,16 +35,16 @@ function SubSideButton(props){
    return(
 
 <li className={containerClasses} 
-    key={props.title}
+    key={title}
     onClick={highlightHandler}
     >
     <div className={linksClasses}>
         <Link 
             className={linksClasses} 
-            href={props.link} 
+            href={link} 
             onClick={highlightHandler} 
             >
-            {props.title}
+            {title}
         </Link>
 
     </div>

@@ -93,10 +93,6 @@ export default function AddPostageOptionPage(){
         console.log("Add Star Trek Options");
     }
 
-    function addMLOptionsHandler(){
-        addPackageHandler(MLOptions);
-    }
-
     return(
 <div>
     <Button onClick={addAusPostOptionsHandler}>Add Aus Post Options</Button>

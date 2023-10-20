@@ -9,6 +9,8 @@ export default function ResultsPage(){
     const dispatch = useDispatch();
 
     const orders = useSelector(state => state.orders);
+    const items = useSelector(state => state.items);
+
     const packages = useSelector(state => state.packages.packages);
 
     function onPackingComplete(data){

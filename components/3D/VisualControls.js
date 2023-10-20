@@ -38,6 +38,7 @@ export default function VisualControls(props){
 
     return(
 <div className={CSS.main}>
+    <div className={CSS.controls}>
         {results && Array.isArray(results) && results.map((item, index) =>
                     <Button auto onClick={selectResultHandler} key={index} datakey={index}>Option {index + 1}</Button>
                 )}
@@ -46,6 +47,8 @@ export default function VisualControls(props){
         {Array.isArray(results[selectedResult]) && results[selectedResult].map((item, index) =>
             <Button  key={index} onClick={selectBinHandler} datakey={index} >Package {index + 1} {item.bin.name}</Button>
         )}
+
+    </div>
 
         <Visualization orders={orders} packingResults={results[selectedResult][selectedBin]}/>
 </div>

@@ -16,49 +16,70 @@ const MenuOptions = [
         ]
     },
     {
-        title: "Items",
-        buttons: [
-            {
-                title: "Add Stock Item",
-                link: "/items/add-item"
-            },
-            {
-                title: "Show Items",
-                link: "/items/show-items"
-            }
-        ]
-    },
-    {
         title: "Orders",
         buttons: [
             {
-                title: "Add Order",
-                link: "/orders/add-order"
+                title: "Items",
+                link: "/items"
             },
             {
-                title: "Show Orders",
-                link: "/orders/show-orders"
+                title: "Orders",
+                link: "/orders",
+            },
+            {
+                title: "Postage",
+                link: "/postage"
+            },
+            {
+                title: "Settings",
+                link: "/settings"
             }
         ]
     },
-    {
-        title: "Postage",
-        buttons: [
-            {
+    // {
+    //     title: "Items",
+    //     buttons: [
+    //         {
+    //             title: "Add Stock Item",
+    //             link: "/items/add-item"
+    //         },
+    //         {
+    //             title: "Show Items",
+    //             link: "/items/show-items"
+    //         }
+    //     ]
+    // },
+    // {
+    //     title: "Orders",
+    //     buttons: [
+    //         {
+    //             title: "Add Order",
+    //             link: "/orders/add-order"
+    //         },
+    //         {
+    //             title: "Show Orders",
+    //             link: "/orders/show-orders"
+    //         }
+    //     ]
+    // },
+    // {
+    //     title: "Postage",
+    //     buttons: [
+    //         {
                 
-                title: "Add Custom Package",
-                link: "/postage/add-custom-option"
-            },
-            {
-                title: "Add Preset Options",
-                link: "/postage/add-option"
-            },
-            {
-                title: "Show Postage Options",
-                link: "/postage/options"
-            },
-        ]
-    },
+    //             title: "Add Custom Package",
+    //             link: "/postage/add-custom-option"
+    //         },
+    //         {
+    //             title: "Add Preset Options",
+    //             link: "/postage/add-option"
+    //         },
+    //         {
+    //             title: "Show Postage Options",
+    //             link: "/postage/options"
+    //         },
+    //     ]
+    // },
     {
         title: "Results",
         buttons: [
@@ -105,6 +126,9 @@ const layoutSlice = createSlice({
     name: "layout",
     initialState: MenuOptions,
     reducers: {
+        openModal(state, action){
+            
+        }
 
     }
 });

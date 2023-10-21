@@ -2,10 +2,10 @@ import { useState } from 'react';
 import Card from '../UI/Card';
 import { Button, Input, Spacer, StyledButtonGroup, useInput } from '@nextui-org/react';
 import CSS from "./AddOrderItem.module.css"
+
+
 function InputBox(props){
-
     const {} = useInput();
-
     function InputChanged(input)
     {
         props.InputChanged(input.target.value, props.label)
@@ -13,26 +13,35 @@ function InputBox(props){
 
     return(
 <div>
-    {/* <label>{props.label}</label> */}
     <Input label={props.label} type={props.type} onChange={InputChanged} bordered clearable={props.type !== "number"} value={props.value} initialValue={props.initialValue} placeholder={props.label}></Input>  
 </div>
 );}
 
 
+
+
 const AddOrderItem = (props) => {
     const { 
-        onClose,
+        onClose, selectedItems,
         // bPacking, 
         prefillData, bDontReset, type } = props;
     const bIsItem = type === "item";
     const bIsOrder = type === "order";
     const bIsPackage = type === "package";
+    let selectedItemsArray = [];
+    if(selectedItems)
+    {
+        selectedItems.forEach(value => {
+            selectedItemsArray.push(value);
+    })
+    }
+
 
     let initialName = prefillData ? prefillData.name : (type + " name");
     
     let initialID = prefillData ? prefillData.id : (type + " ID");
     let initialWeight = 2.5;
-    if(bIsPackage){initialWeight = 100;}
+    // if(bIsPackage){initialWeight = 100;}
 
     // Variables   
     const [ PackageID, SetPackageID] = useState(initialID);
@@ -57,7 +66,7 @@ const AddOrderItem = (props) => {
         {
             SetPackageDepth(value);
         }
-        if(label === "Weight")
+        if(label === "Weight" || label == "Max Weight")
         {
             SetPackageWeight(value);
         }
@@ -92,10 +101,10 @@ const AddOrderItem = (props) => {
             depth: PackageDepth, 
             height: PackageHeight, 
             weight: PackageWeight,
-            amount: 1 
+            amount: 1,
         }
         // Add the package to the list of packages
-        if(PackageAmount > 1)
+        if(!bIsOrder && PackageAmount > 1)
         {
             for(let i = 0; i < PackageAmount; i++)
             {
@@ -134,9 +143,13 @@ const AddOrderItem = (props) => {
 <Card className={CSS.card}> 
     <InputBox label={"Id"} type={"text"}  InputChanged={UpdatePackingSize} value={PackageID}/>
     <InputBox label={"Name"} type={"text"}  InputChanged={UpdatePackingSize} value={PackageName}/>
-    <InputBox label={"Width"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWidth}/>
-    <InputBox label={"Height"} type={"number"} InputChanged={UpdatePackingSize} value={PackageHeight}/>
-    <InputBox label={"Depth"} type={"number"} InputChanged={UpdatePackingSize} value={PackageDepth}/>
+    {!bIsOrder &&
+    <div>
+        <InputBox label={"Width"} type={"number"} InputChanged={UpdatePackingSize} value={PackageWidth}/>
+        <InputBox label={"Height"} type={"number"} InputChanged={UpdatePackingSize} value={PackageHeight}/>
+        <InputBox label={"Depth"} type={"number"} InputChanged={UpdatePackingSize} value={PackageDepth}/>
+    </div>
+    }
     {/* <input type={"color"} /> */}
 
     {bIsItem &&
@@ -149,9 +162,15 @@ const AddOrderItem = (props) => {
     {/* {bIsPackage &&
         <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
     } */}
-    {bIsOrder &&
-        <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    {selectedItemsArray && selectedItemsArray.map((item, index) =>
+        <div key={index}>
+            <h4>{item}</h4>
+            {/* <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/> */}
+        </div>)  
     }
+    {/* {bIsOrder &&
+        <InputBox label={"Amount"} type={"number"} InputChanged={UpdatePackingSize} value={PackageAmount}/>
+    } */}
     <Spacer />
     {!onClose &&
     <Button auto size={"sm"} onPress={addBoxClicked}>Add</Button>

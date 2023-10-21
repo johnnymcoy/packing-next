@@ -6,6 +6,7 @@ import CustomTable from "@components/UI/CustomTable";
 import { Button, Container, Spacer, StyledButtonGroup, Table, Tooltip } from "@nextui-org/react";
 import {  useState } from "react";
 import Modal from "@components/UI/Modal";
+import { orderActions } from "@store/orders-context";
 
 
 export default function AddItemsPage(){
@@ -13,6 +14,7 @@ export default function AddItemsPage(){
     const items = useSelector(state => state.items.items);
 
     const [addItemForm, setAddItemForm] = useState(false);
+    const [createOrderForm, setCreateOrderForm] = useState(false);
 
     const [addExcelForm, setAddExcelForm] = useState(false);
     const [selectedItems, setSelectedItems] = useState([]);
@@ -31,14 +33,29 @@ export default function AddItemsPage(){
     function openAddItemHandler(){
         setAddItemForm(prevState => !prevState);
     }
+    function openOrderFormHandler(){
+        if(selectedItems.size > 0)
+        {
+            setCreateOrderForm(prevState => !prevState);
+        }
+    }
     function openAddExcelHandler(){
         setAddExcelForm(prevState => !prevState);
     }
-    function addSelectedItems(){
-        selectedItems.forEach((value) =>
-        {
-            console.log(value)
-        })
+    function addSelectedItems(event){
+        let itemsToAdd = [];
+        selectedItems.forEach(value =>
+            itemsToAdd.push(items.find((item) => value === item.id))
+        )
+        const newOrder = {
+            id: event.id,
+            name: event.name, 
+            items: itemsToAdd,
+            weight: 1,
+            volume: 0,
+        }
+        console.log("once?")
+        dispatch(orderActions.createOrder(newOrder));
     }
     function deleteSelectedItems(){
         selectedItems.forEach((value) =>
@@ -49,7 +66,7 @@ export default function AddItemsPage(){
     function selectedItemsChanged(event){
         setSelectedItems(event);
     }
-    function clearItems(event){
+    function clearItems(){
         dispatch(itemActions.clearItems());
     }
 
@@ -59,20 +76,25 @@ export default function AddItemsPage(){
     <Container css={{textAlign: "center", margin: "0 auto", justifyContent: "center"}}>
         <Button.Group >
             <Button onPress={openAddItemHandler}>Add New Item</Button>
-            <Button onPress={addSelectedItems}>Add Selected Items To Order</Button>
+            <Button onPress={openOrderFormHandler}>Add Selected Items To Order</Button>
             <Button onPress={openAddExcelHandler}>Upload Excel Sheet</Button>
         </Button.Group>
         <Button.Group >
             <Button onPress={deleteSelectedItems}>Delete Selected Items</Button>
             <Button onPress={clearItems}>Clear All Items</Button>
         </Button.Group>
-
     </Container>
     {addItemForm && 
     <Modal bHideClose>
         <h1>Add Item</h1>
         <AddOrderItem type="item" onClose={openAddItemHandler} addOrder={AddItemHandler} />
     </Modal> }
+    {createOrderForm && 
+    <Modal bHideClose onRemove={openOrderFormHandler}>
+        <h1>Create Order</h1>
+        <AddOrderItem type="order" onClose={openOrderFormHandler} addOrder={addSelectedItems} selectedItems={selectedItems} />
+    </Modal> }
+
     {addExcelForm && 
     <Modal 
         onRemove={openAddExcelHandler} >

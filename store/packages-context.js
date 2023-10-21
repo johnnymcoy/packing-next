@@ -11,7 +11,10 @@ const initialStateNew = {
             width: 8, 
             depth: 5, 
             height: 2, 
-            weight: 100
+            weight: 100,
+            get volume() {
+                return this.width * this.depth * this.height;
+            }
         }
     ],
     // totalOptions: 0,
@@ -56,14 +59,20 @@ const packageSlice = createSlice({
                     width: item.width,
                     depth: item.depth,
                     height: item.height,
-                    weight: item.weight
+                    weight: item.weight,
+                    get volume() {
+                        return this.width * this.depth * this.height;
+                    }
+
                 })
             }
         },
         removeItem(state, action){
             const id = action.payload;
-            const existingItem = state.packages.find(itemIndex => itemIndex.id === id);
             state.packages = state.packages.filter(item => item.id !== id)
+        },
+        clearAllItems(state, action){
+            state.packages = [];
         },
         addMultipleOptions(state, action){
             if(action.payload === "AusPost")
@@ -80,7 +89,11 @@ const packageSlice = createSlice({
                             width: item.width,
                             depth: item.depth,
                             height: item.height,
-                            weight: item.weight
+                            weight: item.weight,
+                            get volume() {
+                                return this.width * this.depth * this.height;
+                            }
+                
                         })
                     }
                 }

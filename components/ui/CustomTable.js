@@ -1,18 +1,18 @@
 
-import { Button, Container, Spacer, StyledButtonGroup, Table, Tooltip } from "@nextui-org/react";
+import { Button, Container, Spacer, StyledButtonGroup, Table, Tooltip, useAsyncList, useCollator } from "@nextui-org/react";
 import { DeleteIcon } from "@components/icons/DeleteIcon";
 import { IconButton } from "@components/icons/IconButton";
 import { EditIcon } from "@components/icons/EditIcon";
 import { useRef, useState } from "react";
+import { PlusIcon } from "@components/icons/PlusIcon";
+import { MinusIcon } from "@components/icons/MinusIcon";
 
 
 export default function CustomTable(props){
 
-    const { tableColumns, packages, deleteItem, orderTable, itemsPerPage, onSelectionChanged } = props;
+    const { tableColumns, packages, deleteItem, orderTable, itemsPerPage, onSelectionChanged, increaseItem, decreaseItem } = props;
 
-    // const [selectedItems, setSelectedItems] = useState([]);
-    const Columns = tableColumns.length;
-    const bSix = Columns === 6;
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
     function onSelectionChangeHandler(event){
         if(onSelectionChanged)
@@ -21,46 +21,112 @@ export default function CustomTable(props){
         }
     }
 
+    function sortList(event){
+        let direction = 'ascending';
+        let key = event.column.toLowerCase();
+        if(key === "max weight")
+        {
+            key = "weight";
+        }
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    }
+
+    const sortedData = [...packages].sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    // function sort({ items, sortDescriptor }) {
+    //     return {
+    //         items: items.sort((a, b) => {
+    //         let first = a[sortDescriptor.column];
+    //         let second = b[sortDescriptor.column];
+    //         let cmp = collator.compare(first, second);
+    //         if (sortDescriptor.direction === "descending") {
+    //           cmp *= -1;
+    //         }
+    //         console.log(cmp)
+
+    //         return cmp;
+    //       }),
+    //     };
+    // }
+
+    // function load({ signal }) {
+    //     // const res = await fetch("https://swapi.py4e.com/api/people/?search", {
+    //     //   signal,
+    //     // });
+    //     // const json = await res.json();
+    //     return {
+    //       items: packages,
+    //     };
+    //   }
+    
+    
+    // const list = useAsyncList({ load : packages, sort });
+    // console.log(list)
+
 
     if(orderTable){
         return(
     <Table
-    onSelectionChange={onSelectionChangeHandler}
-    aria-label="Example table with static content"
-    css={{
-        height: "auto",
-        minWidth: "100%",
-        // paddingTop: "6rem",
-    }}    
-    striped
-    animated={false}
-    selectionMode="multiple"
->
+        onSelectionChange={onSelectionChangeHandler}
+        aria-label="Example table with static content"
+        css={{
+            height: "auto",
+            minWidth: "100%",
+        }}    
+        sticked
+        animated={false}
+        // selectionMode="multiple"
+    >
     <Table.Header>
     {tableColumns && tableColumns.map((item, index) =>
-        <Table.Column key={index}>{item.title}</Table.Column>   
+        <Table.Column key={item.title} id={item.title}>{item.title}</Table.Column>   
     )}
     {/* <Table.Column>Delete</Table.Column> */}
     </Table.Header>
     <Table.Body>
-    {packages && packages.map(item => 
-        <Table.Row key={item.id}>
+    {sortedData && sortedData.map(item => 
+        <Table.Row key={item.id} id={item.id}>
             <Table.Cell>{item.name}</Table.Cell>
             <Table.Cell>{item.width} x {item.height} x {item.depth}</Table.Cell>
             <Table.Cell>{item.weight}</Table.Cell>
-            {/* <Table.Cell>{item.width * item.height * item.depth}</Table.Cell> */}
             <Table.Cell>{item.amount}</Table.Cell>
 
 
             <Table.Cell>
                 <Tooltip
+                    content="Add Item"
+                    color="warning"
+                    onClick={() => increaseItem(item.id)}>
+                    <IconButton>
+                        <PlusIcon size={20} fill="#979797"/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip
+                    content="Remove Item"
+                    color="warning"
+                    onClick={() => decreaseItem(item.id)}>
+                    <IconButton>
+                        <MinusIcon size={20} fill="#979797"/>
+                    </IconButton>
+                </Tooltip>
+                {/* <Tooltip
                     content="Edit item"
                     color="warning"
                     onClick={() => console.log("Edit item")}>
                     <IconButton>
                         <EditIcon size={20} fill="#979797"/>
                     </IconButton>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip
                     content="Delete item"
                     color="error"
@@ -85,33 +151,33 @@ export default function CustomTable(props){
     }
 
     return(
-
 <Table
     onSelectionChange={onSelectionChangeHandler}
-
     aria-label="Example table with static content"
-    // lined
-    // headerLined
+    onSortChange={sortList}
     css={{
         height: "auto",
         minWidth: "100%",
-        // paddingTop: "6rem",
     }}
-    // compact
-    // sticked
-    // striped
+    sticked
     animated={false}
     selectionMode="multiple"
 >
     <Table.Header>
     {tableColumns && tableColumns.map((item, index) =>
-        <Table.Column key={index}>{item.title}</Table.Column>   
+        <Table.Column key={item.title} id={item.title} allowsSorting>{item.title}</Table.Column>   
     )}
     {/* <Table.Column>Delete</Table.Column> */}
     </Table.Header>
-    <Table.Body>
-    {packages && packages.map((item, index) => 
-        <Table.Row key={index}>
+    <Table.Body items={packages} >
+        {/* {(item) =>
+            <Table.Row key={item.id}>
+                {(columnKey) => <Table.Cell>{item[columnKey]}</Table.Cell>}
+            </Table.Row>
+
+        } */}
+    {sortedData && sortedData.map((item, index) => 
+        <Table.Row key={item.id} id={item.id}>
             <Table.Cell>{item.name}</Table.Cell>
             <Table.Cell>{item.width} x {item.height} x {item.depth}</Table.Cell>
             <Table.Cell>{item.weight}</Table.Cell>

@@ -3,10 +3,19 @@ import { useRouter } from 'next/router';
 import CSS from "./SubSideButton.module.css";
 import { useState } from 'react';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { layoutActions } from '@store/layout-context';
 
 
 function SubSideButton({link, title, disabled}){
     const router = useRouter();
+
+    const dispatch = useDispatch()
+    const bMenuOpen = useSelector(state => state.layout.bBurgerOpen);
+    function openMenuHandler(){
+        dispatch(layoutActions.toggleBurgerMenu());
+    }
+
 
     if(!link)
     {
@@ -17,6 +26,8 @@ function SubSideButton({link, title, disabled}){
     const linksClasses = bIsHighlighter ? `${CSS.link} ${CSS.linkSelected}` : `${CSS.link}`;
     const containerClasses = bIsHighlighter ? `${CSS.container} ${CSS.containerSelected}` : `${CSS.container}`;
     function highlightHandler(){
+        openMenuHandler();
+        console.log("menu");
         // setSelected(prevState => !prevState);
     }
 
@@ -30,7 +41,7 @@ function SubSideButton({link, title, disabled}){
         {!disabled && <Link 
             className={linksClasses} 
             href={link} 
-            onClick={highlightHandler} 
+            // onClick={highlightHandler} 
             >
             {title}
         </Link>}

@@ -5,6 +5,9 @@ const handler = NextAuth();
 export { handler as GET, handler as POST}
 
 export const authOptions = {
+    session: {
+        maxAge: 30 * 24 * 60 * 60,
+    },
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -45,7 +48,7 @@ export const authOptions = {
     //     // error: 'pages/auth/error', // Error code passed in query string as ?error=
     //     // verifyRequest: 'pages/auth/verify-request', // (used for check email message)
     //     // newUser: 'pages/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)    
-
+ 
     // }
 }
   export default NextAuth(authOptions)

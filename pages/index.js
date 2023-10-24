@@ -10,7 +10,6 @@ const HomePage = () => {
 
     <h3>Latest</h3>
     <ul>
-        <li>Currently migrating from sending a single order at a time to bulk orders, so there is Items, Orders, and Packages, which means adding items + orders, isn't fully implemented properly</li>
         <li>AWS api is connected and working with the example data</li>
         <li>Current Version is hosted at: </li><Button auto><Link href={"https://packing-johnnymcoy.vercel.app/"}>Vercel</Link></Button>
     </ul>

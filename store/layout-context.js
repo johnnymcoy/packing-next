@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 
-const MenuOptions = [
+const MenuOptions = {
+    items: [
     {
         title: "Dashboard",
         buttons: [
@@ -120,9 +121,9 @@ const MenuOptions = [
                 link: "/help/tutorials"
             }
         ]
-    }
-
-]
+    }],
+    bBurgerOpen: false,
+}
 
 const layoutSlice = createSlice({
     name: "layout",
@@ -130,6 +131,10 @@ const layoutSlice = createSlice({
     reducers: {
         openModal(state, action){
             
+        },
+        toggleBurgerMenu(state, action){
+            console.log("Burger")
+            state.bBurgerOpen = !state.bBurgerOpen;
         }
 
     }

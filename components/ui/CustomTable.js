@@ -6,9 +6,11 @@ import { EditIcon } from "@components/icons/EditIcon";
 import { useRef, useState } from "react";
 import { PlusIcon } from "@components/icons/PlusIcon";
 import { MinusIcon } from "@components/icons/MinusIcon";
+import { useSelector } from "react-redux";
 
 
 export default function CustomTable(props){
+    const decimalPlaces = useSelector(state => state.units.decimalPlaces);
 
     const { tableColumns, packages, deleteItem, orderTable, itemsPerPage, onSelectionChanged, increaseItem, decreaseItem } = props;
 
@@ -97,8 +99,8 @@ export default function CustomTable(props){
     {sortedData && sortedData.map(item => 
         <Table.Row key={item.id} id={item.id}>
             <Table.Cell>{item.name}</Table.Cell>
-            <Table.Cell>{item.width} x {item.height} x {item.depth}</Table.Cell>
-            <Table.Cell>{item.weight}</Table.Cell>
+            <Table.Cell>{item.width.toFixed(decimalPlaces)} x {item.height.toFixed(decimalPlaces)} x {item.depth.toFixed(decimalPlaces)}</Table.Cell>
+            <Table.Cell>{item.weight.toFixed(decimalPlaces)}</Table.Cell>
             <Table.Cell>{item.amount}</Table.Cell>
 
 
@@ -179,9 +181,9 @@ export default function CustomTable(props){
     {sortedData && sortedData.map((item, index) => 
         <Table.Row key={item.id} id={item.id}>
             <Table.Cell>{item.name}</Table.Cell>
-            <Table.Cell>{item.width} x {item.height} x {item.depth}</Table.Cell>
-            <Table.Cell>{item.weight}</Table.Cell>
-            <Table.Cell>{item.width * item.height * item.depth}</Table.Cell>
+            <Table.Cell>{item.width.toFixed(decimalPlaces)} x {item.height.toFixed(decimalPlaces)} x {item.depth.toFixed(decimalPlaces)}</Table.Cell>
+            <Table.Cell>{item.weight.toFixed(decimalPlaces)}</Table.Cell>
+            <Table.Cell>{(item.width * item.height * item.depth).toFixed(decimalPlaces)}</Table.Cell>
 
 
             <Table.Cell>

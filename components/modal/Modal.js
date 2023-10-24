@@ -5,7 +5,7 @@ import { Modal as ModalUI, Input, Row, Checkbox, Button, Text, Navbar} from '@ne
 
 
 
-export const Modal = ({bAccept , title, onClose}) => {
+export const Modal = ({bAccept , title, onClose, children}) => {
    const [visible, setVisible] = useState(true);
    const handler = () => setVisible(true);
    const closeHandler = () => {
@@ -32,6 +32,7 @@ export const Modal = ({bAccept , title, onClose}) => {
                </Text>
             </ModalUI.Header>
             <ModalUI.Body>
+                {children}
                {/* <Input
                   clearable
                   bordered

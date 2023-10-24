@@ -46,7 +46,7 @@ export default function BulkOrderItem(props){
 
 return (
 <div>
-    <h1>{order.name}</h1>
+    <h3>{order.name}</h3>
     <Button.Group>
         <Button auto onPress={openOrderHandler}>Open Order</Button>
         <Button auto onPress={deleteOrderHandler} >Delete Order</Button>

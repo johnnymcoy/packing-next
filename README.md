@@ -12,16 +12,14 @@ create .env.local file with all the enviroment variables, or download it from go
 
 # Current Version
 
-- Currently migrating from sending a single order at a time to bulk orders, so there is Items, Orders, and Packages, which means adding items + orders, isn't fully implemented properly.
-
+- Bulk orders are currently working.
 - AWS api is connected and working with the example data
+
 
 # Current Issues
 
 - Authentication isn't fully setup (Login/Logout)
-- Orders are currently broken as moving to bulk orders
-- Items are not used, as they were just called "Orders" before, so adding an item doesn't add it to an order
-
+- Setting: haven't implemented changing measurement units and weight units
 
 
 
@@ -29,9 +27,6 @@ create .env.local file with all the enviroment variables, or download it from go
 
 ### Feedback
 - Connect Contact form
-
-### Orders
-- Moving the orders to now being able to choose which items by ID, and send multiple orders to be packed at once
 
 
 ### Excel

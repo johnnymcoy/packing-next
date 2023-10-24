@@ -144,7 +144,7 @@ def check_leftovers(extras, bins):
 
 def pack_items(data):
     # Get data from input
-    print(data)
+    # print(data)
     bins, items = convert_data(data)
     #! The maximum number of times we try to repack into smaller boxes
     max_attempts = 20
@@ -314,8 +314,27 @@ class Request:
     def pack(self):
         start = time.time()
         data = (self.package)
-        results = pack_items(data)
-        # print("results:", results)
+        #! old way
+        # results = pack_items(data)
+
+        #! new way
+        all_orders = data.get('orders', [])
+        packages = data.get('packages', [])
+
+        #! Go through each order and pack seperately
+        results = []
+        for order in all_orders:
+            orders_packages = {
+                "orders" :   order.get('items', []),
+                "packages" : packages
+            }
+
+            result = pack_items(orders_packages)
+            result.append(
+                {"order_name" : order.get('id', [])}
+            )
+            results.append(result)
+
         stop = time.time()
         print('Calculation time : ',stop - start)
         return results
@@ -358,7 +377,7 @@ if __name__ == '__main__':
     #! Go through each order and pack seperately
     results = []
     for order in all_orders:
-        print(order)
+        # print(order)
         orders_packages = {
             "orders" :   order.get('items', []),
             "packages" : packages
@@ -368,7 +387,7 @@ if __name__ == '__main__':
         result.append(
             {"order_name" : order.get('id', [])}
         )
-        print("Result", result)
+        # print("Result", result)
         results.append(result)
     
     

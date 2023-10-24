@@ -5,6 +5,7 @@ import Result from 'components/results/Result';
 import { Button, Input, Loading, Spacer, Text } from '@nextui-org/react';
 import { Flex } from 'components/styles/flex';
 import { useSession } from 'next-auth/react';
+import BulkResult from '@components/results/BulkResults';
 
 function PackingComponent(props) {
     const { data: session } = useSession()
@@ -72,12 +73,12 @@ function PackingComponent(props) {
                 console.log('AWS results:', data);
                 if(Array.isArray(data))
                 {
-                    data.sort((a, b) => {
-                        // console.log(a)
-                        const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
-                        const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
-                        return minEmptyVolumeA - minEmptyVolumeB;
-                    })
+                    // data.sort((a, b) => {
+                    //     // console.log(a)
+                    //     const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
+                    //     const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
+                    //     return minEmptyVolumeA - minEmptyVolumeB;
+                    // })
                     setPackingResults(data);
                     PackingComplete(data);
                 }
@@ -141,7 +142,6 @@ function PackingComponent(props) {
     
     function loadingComplete(){
         setLoadingResults(false);
-
     }
     function maxResultsHandler(e){
         if(e.target.value)
@@ -152,7 +152,6 @@ function PackingComponent(props) {
 
     return (
 <div>
-
     <Card>
         <Button id="single" auto
             disabled={loadingResults} onClick={SendPackingData}
@@ -205,35 +204,34 @@ function PackingComponent(props) {
         <button id="multioutput" onClick={changeMultiOutput}>{multiResult ? "MultiOutput" : "SingleOutput"}</button>  */}
         {/* <Input label={"Max Results"} onChange={maxResultsHandler} aria-label='Max Results' value={maxResults} type='number'/> */}
     </Card>
-        {packingResults && packingResults.slice(0, maxResults).map((item, index) => 
-        <div key={index}>
-            <h1>{item[item.length - 1].order_name}</h1>
-            {item.map((innerResult, innerIndex) =>
-                {
-                    // console.log("Pre Inner Result", innerResult)
-                if(Array.isArray(innerResult))
-                {
-                    innerResult.sort((a, b) => {
-                        // console.log(a)
-                        const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
-                        const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
-                        return minEmptyVolumeA - minEmptyVolumeB;
-                    })
-                    // console.log("Inner Result", innerResult)
-                    return(
-                    <Result key={innerIndex} result={innerResult} />
-                )}
-                
+    {packingResults && packingResults.slice(0, maxResults).map((item, index) => 
+    <div key={index}>
+        <h2>{item[item.length - 1].order_name}</h2>
+        <BulkResult results={item} />
+        {/* {item.map((innerResult, innerIndex) =>
+            {
+                // console.log("Pre Inner Result", innerResult)
+            if(Array.isArray(innerResult))
+            {
+                innerResult.sort((a, b) => {
+                    // console.log(a)
+                    const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
+                    const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
+                    return minEmptyVolumeA - minEmptyVolumeB;
+                })
+                // console.log("Inner Result", innerResult)
                 return(
-                    <div key={innerIndex}>{innerResult.bin}</div>
-                    // )}
-                    // <div>{innerResult.bin}</div>
-                )})}
-            {/* <Result key={index} result={item[0]} /> */}
-        </div>
+                <Result key={innerIndex} result={innerResult} />
+            )}
+            
+            return(
+                <div key={innerIndex}>{innerResult.bin}</div>
+                // )}
+                // <div>{innerResult.bin}</div>
+            )})} */}
+        {/* <Result key={index} result={item[0]} /> */}
+    </div>
     )}
-
-
 </div>
 );}
 

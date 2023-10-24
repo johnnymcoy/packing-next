@@ -64,3 +64,9 @@
 .linkSelected{
     color: var(--main-color);
 }
+
+
+.disabled{
+    color: rgb(150, 0, 0);
+    text-decoration: line-through;
+}

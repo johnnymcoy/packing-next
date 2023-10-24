@@ -23,6 +23,7 @@ function ContactForm(){
     
     const [sendStatus, setSendStatus] = useState("default");
 
+    const [selectedDropdown, setSelectedDropdown] = useState(new Set(["General Feedback"]));
 
     const {
         value: enteredName,
@@ -194,12 +195,15 @@ function ContactForm(){
                 </Flex>
                 <Flex css={{justifyContent: "center", py: '$8', gap: '$5',}}>
                     <Dropdown >
-                        <Dropdown.Button flat>Trigger</Dropdown.Button>
-                            <Dropdown.Menu aria-label="Static Actions">
-                            <Dropdown.Item key="feedback">General Feedback</Dropdown.Item>
-                            <Dropdown.Item key="majorBug" color="error">Major Bug</Dropdown.Item>
-                            <Dropdown.Item key="minorBug">Minor Bug</Dropdown.Item>
-                            <Dropdown.Item key="suggestion">Suggestion</Dropdown.Item>
+                        <Dropdown.Button flat>{selectedDropdown}</Dropdown.Button>
+                            <Dropdown.Menu aria-label="Static Actions"
+                                selectionMode="single" selectedKeys={selectedDropdown}
+                                onSelectionChange={setSelectedDropdown}
+                            >
+                            <Dropdown.Item key="General Feedback">General Feedback</Dropdown.Item>
+                            <Dropdown.Item key="Major Bug" color="error">Major Bug</Dropdown.Item>
+                            <Dropdown.Item key="Minor Bug">Minor Bug</Dropdown.Item>
+                            <Dropdown.Item key="Suggestion">Suggestion</Dropdown.Item>
                         </Dropdown.Menu >
                     </Dropdown>
                     {/* <select>

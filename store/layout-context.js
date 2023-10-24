@@ -85,11 +85,13 @@ const MenuOptions = [
         buttons: [
             {
                 title: "Calculate Results",
-                link: "/results"
+                link: "/results",
+                disabled: false
             },
             {
                 title: "Show 3D Visual",
-                link: "/visualisation"
+                link: "/visualisation",
+                disabled: true
             }
         ]
     },

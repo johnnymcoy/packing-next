@@ -27,17 +27,17 @@ export default function Result(props){
         }
     }
 
-    return (
+    return(
 <Card>
     <ResultsTable 
         tableColumns={[{title:"Name"},{title:"Weight"},{title:"Empty Volume"},{title:"Cubic Vol Weight"},{title:"Total Package Vol"}]} 
         results={result}
     />
-    {/* <div className={CSS.option}>
+    <div className={CSS.option}>
         {result && result.map((item, index) =>
            <ResultBin key={index} data={item} />      
         )}
-    </div> */}
+    </div>
     <div>
         <h4>Totals</h4>
         Total Weight: {totalWeight} <br />
@@ -47,6 +47,5 @@ export default function Result(props){
         Total Items: {totalItems} <br />
         {/* Total Cubic Vol Weight {totalCubicVolWeight} <br /> */}
     </div>
-</Card>
-)}
+</Card>)}
 

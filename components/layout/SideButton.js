@@ -24,7 +24,11 @@ export default function SideButton({buttons, title}){
     </div>
     <ul className={linksClasses}>
         {buttons && buttons.map((item, index) => 
-            <SubSideButton key={index} link={item.link} title={item.title} id={index}/>
+        {
+            return(
+                <SubSideButton key={index} link={item.link} title={item.title} id={index} disabled={item.disabled}/>
+            )
+        }
         )}
     </ul>
 </li>

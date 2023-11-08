@@ -11,7 +11,6 @@ CORS(app, origins=["http://localhost:3000"])
 def pack_items():
     
     repack_attempts = 0
-
     # data = request.json
     data = json.loads(request.data)
     # packing logic

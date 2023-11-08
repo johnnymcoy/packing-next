@@ -1,6 +1,4 @@
 import Card from "components/UI/Card"
-import CSS from "./BulkResults.module.css"
-import ResultBin from "./ResultBin"
 import ResultsTable from "@components/UI/ResultsTable";
 import { Button } from "@nextui-org/react";
 import { useState } from "react";
@@ -28,19 +26,17 @@ export default function BulkResult(props){
         setShowResultDetails(false);
     }
 
-
-
     return (
 <Card>
-    {showResultDetails && <Modal title={"Result details"} onClose={closeResultDetails}>
+    {showResultDetails && 
+    <Modal title={"Result details"} onClose={closeResultDetails}>
         Boxes: {singleResult.map((item, index) =>
             <div key={index}>
                 {item.bin.name}
             </div>
-
-        )}
-        
+            )}
     </Modal>}
+
     <h4>Results</h4>
     <Button auto onPress={showResultHandler}>{showResultTable ? "Close" : "Open"} Results</Button>
     {showResultTable && <ResultsTable

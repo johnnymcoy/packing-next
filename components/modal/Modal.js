@@ -17,52 +17,33 @@ export const Modal = ({bAccept , title, onClose, children}) => {
    };
 
    return (
-      <div>
-         {/* <Navbar.Link onClick={handler}>Login</Navbar.Link> */}
-         <ModalUI
-            closeButton
-            blur
-            aria-labelledby="modal-title"
-            open={visible}
-            onClose={closeHandler}
-         >
-            <ModalUI.Header>
-               <Text id="modal-title" size={18}>
-                  {title}
-               </Text>
-            </ModalUI.Header>
-            <ModalUI.Body>
-                {children}
-               {/* <Input
-                  clearable
-                  bordered
-                  fullWidth
-                  color="primary"
-                  size="lg"
-                  placeholder="Email"
-                  //   contentLeft={<Mail fill="currentColor" />}
-               />
-               <Input
-                  clearable
-                  bordered
-                  fullWidth
-                  color="primary"
-                  size="lg"
-                  placeholder="Password"
-                  //   contentLeft={<Password fill="currentColor" />}
-               /> */}
-            </ModalUI.Body>
-            <ModalUI.Footer>
-               <Button auto flat color="error" onClick={closeHandler}>
-                  Close
-               </Button>
-               {bAccept && 
-                <Button auto onClick={closeHandler}>
-                    Accept
-                </Button>               
-               }
-            </ModalUI.Footer>
-         </ModalUI>
-      </div>
+<div>
+    <ModalUI
+    closeButton
+    blur
+    aria-labelledby="modal-title"
+    open={visible}
+    onClose={closeHandler}
+    >
+    <ModalUI.Header>
+        <Text id="modal-title" size={18}>
+            {title}
+        </Text>
+    </ModalUI.Header>
+    <ModalUI.Body>
+        {children}
+    </ModalUI.Body>
+    <ModalUI.Footer>
+        <Button auto flat color="error" onClick={closeHandler}>
+            Close
+        </Button>
+        {bAccept && 
+        <Button auto onClick={closeHandler}>
+            Accept
+        </Button>               
+        }
+    </ModalUI.Footer>
+    </ModalUI>
+</div>
    );
 };

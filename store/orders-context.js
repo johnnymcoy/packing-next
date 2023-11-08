@@ -277,8 +277,6 @@ const orderSlice = createSlice({
         clearAllOrders(state, action){
             state.orders = [];
         }
-
-
     }
 });
 

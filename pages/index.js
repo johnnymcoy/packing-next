@@ -16,8 +16,6 @@ const HomePage = () => {
     <h3>Current Issues</h3>
     <ul>
         <li>Authentication isn't fully setup (Login/Logout)</li>
-        <li>Orders are currently broken as moving to bulk orders</li>
-        <li>Items are not used, as they were just called "Orders" before, so adding an item doesn't add it to an order</li>
     </ul>
 
     <h2>Old Version</h2>

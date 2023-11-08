@@ -1,6 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import {packageActions} from "@store/packages-context";
-import CustomTable from "@components/UI/CustomTable";
 import { Button, Input, Spacer, Dropdown } from "@nextui-org/react";
 import { useState } from "react";
 import { unitActions } from "@store/units-context";

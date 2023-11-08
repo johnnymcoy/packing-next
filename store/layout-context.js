@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, } from '@reduxjs/toolkit';
 
 
 const MenuOptions = {
@@ -12,7 +12,8 @@ const MenuOptions = {
             },
             {
                 title: "Dashboard",
-                link: "/dashboard"
+                link: "/dashboard",
+                disabled: true
             }
         ]
     },
@@ -37,50 +38,6 @@ const MenuOptions = {
             }
         ]
     },
-    // {
-    //     title: "Items",
-    //     buttons: [
-    //         {
-    //             title: "Add Stock Item",
-    //             link: "/items/add-item"
-    //         },
-    //         {
-    //             title: "Show Items",
-    //             link: "/items/show-items"
-    //         }
-    //     ]
-    // },
-    // {
-    //     title: "Orders",
-    //     buttons: [
-    //         {
-    //             title: "Add Order",
-    //             link: "/orders/add-order"
-    //         },
-    //         {
-    //             title: "Show Orders",
-    //             link: "/orders/show-orders"
-    //         }
-    //     ]
-    // },
-    // {
-    //     title: "Postage",
-    //     buttons: [
-    //         {
-                
-    //             title: "Add Custom Package",
-    //             link: "/postage/add-custom-option"
-    //         },
-    //         {
-    //             title: "Add Preset Options",
-    //             link: "/postage/add-option"
-    //         },
-    //         {
-    //             title: "Show Postage Options",
-    //             link: "/postage/options"
-    //         },
-    //     ]
-    // },
     {
         title: "Results",
         buttons: [
@@ -92,7 +49,7 @@ const MenuOptions = {
             {
                 title: "Show 3D Visual",
                 link: "/visualisation",
-                disabled: true
+                disabled: false
             }
         ]
     },
@@ -132,11 +89,9 @@ const layoutSlice = createSlice({
         openModal(state, action){
             
         },
-        toggleBurgerMenu(state, action){
-            console.log("Burger")
+        toggleBurgerMenu(state){
             state.bBurgerOpen = !state.bBurgerOpen;
         }
-
     }
 });
 

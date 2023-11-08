@@ -5,14 +5,12 @@ import ResultsTable from "@components/UI/ResultsTable";
  
 export default function Result(props){
     const {result} = props
-    // console.log("Result:", result)
     let totalWeight = 0;
     let totalVolumeEmpty = 0;
     let totalItems = 0;
     let totalCubicVolWeight = 0;
     let totalItemsVolume = 0;
     let totalBinVolume = 0;
-    // console.log(result)
     if(result.length !== 0)
     {
         for(let i = 0; i < result.length; i++)

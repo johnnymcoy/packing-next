@@ -1,11 +1,6 @@
-
-
-import Card from "components/UI/Card"
 import CSS from "./ResultBin.module.css"
 
-export default function ResultBin(props){
-    const {data} = props
-    // console.log(data)
+export default function ResultBin({data}){
     if(data.bin.bIsEmpty)
     {
         return

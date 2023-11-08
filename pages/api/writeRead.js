@@ -1,32 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-
-// export default async function handler(req, res) {
-//     const testFilePath = path.join('/tmp', 'testFile.txt');
-//     const testData = 'Hello, Next.js!';
-
-//     try {
-//         // Write to /tmp/ location
-//         await fs.writeFile(testFilePath, testData, 'utf8');
-
-//         // Read from /tmp/ location
-//         const data = await fs.readFile(testFilePath, 'utf8');  
-
-//         // Cleanup: Delete the test file
-//         await fs.unlink(testFilePath);  
-
-//         if (data === testData) {
-//             res.status(200).json({ message: 'Write and read operations were successful!' });
-//         } else {
-//             res.status(500).json({ message: 'Data mismatch. Test failed.' });
-//         }
-//     } catch (error) {
-//         res.status(500).json({ message: 'An error occurred.', error: error.message });
-//     }
-// }
-
-
 export default async (req, res) => {
     return new Promise((resolve, reject) => {
         const data  = req.body;

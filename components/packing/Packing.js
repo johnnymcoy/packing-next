@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Card from 'components/UI/Card';
 // import CSS from "../styles/Packing.module.css";
-import Result from 'components/results/Result';
 import { Button, Input, Loading, Spacer, Text } from '@nextui-org/react';
 import { Flex } from 'components/styles/flex';
 import { useSession } from 'next-auth/react';
@@ -26,9 +25,6 @@ function PackingComponent(props) {
         {
             props.onPackingComplete(data);
         }
-    }
-    function changeMultiOutput(){
-        setMultiResult(prevState => !prevState);
     }
 
     // Send the data to the Python file
@@ -199,37 +195,12 @@ function PackingComponent(props) {
             }
         </Button>
         {packingResults && <Text>Packing Total Time: {packingTime} ms</Text>}
-
-        {/* <button id="multi" onClick={SendPackingData}>Pack Boxes (Multiple Box)</button> 
-        <button id="multioutput" onClick={changeMultiOutput}>{multiResult ? "MultiOutput" : "SingleOutput"}</button>  */}
-        {/* <Input label={"Max Results"} onChange={maxResultsHandler} aria-label='Max Results' value={maxResults} type='number'/> */}
+        <Input label={"Max Results"} onChange={maxResultsHandler} aria-label='Max Results' value={maxResults} type='number'/>
     </Card>
     {packingResults && packingResults.slice(0, maxResults).map((item, index) => 
     <div key={index}>
         <h2>{item[item.length - 1].order_name}</h2>
         <BulkResult results={item} />
-        {/* {item.map((innerResult, innerIndex) =>
-            {
-                // console.log("Pre Inner Result", innerResult)
-            if(Array.isArray(innerResult))
-            {
-                innerResult.sort((a, b) => {
-                    // console.log(a)
-                    const minEmptyVolumeA = Math.min(...a.map(item => parseFloat(item.bin.emptyVolume)));                
-                    const minEmptyVolumeB = Math.min(...b.map(item => parseFloat(item.bin.emptyVolume)));
-                    return minEmptyVolumeA - minEmptyVolumeB;
-                })
-                // console.log("Inner Result", innerResult)
-                return(
-                <Result key={innerIndex} result={innerResult} />
-            )}
-            
-            return(
-                <div key={innerIndex}>{innerResult.bin}</div>
-                // )}
-                // <div>{innerResult.bin}</div>
-            )})} */}
-        {/* <Result key={index} result={item[0]} /> */}
     </div>
     )}
 </div>

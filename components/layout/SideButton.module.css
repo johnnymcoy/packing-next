@@ -115,7 +115,7 @@
     display: block;
     /* // height: 144px;
     // height: 96px; */
-    max-height: 192px;
+    max-height: 262px;
     transition: max-height .3s cubic-bezier(.645,.045,.355,1),opacity .4s cubic-bezier(.645,.045,.355,1);
     pointer-events: all;
     opacity: 1;

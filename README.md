@@ -1,9 +1,31 @@
 # How to Install
 Download Github Repo 
 
-run `npm install`
+`npm install` to install all dependencies
+
+`npm run dev` to run the website locally
+
 
 create .env.local file with all the enviroment variables, or download it from google drive, `DRIVE/SOFTWARE DEVELOPMENT/CURTIS/Files/.env.local` and place the file in the root of the project
+
+# Dependencies
+
+React - Base Framework
+Next.js - Framework build on React with full stack features
+
+React Redux / Redux-toolkit - Sitewide states and actions
+
+next-auth - Authentication
+
+Three.js - In Browser 3D rendering
+react-three/fiber
+react-three/drei
+react-three/postprocessing
+
+Next-ui
+
+xlsx - Excel Spreadsheet data parser and writer
+
 
 # Current Demo Version Online
 
@@ -24,6 +46,10 @@ create .env.local file with all the enviroment variables, or download it from go
 
 
 # TODO 
+
+- Technical Documents
+- Clean up code
+
 
 ### Feedback
 - Connect Contact form

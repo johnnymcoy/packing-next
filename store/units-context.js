@@ -10,13 +10,11 @@ const weights = ["g", "kg", "oz", "lb"]
 const measurements = ["mm", "cm", "m", "ft", "in"]
 
 
-
 const unitSlice = createSlice({
     name: "unit",
     initialState: initialState,
     reducers: {
         changeWeight(state, action){
-            console.log(action.payload)
             switch(action.payload)
             {
                 case "Kilogram": 
@@ -37,7 +35,6 @@ const unitSlice = createSlice({
             }
         },
         changeMeasurement(state, action){
-            console.log(action.payload)
             switch(action.payload)
             {
                 case "Meters": 

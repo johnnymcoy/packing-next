@@ -1,7 +1,6 @@
 import { useState} from "react"
 import useInput from "../../hooks/useInput";
 import {Button, Card, Input, useTheme,  Text, Textarea, Spacer, Loading, Checkbox, Dropdown} from '@nextui-org/react';
-// import {useTheme} from "next-themes";
 import CSS from './ContactForm.module.css';
 import ReCAPTCHA from "react-google-recaptcha";
 import {Modal} from "../modal/Modal";
@@ -91,7 +90,6 @@ function ContactForm(){
                 },
                 body: JSON.stringify(sendData),
             })
-            // .then(response => response.json())
             .then(data => {
                 if(data.status === 200)
                 {
@@ -144,20 +142,6 @@ function ContactForm(){
         sendText="Email Failed"
     }
 
-    function SubmitButton(){
-        return (
-            <Button  size="lg" className={CSS.submit} type="submit" color={sendStatus}>
-            {sendText}
-            {sendStatus === "sending" &&  
-            <div>
-                <Spacer />
-                <Loading size="sm" color={"warning"} /> 
-            </div>}
-            {sendStatus === "completed"}
-        </Button>)
-    }
-
-
     //todo: p classname = error-text is not a class
 
    return(
@@ -206,12 +190,6 @@ function ContactForm(){
                             <Dropdown.Item key="Suggestion">Suggestion</Dropdown.Item>
                         </Dropdown.Menu >
                     </Dropdown>
-                    {/* <select>
-                        <option>General Feedback</option >
-                        <option>Major Bug</option >
-                        <option>Minor Bug</option >
-                        <option>Suggestion</option >
-                    </select> */}
                 </Flex>
                 <Flex css={{justifyContent: "center", py: '$8', gap: '$5',}}>
                     <Checkbox label="Urgent" />
@@ -235,7 +213,6 @@ function ContactForm(){
         </Flex>
     </Flex>
 </Flex>
-    {/* <Divider css={{position: 'absolute', inset: '0p', left: '0', mt: '$5'}}/> */}
 </>
 );}
 

@@ -2,7 +2,7 @@ import { Button } from '@nextui-org/react';
 import SideButton from './SideButton';
 import CSS from './Sidebar.module.css';
 
-import { useDispatch, useSelector} from "react-redux";
+import {  useSelector} from "react-redux";
 
 
 export default function Sidebar(){

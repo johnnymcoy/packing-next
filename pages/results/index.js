@@ -1,4 +1,4 @@
-import PackingComponent from "../Packing";
+import PackingComponent from "../../components/packing/Packing";
 import { useDispatch, useSelector } from "react-redux";
 
 

@@ -5,10 +5,8 @@
     top: 0;
     left: 0;
     margin: 1.25rem 2.5rem;
-    /* padding: 1rem; */
     background: none;
     border: none;
-    /* fill: white; */
     cursor: pointer;
     z-index: 15;
 }

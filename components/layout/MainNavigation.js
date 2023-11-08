@@ -1,7 +1,6 @@
 import Login from '@components/auth/Login';
 import classes from './MainNavigation.module.css';
 import Link from "next/link"
-import { Flex } from '@components/styles/flex';
 import BurgerMenu from './BurgerMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { layoutActions } from '@store/layout-context';
@@ -26,7 +25,6 @@ function MainNavigation() {
         <Login />
     </nav>
 </header>
-  );
-}
+);}
 
 export default MainNavigation;

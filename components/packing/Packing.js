@@ -53,7 +53,7 @@ function PackingComponent(props) {
             output: multiResult ? "multi" : "", //TODO have different button 
             bDevelopmentMode:  process.env.NODE_ENV === "development"
         }
-        console.log(sendData);
+        // console.log(sendData);
 
         if(event.target.id === "aws")
         {

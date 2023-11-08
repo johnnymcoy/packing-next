@@ -5,7 +5,6 @@ import { Canvas, useFrame  } from '@react-three/fiber';
 import { OrbitControls } from "@react-three/drei";
 import { BlendFunction, Resizer, KernelSize} from 'postprocessing'
 import OrderItemBox from './OrderItemBox';
-import VisualControls from './VisualControls';
 
 function PackageContainer(props)
 {
@@ -137,22 +136,6 @@ function Visualization(props){
                 newPackingBoxes.push(packingResults.bin);
             }
         }
-
-        // if(packingResults.length !== 0)
-        // {
-        //     for(let i = 0; i < packingResults.length; i++)
-        //     {
-        //         if(!packingResults[i].bin.bIsEmpty)
-        //         {
-        //             for(let j = 0; j < packingResults[i].items.length; j++)
-        //             {
-        //                 const itemData = packingResults[i].items[j];
-        //                 newItems.push(itemData);
-        //             }
-        //             newPackingBoxes.push(packingResults[i].bin);
-        //         }
-        //     }
-        // }
         setItems(newItems);
         setPackingBoxes(newPackingBoxes);
     }, [packingResults]);

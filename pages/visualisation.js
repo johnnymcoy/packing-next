@@ -1,4 +1,4 @@
-import VisualControls from "../../components/3D/VisualControls";
+import VisualControls from "../components/3D/VisualControls";
 
 export default function VisualisationPage(){
 

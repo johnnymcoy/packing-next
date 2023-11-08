@@ -3,7 +3,7 @@ export default function handler(req, res) {
     console.log(bDevelopmentMode)
     const data  = req.body;
     if (!data) {
-        // console.log("Server: Data sent in runAWSFunction.js Failed")
+        console.log("Server: Data sent in runAWSFunction.js Failed")
         res.status(400).json({ error: 'Data is required' });
     }
 

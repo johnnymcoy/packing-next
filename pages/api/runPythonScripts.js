@@ -2,14 +2,9 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-//! Version 2
-// import { promises as fs, constants } from 'fs';
-//! /////////
-
-// no such file or directory, open '/var/task/tmp/input.json'
 
 const localPaths = {
-    scriptPath:  path.resolve('pages', "api", "python", "appv2.py"),
+    scriptPath:  path.resolve('pages', "api", "python", "app.py"),
     outputPath: path.resolve('pages', "api", "python", "output.json"),
     multioutputPath: path.resolve('pages', "api", "python", "multioutput.json"),
     inputPath: path.resolve('pages', "api", "python", "input.json"),
@@ -18,7 +13,6 @@ const localPaths = {
 }
 
 const vercelPaths = {
-    // path.join('/tmp', 'testFile.txt')
     scriptPath:  path.join('pages', "api", "python", "appv2.py"),
     outputPath: path.join('/tmp', "output.json"),
     multioutputPath: path.join('/tmp', 'multioutput.json'),
@@ -27,29 +21,10 @@ const vercelPaths = {
     ordersPath: path.join('/tmp', "orders.json")
 }
 
-// const scriptPath = path.resolve('pages', "api", "python", "appv2.py");
-// const outputPath = path.resolve('pages', "api", "python", "output.json");
-// const multioutputPath = path.resolve('pages', "api", "python", "multioutput.json");
-
-// const inputPath = path.resolve('pages', "api", "python", "input.json");
-// const packagesPath = path.resolve('pages', "api", "python", "packages.json");
-// const ordersPath = path.resolve('pages', "api", "python", "orders.json");
-
-// const outputVercelPath = '/tmp/output.json';
-
-//! Update paths to use the /tmp directory
-// const outputVercelPath = path.resolve('tmp', "output.json");
-// const multioutputVercelPath = path.resolve('tmp', 'multioutput.json');
-
-// const inputVercelPath = path.resolve('tmp', "input.json");
-// const packagesVercelPath = path.resolve('tmp', "packages.json");
-// const ordersVercelPath = path.resolve('tmp', "orders.json");
-
 
 export default async (req, res) => {
     return new Promise((resolve, reject) => {
         const bDevelopmentMode =  process.env.NODE_ENV === "development";
-        // console.log(bDevelopmentMode)
         const data  = req.body;
         if (!data) {
             console.log("Server: Data sent in runPythonScripts.js Failed", data)

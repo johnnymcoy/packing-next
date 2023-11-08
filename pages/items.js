@@ -1,6 +1,6 @@
-import AddOrderItem from "../../components/Orders/AddOrderItem";
+import AddOrderItem from "../components/Orders/AddOrderItem";
 import { useDispatch, useSelector } from "react-redux";
-import { itemActions} from "../../store/items-context";
+import { itemActions} from "../store/items-context";
 import UploadExcel from "components/Orders/UploadExcel";
 import CustomTable from "@components/UI/CustomTable";
 import { Button, Container, Spacer, StyledButtonGroup, Table, Tooltip } from "@nextui-org/react";

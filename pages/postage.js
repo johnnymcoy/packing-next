@@ -1,6 +1,6 @@
-import OrderItem from "../../components/Orders/OrderItem";
+import OrderItem from "../components/Orders/OrderItem";
 import { useDispatch, useSelector } from "react-redux";
-import {packageActions} from "../../store/packages-context";
+import {packageActions} from "../store/packages-context";
 import { Button, Container, Spacer, StyledButtonGroup, Table, Tooltip } from "@nextui-org/react";
 import Modal from "@components/UI/Modal";
 import AddOrderItem from "@components/Orders/AddOrderItem";

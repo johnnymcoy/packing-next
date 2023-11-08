@@ -45,36 +45,6 @@ export default function CustomTable(props){
         }
         return 0;
       });
-    // function sort({ items, sortDescriptor }) {
-    //     return {
-    //         items: items.sort((a, b) => {
-    //         let first = a[sortDescriptor.column];
-    //         let second = b[sortDescriptor.column];
-    //         let cmp = collator.compare(first, second);
-    //         if (sortDescriptor.direction === "descending") {
-    //           cmp *= -1;
-    //         }
-    //         console.log(cmp)
-
-    //         return cmp;
-    //       }),
-    //     };
-    // }
-
-    // function load({ signal }) {
-    //     // const res = await fetch("https://swapi.py4e.com/api/people/?search", {
-    //     //   signal,
-    //     // });
-    //     // const json = await res.json();
-    //     return {
-    //       items: packages,
-    //     };
-    //   }
-    
-    
-    // const list = useAsyncList({ load : packages, sort });
-    // console.log(list)
-
 
     if(orderTable){
         return(
@@ -87,13 +57,11 @@ export default function CustomTable(props){
         }}    
         sticked
         animated={false}
-        // selectionMode="multiple"
     >
     <Table.Header>
     {tableColumns && tableColumns.map((item, index) =>
         <Table.Column key={item.title} id={item.title}>{item.title}</Table.Column>   
     )}
-    {/* <Table.Column>Delete</Table.Column> */}
     </Table.Header>
     <Table.Body>
     {sortedData && sortedData.map(item => 
@@ -169,15 +137,8 @@ export default function CustomTable(props){
     {tableColumns && tableColumns.map((item, index) =>
         <Table.Column key={item.title} id={item.title} allowsSorting>{item.title}</Table.Column>   
     )}
-    {/* <Table.Column>Delete</Table.Column> */}
     </Table.Header>
     <Table.Body items={packages} >
-        {/* {(item) =>
-            <Table.Row key={item.id}>
-                {(columnKey) => <Table.Cell>{item[columnKey]}</Table.Cell>}
-            </Table.Row>
-
-        } */}
     {sortedData && sortedData.map((item, index) => 
         <Table.Row key={item.id} id={item.id}>
             <Table.Cell>{item.name}</Table.Cell>

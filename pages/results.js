@@ -1,8 +1,8 @@
-import PackingComponent from "../../components/packing/Packing";
+import PackingComponent from "../components/packing/Packing";
 import { useDispatch, useSelector } from "react-redux";
 
 
-import {resultsActions} from "../../store/results-context";
+import {resultsActions} from "../store/results-context";
 
 
 export default function ResultsPage(){

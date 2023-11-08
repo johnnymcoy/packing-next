@@ -1,51 +1,47 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import CSS from "./SubSideButton.module.css";
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { layoutActions } from '@store/layout-context';
 
 
-
-function SubSideButton(props){
+function SubSideButton({link, title, disabled}){
     const router = useRouter();
-    // const [ selected, setSelected] = useState(false);
 
-    const bIsHighlighter = router.asPath === props.link;
+    const dispatch = useDispatch()
+    const bMenuOpen = useSelector(state => state.layout.bBurgerOpen);
+    function openMenuHandler(){
+        dispatch(layoutActions.toggleBurgerMenu());
+    }
+
+    if(!link){return(<div></div>);}
+
+    const bIsHighlighter = router.asPath === link;
 
     const linksClasses = bIsHighlighter ? `${CSS.link} ${CSS.linkSelected}` : `${CSS.link}`;
     const containerClasses = bIsHighlighter ? `${CSS.container} ${CSS.containerSelected}` : `${CSS.container}`;
-    // const linksClasses = selected ? `${CSS.link} ${CSS.linkSelected}` : `${CSS.link}`;
-    // if(bIsHighlighter)
-    // {
-    //     console.log(props.title)
-    // }
-
-    // if(selected)
-    // {
-    //     console.log(props.title)
-    // }
     function highlightHandler(){
+        openMenuHandler();
         // setSelected(prevState => !prevState);
-        // console.log(selected)
     }
 
    return(
-
 <li className={containerClasses} 
-    key={props.title}
+    key={title}
     onClick={highlightHandler}
     >
     <div className={linksClasses}>
-        <Link 
+        {!disabled && <Link 
             className={linksClasses} 
-            href={props.link} 
-            onClick={highlightHandler} 
+            href={link} 
+            // onClick={highlightHandler} 
             >
-            {props.title}
-        </Link>
-
+            {title}
+        </Link>}
+        {disabled &&  
+        <div className={CSS.disabled}>{title}(Disabled)</div>}
     </div>
 </li>
-
 );}
 
 export default SubSideButton;

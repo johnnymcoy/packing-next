@@ -5,7 +5,6 @@ import { Canvas, useFrame  } from '@react-three/fiber';
 import { OrbitControls } from "@react-three/drei";
 import { BlendFunction, Resizer, KernelSize} from 'postprocessing'
 import OrderItemBox from './OrderItemBox';
-import VisualControls from './VisualControls';
 
 function PackageContainer(props)
 {
@@ -17,7 +16,7 @@ function PackageContainer(props)
 );}
 
 
-function CustomBox(props){
+function CustomBox({ rotation,...props}){
     const meshRef = useRef();
     const groupRef = useRef();
 
@@ -42,42 +41,40 @@ function CustomBox(props){
     let positionHeightMove = 0;
     let positionDepthMove = 0;
     // Rotation Moves
-    if(props.rotation[1] < 0)
+    if(rotation[1] < 0)
     {
         // console.log(props.rotation[1])
         positionWidthMove = size[0]/2
     }
-    if(props.rotation[1] > 0)
+    if(rotation[1] > 0)
     {
         console.log("Rotation Larger around 1")
         // positionWidthMove = size[0]/2
-
     }
     
     // let positionDepthMove = 0;
-    if(props.rotation[2] > 0)
+    if(rotation[2] > 0)
     {
         console.log("Rotation Larger around 2")
         // console.log(props.rotation[2])
         positionWidthMove = size[1]
     }
-    if(props.rotation[2] < 0)
+    if(rotation[2] < 0)
     {
         console.log("Rotation Smaller around 2")
         // positionWidthMove = size[0]/2
 
     }
-    if(props.rotation[0] > 0)
+    if(rotation[0] > 0)
     {
         console.log("Rotation Around 0")
         positionHeightMove = size[2]
         // positionWidthMove = size[1]
     }
-    if(props.rotation[0] < 0)
+    if(rotation[0] < 0)
     {
         console.log("Rotation Smaller Around 0")
         positionDepthMove = size[1]
-
         // positionHeightMove = size[0] /2
         // console.log(props.rotation[0])
         // positionWidthMove = size[0]
@@ -89,7 +86,7 @@ function CustomBox(props){
 <group>
     <group 
         position={[props.position[0]+ positionWidthMove, props.position[1] + positionHeightMove, props.position[2] + positionDepthMove]} 
-        rotation={props.rotation}
+        rotation={rotation}
         ref={groupRef}
     >
         <mesh 
@@ -139,22 +136,6 @@ function Visualization(props){
                 newPackingBoxes.push(packingResults.bin);
             }
         }
-
-        // if(packingResults.length !== 0)
-        // {
-        //     for(let i = 0; i < packingResults.length; i++)
-        //     {
-        //         if(!packingResults[i].bin.bIsEmpty)
-        //         {
-        //             for(let j = 0; j < packingResults[i].items.length; j++)
-        //             {
-        //                 const itemData = packingResults[i].items[j];
-        //                 newItems.push(itemData);
-        //             }
-        //             newPackingBoxes.push(packingResults[i].bin);
-        //         }
-        //     }
-        // }
         setItems(newItems);
         setPackingBoxes(newPackingBoxes);
     }, [packingResults]);

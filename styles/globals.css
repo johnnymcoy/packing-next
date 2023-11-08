@@ -25,6 +25,10 @@ body {
 
 }
 
+#__next{
+    width:100%;
+}
+
 h1,
 h2,
 h3,
@@ -73,6 +77,7 @@ li{
 
 .content{
     margin-top: 1rem;
+    width: 100%;
 }
 
 .canvas{

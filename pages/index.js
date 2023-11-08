@@ -10,15 +10,12 @@ const HomePage = () => {
 
     <h3>Latest</h3>
     <ul>
-        <li>Currently migrating from sending a single order at a time to bulk orders, so there is Items, Orders, and Packages, which means adding items + orders, isn't fully implemented properly</li>
         <li>AWS api is connected and working with the example data</li>
         <li>Current Version is hosted at: </li><Button auto><Link href={"https://packing-johnnymcoy.vercel.app/"}>Vercel</Link></Button>
     </ul>
     <h3>Current Issues</h3>
     <ul>
         <li>Authentication isn't fully setup (Login/Logout)</li>
-        <li>Orders are currently broken as moving to bulk orders</li>
-        <li>Items are not used, as they were just called "Orders" before, so adding an item doesn't add it to an order</li>
     </ul>
 
     <h2>Old Version</h2>

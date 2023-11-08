@@ -9,8 +9,11 @@ const initialStateNew = {
             width: 0.6, 
             depth: 2, 
             height: 0.4, 
-            weight: 1
-        //     ->add?
+            weight: 1,
+            get volume() {
+                return this.width * this.depth * this.height;
+            }
+                    //     ->add?
             //color: "red"
             //priority: 0-100
             // Keep vertical
@@ -24,15 +27,22 @@ const initialStateNew = {
             width: 8, 
             depth: 1, 
             height: 1, 
-            weight: 1
+            weight: 1,
+            get volume() {
+                return this.width * this.depth * this.height;
+            }
         },
         {
-            id: "23598dx",
+            id: "235981x",
             name: "Item-03", 
             width: 1.45, 
             depth: 2.65, 
             height: 0.55, 
-            weight: 1
+            weight: 1,
+            get volume() {
+                return this.width * this.depth * this.height;
+            }
+
         }
     ],
 }
@@ -44,7 +54,7 @@ const itemSlice = createSlice({
     reducers: {
         addItem(state, action){
             const item = action.payload;
-            const existingItem = state.items.find(itemIndex => itemIndex.name === item.name);
+            const existingItem = state.items.find(itemIndex => itemIndex.id === item.id);
             if(!existingItem)
             {
                 state.items.push({
@@ -53,7 +63,11 @@ const itemSlice = createSlice({
                     width: item.width,
                     depth: item.depth,
                     height: item.height,
-                    weight: item.weight
+                    weight: item.weight,
+                    get volume() {
+                        return this.width * this.depth * this.height;
+                    }
+        
                 })
             }else{
                 existingItem.amount++;
@@ -61,9 +75,12 @@ const itemSlice = createSlice({
             }
         },
         deleteItem(state, action){
-            const name = action.payload;
-            state.items = state.items.filter(item => item.name !== name)
-        }
+            const id = action.payload;
+            state.items = state.items.filter(item => item.id !== id);
+        },
+        clearItems(state, action){
+            state.items = [];
+        },
     }
 });
 

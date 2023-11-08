@@ -9,7 +9,7 @@
     /* box-shadow: ; */
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     padding: 0 2rem;
-    z-index: 200;
+    z-index: 2000;
     position: relative;
     position: fixed;
 
@@ -22,6 +22,10 @@
     height: 67px;
     color: white;
     font-weight: bold;
+    display: flex;
+    /* left: 70%; */
+    position: relative;
+    margin: 0 auto;
 }
 
 .logo img{
@@ -58,4 +62,22 @@
 .header a:active,
 .header a.active {
   color: black;
+}
+
+
+@media (min-width: 46rem) {
+    .logo{
+        margin: 0;
+        display: flex;
+        left: 0;
+        position: relative;    
+    }
+}
+
+@media (min-width: 68rem) {
+    .logo{
+        margin: 0;
+        display: flex;
+
+    }
 }

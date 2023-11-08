@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, } from '@reduxjs/toolkit';
 
 
-const MenuOptions = [
+const MenuOptions = {
+    items: [
     {
         title: "Dashboard",
         buttons: [
@@ -11,20 +12,8 @@ const MenuOptions = [
             },
             {
                 title: "Dashboard",
-                link: "/dashboard"
-            }
-        ]
-    },
-    {
-        title: "Items",
-        buttons: [
-            {
-                title: "Add Stock Item",
-                link: "/items/add-item"
-            },
-            {
-                title: "Show Items",
-                link: "/items/show-items"
+                link: "/dashboard",
+                disabled: true
             }
         ]
     },
@@ -32,31 +21,21 @@ const MenuOptions = [
         title: "Orders",
         buttons: [
             {
-                title: "Add Order",
-                link: "/orders/add-order"
+                title: "Items",
+                link: "/items"
             },
             {
-                title: "Show Orders",
-                link: "/orders/show-orders"
+                title: "Orders",
+                link: "/orders",
+            },
+            {
+                title: "Postage",
+                link: "/postage"
+            },
+            {
+                title: "Settings",
+                link: "/settings"
             }
-        ]
-    },
-    {
-        title: "Postage",
-        buttons: [
-            {
-                
-                title: "Add Custom Package",
-                link: "/postage/add-custom-option"
-            },
-            {
-                title: "Add Preset Options",
-                link: "/postage/add-option"
-            },
-            {
-                title: "Show Postage Options",
-                link: "/postage/options"
-            },
         ]
     },
     {
@@ -64,11 +43,13 @@ const MenuOptions = [
         buttons: [
             {
                 title: "Calculate Results",
-                link: "/results"
+                link: "/results",
+                disabled: false
             },
             {
                 title: "Show 3D Visual",
-                link: "/visualisation"
+                link: "/visualisation",
+                disabled: false
             }
         ]
     },
@@ -97,15 +78,20 @@ const MenuOptions = [
                 link: "/help/tutorials"
             }
         ]
-    }
-
-]
+    }],
+    bBurgerOpen: false,
+}
 
 const layoutSlice = createSlice({
     name: "layout",
     initialState: MenuOptions,
     reducers: {
-
+        openModal(state, action){
+            
+        },
+        toggleBurgerMenu(state){
+            state.bBurgerOpen = !state.bBurgerOpen;
+        }
     }
 });
 

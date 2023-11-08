@@ -13,7 +13,7 @@ import { NextUIProvider } from '@nextui-org/react';
 function MyApp({ Component, pageProps }) {
     
   return (
-<SessionProvider session={pageProps.session}>
+<SessionProvider session={pageProps.session} basePath={process.env.NEXTAUTH_URL}>
 <NextUIProvider>
 <Provider store={store}>
 

@@ -22,13 +22,13 @@ export default function Login() {
 
   return (
 <Flex
-    css={{ py: '0', gap: '0rem', px: '0' }}
+    css={{ py: "0", gap: '0rem', px: '0' }}
     justify={'center'}
     wrap={'wrap'}
     direction={'column'}
     align={'center'}
 >
-    <Button size={"sm"} onClick={() => signIn()}>Sign in</Button>
+    <Button disabled size={"sm"} auto onClick={() => signIn()}>Sign in</Button>
 </Flex>
 )}
 

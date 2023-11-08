@@ -1,10 +1,10 @@
 import Card from "components/UI/Card"
 import CSS from "./Result.module.css"
 import ResultBin from "./ResultBin"
+import ResultsTable from "@components/UI/ResultsTable";
  
 export default function Result(props){
     const {result} = props
-    // console.log(result)
     let totalWeight = 0;
     let totalVolumeEmpty = 0;
     let totalItems = 0;
@@ -25,8 +25,12 @@ export default function Result(props){
         }
     }
 
-    return (
+    return(
 <Card>
+    <ResultsTable 
+        tableColumns={[{title:"Name"},{title:"Weight"},{title:"Empty Volume"},{title:"Cubic Vol Weight"},{title:"Total Package Vol"}]} 
+        results={result}
+    />
     <div className={CSS.option}>
         {result && result.map((item, index) =>
            <ResultBin key={index} data={item} />      
@@ -41,6 +45,5 @@ export default function Result(props){
         Total Items: {totalItems} <br />
         {/* Total Cubic Vol Weight {totalCubicVolWeight} <br /> */}
     </div>
-</Card>
-)}
+</Card>)}
 

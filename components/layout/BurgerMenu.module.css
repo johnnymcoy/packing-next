@@ -1,0 +1,40 @@
+
+.menuBurger{
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 1.25rem 2.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 15;
+}
+.rectangle1, .rectangle2, .rectangle3{
+    transition: all 0.5s ease;
+}
+.rectangle1Close{
+    transition: all 0.5s ease;
+    transform:rotate(45deg) translate(12.5px, -10px);
+}
+.rectangle2Close{
+    transition: all 0.5s ease;
+    transform: scaleX(0);
+}
+.rectangle3Close{
+    transition: all 0.5s ease;
+    transform:rotate(-45deg) translate(-47.5px,-10px);
+}
+
+@media (min-width: 46rem) {
+    .menuBurger{
+        display: none;
+    }
+}
+
+@media (min-width: 68rem) {
+    .menuBurger{
+        display: none;
+
+    }
+}

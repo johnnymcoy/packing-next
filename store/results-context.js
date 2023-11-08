@@ -30,7 +30,7 @@ const initialState = {
                 }
             ]
         }
-]
+    ]
 }
 
 const resultsSlice = createSlice({
@@ -42,7 +42,6 @@ const resultsSlice = createSlice({
         },
     }
 });
-
 
 export const resultsActions = resultsSlice.actions;
 export default resultsSlice.reducer;

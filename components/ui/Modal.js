@@ -1,8 +1,9 @@
+import { Button } from '@nextui-org/react';
 import Card from './Card';
 import CSS from './Modal.module.css';
 
 function Modal(props) {
-    const {backdrop, onRemove, onDecline, onAccept, children, title}  = props;
+    const {backdrop, onRemove, onDecline, onAccept, children, title, bHideClose}  = props;
 
     function backdropClicked(){
         if(onRemove)
@@ -33,7 +34,7 @@ function Modal(props) {
 
 
     return(
-<div>
+<div className={CSS.main}>
 {backdrop && <div className={CSS.backdrop} onClick={backdropClicked}></div>}
     <Card className={CSS.modal}>
         <div className={CSS.title}>
@@ -42,7 +43,9 @@ function Modal(props) {
             <div className={CSS.content}>
                 {children}
             </div>
-        <button onClick={acceptClicked}>{onAccept ? "Accept" : "Close"}</button>
+        {!bHideClose &&
+            <Button onClick={acceptClicked}>{onAccept ? "Accept" : "Close"}</Button>
+        }
         {onAccept && <button onClick={declineClicked}>{onDecline ? "Decline" : "Close"}</button>}
         <div className={CSS.status}></div>
     </Card>

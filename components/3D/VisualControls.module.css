@@ -2,3 +2,9 @@
     position: fixed;
     z-index: 100;
 }
+
+.controls{
+    height: 20vh;
+    max-height: 20%;
+    display: flex;
+}

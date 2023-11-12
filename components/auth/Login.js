@@ -28,7 +28,7 @@ export default function Login() {
     direction={'column'}
     align={'center'}
 >
-    <Button disabled size={"sm"} auto onClick={() => signIn()}>Sign in</Button>
+    <Button size={"sm"} auto onClick={() => signIn()}>Sign in</Button>
 </Flex>
 )}
 
